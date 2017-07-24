@@ -1,6 +1,6 @@
 const BaseServer = require('./BaseServer');
 const koaRouter = require('koa-router')();
-const Errors = require('./Errors');
+const Errors = require('./error/Errors');
 const logger = require('./logger');
 
 class ApiServer extends BaseServer {
@@ -12,7 +12,7 @@ class ApiServer extends BaseServer {
 
     starting() {
         const apiList = [];
-        apiList.push(this.loadApi('when'));
+        apiList.push(this.loadApi('where'));
 
         logger.info(`${apiList.length} api(s) to be registered`);
 

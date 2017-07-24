@@ -1,10 +1,10 @@
-const RequestError = require('./RequestError');
-const Errors = require('./Errors');
-const MissingParamError = require('./MissingParamError');
+const RequestError = require('./error/RequestError');
+const Errors = require('./error/Errors');
+const MissingParamError = require('./error/MissingParamError');
 const logger = require('./logger');
 const alasql = require('alasql');
 
-class RuleRepository {
+class RuleEngine {
 
     constructor() {
         this.rules = [];
@@ -105,6 +105,6 @@ class RuleRepository {
 
 }
 
-RuleRepository.instance = new RuleRepository();
+RuleEngine.instance = new RuleEngine();
 
-module.exports = RuleRepository;
+module.exports = RuleEngine;

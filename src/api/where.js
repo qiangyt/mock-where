@@ -1,4 +1,4 @@
-const RuleRepository = require('../RuleRepository');
+const RuleEngine = require('../RuleEngine');
 const logger = require('../logger');
 
 
@@ -11,7 +11,7 @@ module.exports = {
         const rule = ctx.request.body;
         logger.info('rule is requested: ' + JSON.stringify(rule));
 
-        RuleRepository.instance.add(rule);
+        RuleEngine.instance.add(rule);
 
         ctx.body = { code: 0 };
 

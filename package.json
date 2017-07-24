@@ -1,14 +1,14 @@
 {
     "name": "mock-where",
     "version": "0.1.0",
-    "description": "",
+    "description": "Flexible mock server for RESTful API testing, with a SQL-like mock rule engine",
     "main": "src/app.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/qiangyt/mock-where.git"
+        "url": "git@github.com:qiangyt/mock-where.git"
     },
     "author": {
         "name": "Qiang Yiting",
