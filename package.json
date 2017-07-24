@@ -1,37 +1,38 @@
 {
-    "name": "mock-where",
-    "version": "0.1.0",
-    "description": "Flexible mock server for RESTful API testing, with a SQL-like mock rule engine",
-    "main": "src/app.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:qiangyt/mock-where.git"
-    },
-    "author": {
-        "name": "Qiang Yiting",
-        "email": "qiangyt@wxcount.com",
-        "url": "https://github.com/qiangyt"
-    },
-    "keywords": [
-        "API",
-        "http",
-        "mock",
-        "RESTful",
-        "test",
-        "web"
-    ],
-    "license": "MIT",
-    "dependencies": {
-        "alasql": "^0.4.1",
-        "koa": "2.3.0",
-        "koa-body": "2.3.0",
-        "koa-logger": "3.0.1",
-        "koa-router": "7.2.1",
-        "log4js": "^2.3.0",
-        "sprintf-js": "^1.1.1"
-    },
-    "devDependencies": {}
+  "name": "mock-where",
+  "version": "0.1.0",
+  "description": "Flexible mock server for RESTful API testing, with a SQL-like mock rule engine",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:qiangyt/mock-where.git"
+  },
+  "author": {
+    "name": "Qiang Yiting",
+    "email": "qiangyt@wxcount.com",
+    "url": "https://github.com/qiangyt"
+  },
+  "keywords": [
+    "API",
+    "http",
+    "mock",
+    "RESTful",
+    "test",
+    "web"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "alasql": "^0.4.1",
+    "koa": "2.3.0",
+    "koa-body": "2.3.0",
+    "koa-logger": "3.0.1",
+    "koa-router": "7.2.1",
+    "lodash": "^4.17.4",
+    "log4js": "^2.3.0",
+    "sprintf-js": "^1.1.1"
+  },
+  "devDependencies": {}
 }

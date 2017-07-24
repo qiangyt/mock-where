@@ -1,5 +1,10 @@
-const ApiServer = require('./ApiServer');
-new ApiServer().start(8001);
+const getLogger = require('./logger');
+const _logger = getLogger('app');
 
-const MockServer = require('./MockServer');
-new MockServer().start(8000);
+const beans = require('./beans');
+
+beans.create('./RuleEngine');
+beans.create('./ApiServer');
+beans.create('./MockServer');
+
+_logger.info('app started');

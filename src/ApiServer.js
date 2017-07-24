@@ -1,49 +1,62 @@
 const BaseServer = require('./BaseServer');
-const koaRouter = require('koa-router')();
 const Errors = require('./error/Errors');
-const logger = require('./logger');
+const beans = require('./beans');
+
 
 class ApiServer extends BaseServer {
 
-    constructor() {
-        super();
-        this.existing = {};
+    _starting() {
+        const apiList = this._loadAllApi();
+        this._buildRoutes(apiList);
     }
 
-    starting() {
-        const apiList = [];
-        apiList.push(this.loadApi('where'));
-
-        logger.info(`${apiList.length} api(s) to be registered`);
+    _buildRoutes(apiList) {
+        this._logger.debug(`registering api(s)`);
 
         for (const api of apiList) {
-            const path = `/api/${api.name}`;
-            koaRouter[api.method](path, async(ctx, next) => {
-                const data = await api.execute(ctx, next);
+            this._koaRouter[api.method](api.path, async(ctx, next) => {
+                const data = await api.instance.execute(ctx, next);
                 ctx.body = Errors.OK.build(); //TODO: locale
                 ctx.body.data = data;
 
                 //await next();
             });
-            logger.info(`${api.method.toUpperCase()} ${path}\t\t # ${api.description}`);
         }
-        console.log();
 
-        this.koa.use(koaRouter.routes());
+        this._koa.use(this._koaRouter.routes());
+
+        this._logger.debug('%s api(s) registered', apiList.length);
     }
 
-    loadApi(name) {
-        if (this.existing[name]) throw new Error(`duplicated api name: ${name}`);
+    _loadAllApi() {
+        this._logger.debug(`loading api(s)`);
 
-        const api = require(`./api/${name}`);
+        this._existing = {};
+
+        const r = [];
+        r.push(this._loadApi('where'));
+
+        this._logger.debug('%s api(s) loaded', r.length);
+
+        return r;
+    }
+
+    _loadApi(name) {
+        if (this._existing[name]) throw new Error(`duplicated api name: ${name}`);
+
+        const api = beans.create(`./api/${name}`, `api_${name}`);
+        const mod = api._module;
         if (!api.execute) throw new Error(`execute() not defined in api: ${name}`);
 
-        this.existing[name] = api;
+        this._existing[name] = api;
 
-        api.name = name;
-        api.method = api.method || 'get';
+        mod.instance = api;
+        mod.method = (mod.method || 'get').toLowerCase();
+        mod.path = `/api/${name}`;
 
-        return api;
+        this._logger.debug('%s %s\t\t # %s', mod.method.toUpperCase(), mod.path, mod.description);
+
+        return mod;
     }
 
 

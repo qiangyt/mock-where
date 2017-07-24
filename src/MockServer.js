@@ -1,11 +1,12 @@
 const BaseServer = require('./BaseServer');
-const RuleEngine = require('./RuleEngine');
+const beans = require('./beans');
 
 
 class MockServer extends BaseServer {
 
-    starting() {
-        this.koa.use(RuleEngine.instance.mock.bind(RuleEngine.instance));
+    _starting() {
+        this._ruleEngine = beans.load('ruleEngine');
+        this._koa.use(this._ruleEngine.mock.bind(this._ruleEngine));
     }
 
 

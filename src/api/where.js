@@ -1,20 +1,25 @@
-const RuleEngine = require('../RuleEngine');
-const logger = require('../logger');
+const beans = require('../beans');
 
+class Where {
 
-module.exports = {
-    description: 'specifies how mock response when got specific request',
+    init() {
+        this._ruleEngine = beans.load('ruleEngine');
+    }
 
-    method: 'post',
-
-    execute: async function(ctx, next) {
+    async execute(ctx, next) {
         const rule = ctx.request.body;
-        logger.info('rule is requested: ' + JSON.stringify(rule));
+        this._logger.info('rule is requested: %s', rule);
 
-        RuleEngine.instance.add(rule);
+        this._ruleEngine.put(rule);
 
         ctx.body = { code: 0 };
 
         await next();
     }
-};
+
+}
+
+Where.description = 'specifies how mock response when got specific request';
+Where.method = 'post';
+
+module.exports = Where;
