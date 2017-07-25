@@ -8,7 +8,9 @@ module.exports = {
         port: 8001
     },
 
-    mockServer: {
-        port: 8000
+    mockServers: {
+        first: {
+            port: 8000
+        }
     }
 };

@@ -5,6 +5,30 @@ const config = require('./config');
 
 const _logger = getLogger('beans');
 const _beans = global.beans = {};
+const _beansInited = {};
+
+
+function init() {
+
+    for (let name in _.clone(_beans)) {
+        if (_beansInited[name]) continue;
+
+        const b = _beans[name];
+        if (b.init) {
+            _logger.debug('begin initing bean: %s', name);
+            b.init();
+            _logger.debug('inited bean: %s', name);
+        }
+        _beansInited[name] = b;
+    }
+
+    if (_.size(_beans) === _.size(_beansInited)) {
+        // no any more beans are dynamically created during bean.init();
+        return;
+    }
+
+    init();
+}
 
 module.exports = {
     create: function(beanModulePath, name) {
@@ -15,22 +39,19 @@ module.exports = {
         const mod = require(beanModulePath);
         const r = new mod();
         r._module = mod;
-        r._beanName = name;
+        r._name = name;
         r._logger = getLogger(name);
         r._config = config[name] || {};
 
         if (_beans[name]) throw new Error(`duplicated bean: ${name}`);
         _beans[name] = r;
 
-        _logger.debug('loaded bean %s from module: ', name, mod);
-
-        if (r.init) {
-            r.init(name);
-            _logger.debug('inited bean: %s', name);
-        }
+        _logger.debug('loaded bean %s from module: %s', name, beanModulePath);
 
         return r;
     },
+
+    init,
 
     get: function(name) {
         return _beans[name];

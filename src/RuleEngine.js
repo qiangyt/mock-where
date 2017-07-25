@@ -2,11 +2,15 @@ const RequestError = require('./error/RequestError');
 const Errors = require('./error/Errors');
 const MissingParamError = require('./error/MissingParamError');
 const alasql = require('alasql');
+const getLogger = require('./logger');
+
 
 class RuleEngine {
 
-    init() {
-        this._rules = [];
+    constructor(name) {
+        this.name = name;
+        this._logger = getLogger(name);
+        this._rules = {};
         this._ruleDb = this._initRuleDatabase();
     }
 

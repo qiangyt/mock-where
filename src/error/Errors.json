@@ -189,6 +189,12 @@
         "code": 31,
         "en_US": "No rules matches",
         "zh_CN": "找不到匹配的规则"
+    },
+
+    "MOCK_SERVER_NOT_FOUND": {
+        "code": 32,
+        "en_US": "cannot find mock server: %s",
+        "zh_CN": "未找到mock服务器: %s"
     }
 
 }

@@ -1,16 +1,28 @@
 const beans = require('../beans');
+const MissingParamError = require('../error/MissingParamError');
+const Errors = require('../error/Errors');
+const RequestError = require('../error/RequestError');
+
 
 class Where {
 
     init() {
-        this._ruleEngine = beans.load('ruleEngine');
+        this._mockServerManager = beans.load('mockServerManager');
     }
 
     async execute(ctx, next) {
-        const rule = ctx.request.body;
+        const req = ctx.request;
+
+        const rule = req.body;
         this._logger.info('rule is requested: %s', rule);
 
-        this._ruleEngine.put(rule);
+        const mockServerName = rule.server;
+        if (!mockServerName) throw new MissingParamError('server');
+
+        const mockServer = this._mockServerManager.get(mockServerName);
+        if (!mockServer) throw new RequestError(Errors.MOCK_SERVER_NOT_FOUND, mockServerName);
+
+        mockServer.putRule(rule);
 
         ctx.body = { code: 0 };
 
