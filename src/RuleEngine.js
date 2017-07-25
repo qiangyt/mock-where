@@ -108,6 +108,10 @@ class RuleEngine {
 
         //if (ruleResponse.redirect) responseToMock.redirect(ruleResponse.redirect);
 
+        if (ruleResponse.sleep || ruleResponse.sleep > 10) {
+            await new Promise(resolve => setTimeout(resolve, ruleResponse.sleep - 10));
+        }
+
         await next();
     }
 
