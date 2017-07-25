@@ -4,6 +4,8 @@ const Errors = require('./error/Errors');
 const RequestError = require('./error/RequestError');
 const lodash = require('lodash');
 const underscore = require('underscore');
+const Handlebars = require('handlebars');
+
 
 module.exports = function(type, text) {
 
@@ -23,6 +25,11 @@ module.exports = function(type, text) {
     if ('underscore' === type) {
         return underscore.template(text);
     }
+
+    if ('handlebars' === type) {
+        return Handlebars.compile(text);
+    }
+
 
     throw new RequestError(Errors.UNSUPPORTED_TEMPLATE_TYPE, type);
 
