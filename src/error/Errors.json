@@ -195,6 +195,18 @@
         "code": 32,
         "en_US": "cannot find mock server: %s",
         "zh_CN": "未找到mock服务器: %s"
+    },
+
+    "UNSUPPORTED_TEMPLATE_TYPE": {
+        "code": 33,
+        "en_US": "unsupported template type: %s",
+        "zh_CN": "不支持该模板类型: %s"
+    },
+
+    "MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED": {
+        "code": 34,
+        "en_US": "multiple response contents are not allowed. Choose one in body/template",
+        "zh_CN": "不可以定义多个response内容。请在body/template"
     }
 
 }

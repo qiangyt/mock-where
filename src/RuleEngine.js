@@ -3,7 +3,7 @@ const Errors = require('./error/Errors');
 const MissingParamError = require('./error/MissingParamError');
 const alasql = require('alasql');
 const getLogger = require('./logger');
-
+const resolveTemplateFunc = require('./Template');
 
 class RuleEngine {
 
@@ -40,10 +40,42 @@ class RuleEngine {
         response.status = response.status || (this._config.defaultStatus || 200);
         response.type = response.type || (this._config.defaultContentType || 'application/json');
 
+        this._normalizeResponseContent(response);
+
+
         const oldRule = this._rules[name];
         this._rules[name] = newRule;
         if (oldRule) this._logger.info('replaced old rule, old: %s, new: %s', oldRule, newRule);
         else this._logger.info('created new rule: %s', newRule);
+    }
+
+
+    _normalizeResponseContent(response) {
+        if (!response.template) return;
+        if (response.body) throw new RequestError(ErrorCode.MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED);
+        this._normalizeTemplate(response);
+    }
+
+    _normalizeTemplate(response) {
+        const template = response.template;
+
+        let type;
+        let text;
+        const defaultType = this._config.defaultTemplateType || 'ejs';
+        if (typeof template === 'string') {
+            type = defaultType;
+            text = template;
+        } else {
+            type = template.type || defaultType;
+            text = template.text;
+            if (!text) throw new MissingParamError('response.template.text');
+        }
+
+        response.template = {
+            type,
+            text,
+            func: resolveTemplateFunc(type, text)
+        };
     }
 
 
@@ -63,8 +95,7 @@ class RuleEngine {
         };
     }
 
-    _findMatchedRule(incomingRequest) {
-        const req = this._normalizeRequest(incomingRequest);
+    _findMatchedRule(req) {
         this._logger.debug('request: %s', req);
 
         //this.ruleDb.exec(`INSERT INTO request (header,method,url,path,charset,query,protocol,ip,body) VALUES (${req.header}),${req.method}),${req.url}),${req.path}),${req.charset}),${req.query}),${req.protocol}),${req.ip}),${req.body})`);
@@ -91,7 +122,8 @@ class RuleEngine {
 
 
     async mock(ctx, next) {
-        const rule = this._findMatchedRule(ctx.request);
+        const request = this._normalizeRequest(ctx.request);
+        const rule = this._findMatchedRule(request);
         if (!rule) throw new RequestError(Errors.NO_RULE_MATCHES);
 
         const ruleResponse = rule.response;
@@ -101,8 +133,11 @@ class RuleEngine {
 
         responseToMock.status = ruleResponse.status;
 
-        responseToMock.body = ruleResponse.body;
-        if (ruleResponse.message) responseToMock.message = ruleResponse.message;
+        if (ruleResponse.template) {
+            responseToMock.message = ruleResponse.template.func({ request });
+        } else {
+            responseToMock.body = ruleResponse.body;
+        }
 
         responseToMock.type = ruleResponse.type;
 
