@@ -207,6 +207,12 @@
         "code": 34,
         "en_US": "multiple response contents are not allowed. Choose one in body/template",
         "zh_CN": "不可以定义多个response内容。请在body/template"
+    },
+
+    "FAILED_TO_GENERATE_RESPONSE_WITH_TEMPLATE": {
+        "code": 35,
+        "en_US": "failed to generate response with template. reason: %s",
+        "zh_CN": "使用模板生成response内容时失败。原因：%s"
     }
 
 }

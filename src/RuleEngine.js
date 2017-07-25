@@ -134,7 +134,11 @@ class RuleEngine {
         responseToMock.status = ruleResponse.status;
 
         if (ruleResponse.template) {
-            responseToMock.message = ruleResponse.template.func({ request });
+            try {
+                responseToMock.message = ruleResponse.template.func(request);
+            } catch (e) {
+                throw new RequestError(Errors.FAILED_TO_GENERATE_RESPONSE_WITH_TEMPLATE, e.message);
+            }
         } else {
             responseToMock.body = ruleResponse.body;
         }
