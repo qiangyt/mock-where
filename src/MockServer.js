@@ -18,7 +18,7 @@ class MockServer extends BaseServer {
     }
 
     _starting() {
-        this._ruleEngine = new RuleEngine(this._name);
+        this._ruleEngine = new RuleEngine(this._name, this._config.rule || {});
 
         this._koa.use(this._ruleEngine.mock.bind(this._ruleEngine));
     }

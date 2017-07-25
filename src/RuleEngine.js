@@ -7,8 +7,9 @@ const getLogger = require('./logger');
 
 class RuleEngine {
 
-    constructor(name) {
+    constructor(name, config) {
         this.name = name;
+        this._config = config;
         this._logger = getLogger(name);
         this._rules = {};
         this._ruleDb = this._initRuleDatabase();
@@ -33,13 +34,18 @@ class RuleEngine {
         if (!c) throw new MissingParamError('criteria');
         newRule.statement = `select * from request where ${c}`;
 
-        if (!newRule.response) throw new MissingParamError('response');
+        const response = newRule.response;
+        if (!response) throw new MissingParamError('response');
+
+        response.status = response.status || (this._config.defaultStatus || 200);
+        response.type = response.type || (this._config.defaultContentType || 'application/json');
 
         const oldRule = this._rules[name];
         this._rules[name] = newRule;
         if (oldRule) this._logger.info('replaced old rule, old: %s, new: %s', oldRule, newRule);
         else this._logger.info('created new rule: %s', newRule);
     }
+
 
     _normalizeRequest(req) {
         return {
@@ -93,18 +99,14 @@ class RuleEngine {
 
         if (ruleResponse.header) Object.assign(responseToMock.header, ruleResponse.header);
 
-        responseToMock.status = ruleResponse.status ? ruleResponse.status : 200;
-        if (ruleResponse.body) responseToMock.body = ruleResponse.body;
+        responseToMock.status = ruleResponse.status;
 
+        responseToMock.body = ruleResponse.body;
         if (ruleResponse.message) responseToMock.message = ruleResponse.message;
 
-        if (ruleResponse.type) responseToMock.type = ruleResponse.type;
+        responseToMock.type = ruleResponse.type;
 
-        if (ruleResponse.redirect) responseToMock.redirect(ruleResponse.redirect);
-
-        if (ruleResponse.lastModified) responseToMock.lastModified = ruleResponse.lastModified;
-
-        if (ruleResponse.etag) responseToMock.etag = ruleResponse.etag;
+        //if (ruleResponse.redirect) responseToMock.redirect(ruleResponse.redirect);
 
         await next();
     }
