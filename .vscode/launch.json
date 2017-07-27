@@ -7,6 +7,23 @@
             "request": "launch",
             "name": "launch the application",
             "program": "${workspaceRoot}/src/app.js"
+        },
+
+        {
+            "name": "test",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/node_modules/.bin/_mocha",
+            "stopOnEntry": false,
+            "args": ["-c", "-u", "exports", "./test/**/*Test.js", "--bail", "--recursive", "--harmony", "-t", "10000"],
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": null,
+            "runtimeExecutable": null,
+            "runtimeArgs": [
+                "--nolazy"
+            ],
+            "sourceMaps": false,
+            "outDir": null
         }
     ]
 }
