@@ -30,7 +30,6 @@ module.exports = function(type, text) {
         return Handlebars.compile(text);
     }
 
-
     throw new RequestError(Errors.UNSUPPORTED_TEMPLATE_TYPE, type);
 
 };

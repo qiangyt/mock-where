@@ -1,22 +1,20 @@
 const BaseServer = require('./BaseServer');
 const Errors = require('./error/Errors');
+const BaseError = require('./error/BaseError');
 const beans = require('./beans');
 
 
 class ApiServer extends BaseServer {
 
     _starting() {
-        const apiList = this._loadAllApi();
-        this._buildRoutes(apiList);
-    }
-
-    _buildRoutes(apiList) {
         this._logger.debug(`registering api(s)`);
+
+        const apiList = this._loadAllApi();
 
         for (const api of apiList) {
             this._koaRouter[api.method](api.path, async(ctx, next) => {
                 const data = await api.instance.execute(ctx, next);
-                ctx.body = Errors.OK.build(); //TODO: locale
+                ctx.body = BaseError.staticBuild(Errors.OK); //TODO: locale
                 ctx.body.data = data;
 
                 //await next();

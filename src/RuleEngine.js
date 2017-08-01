@@ -4,6 +4,8 @@ const MissingParamError = require('./error/MissingParamError');
 const alasql = require('alasql');
 const getLogger = require('./logger');
 const resolveTemplateFunc = require('./Template');
+const RuleTree = require('./RuleTree');
+
 
 class RuleEngine {
 
@@ -11,7 +13,7 @@ class RuleEngine {
         this.name = name;
         this._config = config;
         this._logger = getLogger(name);
-        this._rules = {};
+        this._ruleTree = new RuleTree();
         this._ruleDb = this._initRuleDatabase();
     }
 
@@ -25,16 +27,18 @@ class RuleEngine {
         return r;
     }
 
-    put(newRule) {
+    put(rule) {
 
-        const name = newRule.name;
+        const name = rule.name;
         if (!name) throw new MissingParamError('name');
 
-        const c = newRule.criteria;
-        if (!c) throw new MissingParamError('criteria');
-        newRule.statement = `select * from request where ${c}`;
+        rule.path = rule.path || '/';
 
-        const response = newRule.response;
+        const c = rule.criteria;
+        if (!c) throw new MissingParamError('criteria');
+        rule.statement = `select * from request where ${c}`;
+
+        const response = rule.response;
         if (!response) throw new MissingParamError('response');
 
         response.status = response.status || (this._config.defaultStatus || 200);
@@ -42,11 +46,7 @@ class RuleEngine {
 
         this._normalizeResponseContent(response);
 
-
-        const oldRule = this._rules[name];
-        this._rules[name] = newRule;
-        if (oldRule) this._logger.info('replaced old rule, old: %s, new: %s', oldRule, newRule);
-        else this._logger.info('created new rule: %s', newRule);
+        this._ruleTree.put(rule);
     }
 
 
@@ -102,22 +102,23 @@ class RuleEngine {
         const insertSql = `INSERT INTO request (method,url,path,charset,protocol,ip) VALUES ("${req.method}","${req.url}","${req.path}","${req.charset}","${req.protocol}","${req.ip}")`;
         this._ruleDb.exec(insertSql);
 
-        for (const ruleName in this._rules) {
-            const rule = this._rules[ruleName];
+        try {
+            const rules = this._ruleTree.match(req.path);
+            for (const rule of rules) {
+                const statement = rule.statement;
+                this._logger.debug(`executing: ${statement}`);
 
-            const statement = rule.statement;
-            this._logger.debug(`executing: ${statement}`);
-
-            const matched = this._ruleDb.exec(statement);
-            if (matched.length > 0) {
-                this._logger.info('found matched rule: %s', rule);
-                return rule;
+                const matched = this._ruleDb.exec(statement);
+                if (matched.length > 0) {
+                    this._logger.info('found matched rule: %s', rule);
+                    return rule;
+                }
             }
+
+            return null;
+        } finally {
+            this._ruleDb.exec('truncate table request');
         }
-
-        this._ruleDb.exec('truncate table request');
-
-        return null;
     }
 
 

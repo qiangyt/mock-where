@@ -7,12 +7,12 @@ const path = require('path');
 /**
  * 判断目录是否存在，如果不存在则创建
  */
-function mkdirIfNotExists( relativePath ) {    
+function mkdirIfNotExists(relativePath) {
     const dir = path.join(__dirname, relativePath);
     let stat;
     try {
         stat = fs.statSync(dir);
-    } catch( e ) {
+    } catch (e) {
         fs.mkdirSync(dir);
     }
 }
@@ -36,25 +36,25 @@ module.exports = {
     },
 
     root: true,
-    parser: "babel-eslint", 
+    parser: "babel-eslint",
 
     // http://eslint.cn/docs/rules/${规则名字}
-    
+
     rules: {
         'comma-dangle': ['error', 'never'],
         'no-cond-assign': ['error', 'except-parens'],
         //'no-console': 'error',
-        'no-constant-condition': ['error', {checkLoops:false}],
+        'no-constant-condition': ['error', { checkLoops: false }],
         'no-control-regex': 'error',
         'no-debugger': 'error',
         'no-dupe-args': 'error',
-        'no-dupe-keys': 'error', 
+        'no-dupe-keys': 'error',
         'no-duplicate-case': 'error',
         'no-empty': 'error',
         'no-ex-assign': 'error',
         'no-extra-boolean-cast': 'error',
         //'no-extra-parens': 'error',
-        'no-extra-semi': 'error', 
+        'no-extra-semi': 'error',
         'no-func-assign': 'error',
         'no-inner-declarations': 'error',
         'no-invalid-regexp': 'error',
@@ -73,7 +73,7 @@ module.exports = {
         'accessor-pairs': "error",
         'array-callback-return': "error",
         'block-scoped-var': "error",
-        "complexity": ["error", {"max": 16}],
+        "complexity": ["error", { "max": 16 }],
         //'consistent-return': 'error',
         'curly': ["error", "multi-line"],
         'default-case': "error",
@@ -93,7 +93,7 @@ module.exports = {
         'no-extra-label': "error",
         'no-fallthrough': "error",
         'no-floating-decimal': "error",
-        'no-implicit-coercion': ['error',{'string':false}],
+        'no-implicit-coercion': ['error', { 'string': false }],
         'no-implicit-globals': "error",
         'no-implied-eval': "error",
         'no-invalid-this': "error",
@@ -138,8 +138,8 @@ module.exports = {
         'no-label-var': "error",
         'no-use-before-define': "error",
         'callback-return': ["error", ['callback']],
-        'global-require': "error",//eslint global-require: "error"
-        'handle-callback-err': ["error",'err'],
+        'global-require': "error", //eslint global-require: "error"
+        'handle-callback-err': ["error", 'err'],
         'no-mixed-requires': "error",
         'no-new-require': "error",
         'no-path-concat': "error",
@@ -155,11 +155,11 @@ module.exports = {
         'comma-style': 'error',
         'computed-property-spacing': 'error',
         //'consistent-this': 'error',
-        'eol-last': 'error',
+        //'eol-last': 'error',
         //'func-names': 'error',
         'func-style': ['error', 'declaration'],
         //"id-blacklist": ["error", "data", "err", "e", "cb", "callback"],
-        'id-length': ['error', {min:1}],
+        'id-length': ['error', { min: 1 }],
         //"indent": ["error", 4],
         //'key-spacing': ['error', {align: 'value'}],
         //'linebreak-style': ["error", "unix"],
@@ -182,7 +182,7 @@ module.exports = {
         //'no-underscore-dangle': 'error',
         'no-unneeded-ternary': 'off',
         'no-whitespace-before-property': 'error',
-        'object-curly-spacing': 'error',
+        //'object-curly-spacing': 'error',
         'operator-assignment': ["error", "always"],
         //"require-jsdoc": ["error", { "require": { "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true },
 
@@ -194,7 +194,7 @@ module.exports = {
         'no-const-assign': 'error',
         'no-dupe-class-members': "error",
         'no-duplicate-imports': 'error',
-        'no-new-symbol':'error',
+        'no-new-symbol': 'error',
         'no-this-before-super': 'error',
         'no-useless-computed-key': "error",
         'no-useless-constructor': 'error',
@@ -219,4 +219,4 @@ module.exports = {
 };
 
 
-    //"watch": "npm run eslint && ./node_modules/.bin/babel ./ --out-dir ./build --watch",
+//"watch": "npm run eslint && ./node_modules/.bin/babel ./ --out-dir ./build --watch",

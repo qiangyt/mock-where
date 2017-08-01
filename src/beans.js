@@ -36,9 +36,10 @@ module.exports = {
             name = _.lowerFirst(Path.parse(beanModulePath).name);
         }
 
-        const mod = require(beanModulePath);
-        const r = new mod();
-        r._module = mod;
+        // eslint ignore:global-require
+        const beanModuleAsClass = require(beanModulePath);
+        const r = new beanModuleAsClass();
+        r._module = beanModuleAsClass;
         r._name = name;
         r._logger = getLogger(name);
         r._config = config[name] || {};

@@ -1,15 +1,6 @@
-class RequestError extends Error {
+const BaseError = require('./BaseError');
 
-    constructor(errorType, ...args) {
-        super(errorType.build(args));
-
-        this.args = args;
-        this.errorType = errorType;
-    }
-
-    build(locale) {
-        return this.errorType.build(this.args, locale);
-    }
+class RequestError extends BaseError {
 
 }
 

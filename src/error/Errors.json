@@ -7,8 +7,8 @@
 
     "INTERNAL_ERROR": {
         "code": 1,
-        "en_US": "internal error",
-        "zh_CN": "系统内部错误"
+        "en_US": "internal error: %s",
+        "zh_CN": "系统内部错误: %s"
     },
 
     "NO_PERMISSION": {
