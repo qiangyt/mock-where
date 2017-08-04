@@ -7,13 +7,17 @@ const RuleTree = require('./RuleTree');
 
 class RuleEngine {
 
-    constructor(name, config) {
+    constructor(name, definition) {
         this.name = name;
-        this._config = config;
+        this._definition = definition;
         this._logger = getLogger(name);
         this._ruleTree = new RuleTree();
         this._ruleDb = this._initRuleDatabase();
         this._nameIndex = 0;
+
+        for (let ruleName in definition.rules) {
+            this.put(definition.rules[ruleName]);
+        }
     }
 
     _initRuleDatabase() {
@@ -27,7 +31,7 @@ class RuleEngine {
     }
 
     put(rule) {
-        const dft = this._config.default || {};
+        const dft = this._definition.default || {};
 
         rule.name = rule.name || (this.name + this._nameIndex++);
         rule.path = rule.path || (dft.path || '/');

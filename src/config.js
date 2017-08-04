@@ -5,12 +5,7 @@ module.exports = {
     },
 
     apiServer: {
-        port: 8001
-    },
-
-    mockServers: {
-        first: {
-            port: 8000
-        }
+        port: 7999
     }
+
 };

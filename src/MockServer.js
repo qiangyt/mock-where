@@ -1,24 +1,19 @@
 const BaseServer = require('./BaseServer');
 const RuleEngine = require('./RuleEngine');
 const getLogger = require('./logger');
-const config = require('./config');
 
 class MockServer extends BaseServer {
 
-    constructor(name) {
+    constructor(name, definition) {
         super();
         this._name = name;
         this._logger = getLogger(name);
-    }
-
-    init() {
-        this._config = config.mockServers[this._name] || {};
-
-        super.init();
+        this._definition = definition;
+        this._config = definition.config;
     }
 
     _starting() {
-        this._ruleEngine = new RuleEngine(this._name, this._config.rule || {});
+        this._ruleEngine = new RuleEngine(this._name, this._definition);
 
         this._koa.use(this._ruleEngine.mock.bind(this._ruleEngine));
     }

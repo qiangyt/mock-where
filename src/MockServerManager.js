@@ -1,6 +1,6 @@
 const MockServer = require('./MockServer');
 const config = require('./config');
-
+const InternalError = require('./error/InternalError');
 
 class MockServerManager {
 
@@ -9,11 +9,27 @@ class MockServerManager {
     }
 
     init() {
-        if (!config.mockServers) throw new Error('config.mockServers is not configured');
+        this._loadConfig();
+    }
 
-        for (let mockServerName in config.mockServers) {
-            const mockServerConfig = config.mockServers[mockServerName];
-            const mockServer = this._create(mockServerName, mockServerConfig);
+    _buildProvider() {
+        const providerConfig = config.mockProvider = config.mockProvider || {};
+        const providerType = providerConfig.type || 'localDirectory';
+        let providerClass;
+        try {
+            providerClass = require(`./MockConfigProvider_${providerType}`);
+        } catch (e) {
+            throw new InternalError(`provider ${providerType} not found`);
+        }
+        return new providerClass(providerClass);
+    }
+
+    _loadConfig() {
+        const provider = this._buildProvider();
+        const mockServerConfigs = provider.load();
+
+        for (let mockServerName in mockServerConfigs) {
+            const mockServer = this._create(mockServerName, mockServerConfigs[mockServerName]);
             this._all[mockServerName] = mockServer;
         }
     }
@@ -21,7 +37,7 @@ class MockServerManager {
     _create(mockServerName, mockServerConfig) {
         this._logger.info('begin creating mock server: %s', mockServerName);
 
-        const r = new MockServer(mockServerName);
+        const r = new MockServer(mockServerName, mockServerConfig);
         r.init();
 
         this._logger.info('created mock server: %s', mockServerName);
