@@ -1,6 +1,4 @@
 const RequestError = require('./error/RequestError');
-const Errors = require('./error/Errors');
-const MissingParamError = require('./error/MissingParamError');
 const alasql = require('alasql');
 const getLogger = require('./logger');
 const resolveTemplateFunc = require('./Template');
@@ -15,6 +13,7 @@ class RuleEngine {
         this._logger = getLogger(name);
         this._ruleTree = new RuleTree();
         this._ruleDb = this._initRuleDatabase();
+        this._nameIndex = 0;
     }
 
     _initRuleDatabase() {
@@ -28,50 +27,49 @@ class RuleEngine {
     }
 
     put(rule) {
+        const dft = this._config.default || {};
 
-        const name = rule.name;
-        if (!name) throw new MissingParamError('name');
+        rule.name = rule.name || (this.name + this._nameIndex++);
+        rule.path = rule.path || (dft.path || '/');
+        rule.method = (rule.method || (dft.method || 'get')).toLowerCase();
 
-        rule.path = rule.path || '/';
+        const q = rule.q = rule.q || dft.q;
+        rule.statement = 'select * from request' + (q ? ` where ${q}` : '');
 
-        const c = rule.criteria;
-        if (!c) throw new MissingParamError('criteria');
-        rule.statement = `select * from request where ${c}`;
-
-        const response = rule.response;
-        if (!response) throw new MissingParamError('response');
-
-        response.status = response.status || (this._config.defaultStatus || 200);
-        response.type = response.type || (this._config.defaultContentType || 'application/json');
-
-        this._normalizeResponseContent(response);
+        rule.response = rule.response || (dft.response || {});
+        this._normalizeResponse(rule.response);
 
         this._ruleTree.put(rule);
     }
 
 
-    _normalizeResponseContent(response) {
-        if (!response.template) return;
-        if (response.body) throw new RequestError(ErrorCode.MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED);
-        this._normalizeTemplate(response);
-    }
+    _normalizeResponse(response) {
+        response.status = response.status || 200;
+        response.type = response.type || 'application/json';
 
-    _normalizeTemplate(response) {
-        const template = response.template;
-
-        let type;
-        let text;
-        const defaultType = this._config.defaultTemplateType || 'ejs';
-        if (typeof template === 'string') {
-            type = defaultType;
-            text = template;
+        if (response.template && response.body) throw new RequestError('MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED');
+        if (!response.template) {
+            response.body = response.body || 'no response body specified';
         } else {
-            type = template.type || defaultType;
-            text = template.text;
-            if (!text) throw new MissingParamError('response.template.text');
+            response.template = this._normalizeTemplate(response.template);
         }
 
-        response.template = {
+        response.sleep = response.sleep || 0;
+        response.sleepFix = response.sleepFix || -10;
+    }
+
+    _normalizeTemplate(template) {
+        let type;
+        let text;
+        if (typeof template === 'string') {
+            type = 'ejs';
+            text = template;
+        } else {
+            type = template.type || 'ejs';
+            text = template.text || 'template not specified';
+        }
+
+        return {
             type,
             text,
             func: resolveTemplateFunc(type, text)
@@ -82,7 +80,7 @@ class RuleEngine {
     _normalizeRequest(req) {
         return {
             header: req.header,
-            method: req.method,
+            method: req.method.toLowerCase(),
             //length: req.length,
             url: req.url,
             path: req.path,
@@ -98,12 +96,15 @@ class RuleEngine {
     _findMatchedRule(req) {
         this._logger.debug('request: %s', req);
 
-        //this.ruleDb.exec(`INSERT INTO request (header,method,url,path,charset,query,protocol,ip,body) VALUES (${req.header}),${req.method}),${req.url}),${req.path}),${req.charset}),${req.query}),${req.protocol}),${req.ip}),${req.body})`);
-        const insertSql = `INSERT INTO request (method,url,path,charset,protocol,ip) VALUES ("${req.method}","${req.url}","${req.path}","${req.charset}","${req.protocol}","${req.ip}")`;
-        this._ruleDb.exec(insertSql);
+        this._ruleDb.exec('begin transaction');
 
         try {
-            const rules = this._ruleTree.match(req.path);
+            const insertSql = `INSERT INTO request (url,charset,protocol,ip) VALUES ("${req.url}","${req.charset}","${req.protocol}","${req.ip}")`;
+            this._ruleDb.exec(insertSql);
+
+            const rules = this._ruleTree.match(req.method, req.path);
+            this._logger.debug('candidate rules: %s', rules);
+
             for (const rule of rules) {
                 const statement = rule.statement;
                 this._logger.debug(`executing: ${statement}`);
@@ -117,7 +118,7 @@ class RuleEngine {
 
             return null;
         } finally {
-            this._ruleDb.exec('truncate table request');
+            this._ruleDb.exec('rollback transaction');
         }
     }
 
@@ -125,7 +126,7 @@ class RuleEngine {
     async mock(ctx, next) {
         const request = this._normalizeRequest(ctx.request);
         const rule = this._findMatchedRule(request);
-        if (!rule) throw new RequestError(Errors.NO_RULE_MATCHES);
+        if (!rule) throw new RequestError('NO_RULE_MATCHES');
 
         const ruleResponse = rule.response;
         const responseToMock = ctx.response;
@@ -138,7 +139,7 @@ class RuleEngine {
             try {
                 responseToMock.message = ruleResponse.template.func(request);
             } catch (e) {
-                throw new RequestError(Errors.FAILED_TO_GENERATE_RESPONSE_WITH_TEMPLATE, e.message);
+                throw new RequestError('FAILED_TO_GENERATE_RESPONSE_WITH_TEMPLATE', e.message);
             }
         } else {
             responseToMock.body = ruleResponse.body;
@@ -148,8 +149,9 @@ class RuleEngine {
 
         //if (ruleResponse.redirect) responseToMock.redirect(ruleResponse.redirect);
 
-        if (ruleResponse.sleep || ruleResponse.sleep > 10) {
-            await new Promise(resolve => setTimeout(resolve, ruleResponse.sleep - 10));
+        let sleep = ruleResponse.sleep + ruleResponse.sleepFix;
+        if (sleep || sleep > 0) {
+            await new Promise(resolve => setTimeout(resolve, sleep));
         }
 
         await next();

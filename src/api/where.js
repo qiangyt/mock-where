@@ -1,6 +1,5 @@
 const beans = require('../beans');
 const MissingParamError = require('../error/MissingParamError');
-const Errors = require('../error/Errors');
 const RequestError = require('../error/RequestError');
 
 
@@ -20,7 +19,7 @@ class Where {
         if (!mockServerName) throw new MissingParamError('server');
 
         const mockServer = this._mockServerManager.get(mockServerName);
-        if (!mockServer) throw new RequestError(Errors.MOCK_SERVER_NOT_FOUND, mockServerName);
+        if (!mockServer) throw new RequestError('MOCK_SERVER_NOT_FOUND', mockServerName);
 
         mockServer.putRule(rule);
 
