@@ -4,8 +4,8 @@
     "description": "Flexible mock server for RESTful API testing, with a SQL-like mock rule engine",
     "main": "src/app.js",
     "scripts": {
-        "start": "node ./src/app.js | bunyan",
-        "test": "NODE_ENV=local node_modules/.bin/mocha -c -u exports ./test/ --bail --recursive --harmony -t 10000",
+        "start": "node ./src/app.js",
+        "test": "jasmine",
         "lint": "./node_modules/.bin/eslint -f stylish --cache --cache-location ./build/eslint/cache/ --color ./src/",
         "watch": "./node_modules/.bin/esw --watch -f stylish --cache --cache-location ./build/eslint/cache/ --color ./src/"
     },
@@ -51,6 +51,7 @@
         "eslint": "^4.3.0",
         "eslint-stylish": "^0.2.0",
         "eslint-watch": "^3.1.2",
+        "jasmine": "^2.7.0",
         "sinon": "^2.4.1"
     }
 }
