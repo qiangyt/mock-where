@@ -5,7 +5,7 @@
     "main": "src/app.js",
     "scripts": {
         "start": "node ./src/app.js",
-        "test": "jasmine",
+        "test": "./node_modules/istanbul/lib/cli.js cover ./node_modules/jasmine/bin/jasmine.js",
         "lint": "./node_modules/.bin/eslint -f stylish --cache --cache-location ./build/eslint/cache/ --color ./src/",
         "watch": "./node_modules/.bin/esw --watch -f stylish --cache --cache-location ./build/eslint/cache/ --color ./src/"
     },
@@ -51,6 +51,7 @@
         "eslint": "^4.3.0",
         "eslint-stylish": "^0.2.0",
         "eslint-watch": "^3.1.2",
+        "istanbul": "^0.4.5",
         "jasmine": "^2.7.0",
         "sinon": "^2.4.1"
     }

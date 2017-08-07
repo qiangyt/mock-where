@@ -13,11 +13,15 @@
             "name": "test",
             "type": "node",
             "request": "launch",
-            "program": "jasmine",
+            "program": "${workspaceRoot}/node_modules/istanbul/lib/cli.js",
             "stopOnEntry": false,
             "cwd": "${workspaceRoot}",
             "preLaunchTask": null,
             "runtimeExecutable": null,
+            "args": [
+                "cover",
+                "${workspaceRoot}/node_modules/jasmine/bin/jasmine.js"
+            ],
             "runtimeArgs": [
                 "--nolazy"
             ],
