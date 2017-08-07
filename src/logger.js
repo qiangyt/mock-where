@@ -1,6 +1,6 @@
 const log4js = require('log4js');
 const vsprintf = require("sprintf-js").vsprintf;
-const config = require('./config');
+const Config = require('./Config');
 
 
 function _formatMessage(args) {
@@ -20,7 +20,7 @@ function _formatMessage(args) {
 
 module.exports = function(categoryName) {
     const _internal = log4js.getLogger(categoryName);
-    _internal.level = config.log.level;
+    _internal.level = Config.log.level;
 
     return {
         isDebugEnabled: function() { return _internal.isDebugEnabled(); },

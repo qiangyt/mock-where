@@ -1,5 +1,5 @@
 const MockServer = require('./MockServer');
-const config = require('./config');
+const Config = require('./Config');
 const InternalError = require('./error/InternalError');
 
 class MockServerManager {
@@ -13,7 +13,7 @@ class MockServerManager {
     }
 
     _buildProvider() {
-        const providerConfig = config.mockProvider = config.mockProvider || {};
+        const providerConfig = Config.mockProvider = Config.mockProvider || {};
         const providerType = providerConfig.type || 'localDirectory';
         let providerClass;
         try {

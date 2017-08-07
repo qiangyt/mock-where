@@ -19,9 +19,9 @@ class RuleTree {
 
     match(method, path) {
         path = this.normalizePath(path);
-        return this._rootNode.match(method, path, 0;
-        }
-
+        return this._rootNode.match(method, path, 0);
     }
 
-    module.exports = RuleTree;
+}
+
+module.exports = RuleTree;

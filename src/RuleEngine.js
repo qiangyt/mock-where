@@ -1,6 +1,6 @@
 const RequestError = require('./error/RequestError');
 const alasql = require('alasql');
-const getLogger = require('./logger');
+const getLogger = require('./Logger');
 const resolveTemplateFunc = require('./Template');
 const RuleTree = require('./RuleTree');
 

@@ -1,6 +1,6 @@
 const BaseServer = require('./BaseServer');
 const RuleEngine = require('./RuleEngine');
-const getLogger = require('./logger');
+const getLogger = require('./Logger');
 
 class MockServer extends BaseServer {
 

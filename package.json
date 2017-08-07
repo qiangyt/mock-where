@@ -2,7 +2,7 @@
     "name": "mock-where",
     "version": "0.1.0",
     "description": "Flexible mock server for RESTful API testing, with a SQL-like mock rule engine",
-    "main": "src/app.js",
+    "main": "src/App.js",
     "scripts": {
         "start": "node ./src/app.js",
         "test": "./node_modules/istanbul/lib/cli.js cover ./node_modules/jasmine/bin/jasmine.js",

@@ -1,7 +1,7 @@
 const BaseServer = require('./BaseServer');
 const Errors = require('./error/Errors');
 const BaseError = require('./error/BaseError');
-const beans = require('./beans');
+const Beans = require('./Beans');
 
 
 class ApiServer extends BaseServer {
@@ -42,7 +42,7 @@ class ApiServer extends BaseServer {
     _loadApi(name) {
         if (this._existing[name]) throw new Error(`duplicated api name: ${name}`);
 
-        const api = beans.create(`./api/${name}`, `api_${name}`);
+        const api = Beans.create(`./api/${name}`, `api_${name}`);
         const mod = api._module;
         if (!api.execute) throw new Error(`execute() not defined in api: ${name}`);
 

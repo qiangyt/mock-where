@@ -1,9 +1,9 @@
-const getLogger = require('./logger');
+const getLogger = require('./Logger');
 const _ = require('lodash');
 const Path = require('path');
-const config = require('./config');
+const Config = require('./Config');
 
-const _logger = getLogger('beans');
+const _logger = getLogger('Beans');
 const _beans = global.beans = {};
 const _beansInited = {};
 
@@ -42,7 +42,7 @@ module.exports = {
         r._module = beanModuleAsClass;
         r._name = name;
         r._logger = getLogger(name);
-        r._config = config[name] || {};
+        r._config = Config[name] || {};
 
         if (_beans[name]) throw new Error(`duplicated bean: ${name}`);
         _beans[name] = r;

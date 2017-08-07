@@ -1,4 +1,4 @@
-const beans = require('../beans');
+const Beans = require('../Beans');
 const MissingParamError = require('../error/MissingParamError');
 const RequestError = require('../error/RequestError');
 
@@ -6,7 +6,7 @@ const RequestError = require('../error/RequestError');
 class Where {
 
     init() {
-        this._mockServerManager = beans.load('mockServerManager');
+        this._mockServerManager = Beans.load('mockServerManager');
     }
 
     async execute(ctx, next) {

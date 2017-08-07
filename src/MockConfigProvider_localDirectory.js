@@ -1,6 +1,6 @@
 const Path = require('path');
 const Fs = require('fs');
-const getLogger = require('./logger');
+const getLogger = require('./Logger');
 const InternalError = require('./error/InternalError');
 
 

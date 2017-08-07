@@ -1,11 +1,11 @@
-const getLogger = require('./logger');
+const getLogger = require('./Logger');
 const _logger = getLogger('app');
 
-const beans = require('./beans');
+const Beans = require('./Beans');
 
-beans.create('./ApiServer');
-beans.create('./MockServerManager');
+Beans.create('./ApiServer');
+Beans.create('./MockServerManager');
 
-beans.init();
+Beans.init();
 
 _logger.info('app started');
