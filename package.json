@@ -5,7 +5,7 @@
     "main": "src/App.js",
     "scripts": {
         "start": "node ./src/app.js",
-        "test": "./node_modules/istanbul/lib/cli.js cover ./node_modules/jasmine/bin/jasmine.js",
+        "test": "node ./node_modules/istanbul/lib/cli.js cover -color ./node_modules/jasmine/bin/jasmine.js",
         "lint": "./node_modules/.bin/eslint -f stylish --cache --cache-location ./build/eslint/cache/ --color ./src/",
         "watch": "./node_modules/.bin/esw --watch -f stylish --cache --cache-location ./build/eslint/cache/ --color ./src/"
     },
