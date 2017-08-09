@@ -112,4 +112,14 @@ describe("RuleNode test suite: ", function() {
 
         expect(matched.length).toBe(0);
     });
+
+    it("match rule with path as prefix", function() {
+        const root = buildRuleTree();
+
+        const matched = root.match('get', '/1/BC', 0);
+
+        expect(matched.length).toBe(2);
+        expect(matched[0].name).toBe('1_B1');
+        expect(matched[1].name).toBe('1_B2');
+    });
 });

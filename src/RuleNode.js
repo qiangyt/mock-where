@@ -18,12 +18,12 @@ class RuleNode {
         }
 
         const nextIndex = index + 1;
-        const newChildPath = path.substring(0, nextIndex + 1);
 
         for (let child of this.children) {
             if (child.put(path, nextIndex, rule)) return true;
         }
 
+        const newChildPath = path.substring(0, nextIndex + 1);
         const newChild = new RuleNode(path.charAt(nextIndex), newChildPath);
         this.children.push(newChild);
 
@@ -47,6 +47,14 @@ class RuleNode {
         for (let child of this.children) {
             const rulesFromChild = child.match(method, path, nextIndex);
             if (rulesFromChild.length > 0) return rulesFromChild;
+        }
+
+        if (path.indexOf(this.path) === 0) {
+            const r = [];
+            for (let candidate of this.rules) {
+                if (candidate.method === method) r.push(candidate);
+            }
+            return r;
         }
 
         return [];
