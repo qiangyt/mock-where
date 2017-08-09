@@ -113,6 +113,14 @@ describe("RuleNode test suite: ", function() {
         expect(matched.length).toBe(0);
     });
 
+    it("no matched rule due to different path", function() {
+        const root = buildRuleTree();
+
+        const matched = root.match('get', '3', 0);
+
+        expect(matched.length).toBe(0);
+    });
+
     it("match rule with path as prefix", function() {
         const root = buildRuleTree();
 
