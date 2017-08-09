@@ -21,7 +21,7 @@ class RuleNode {
         const newChildPath = path.substring(0, nextIndex + 1);
 
         for (let child of this.children) {
-            if (child.put(newChildPath, nextIndex, rule)) return true;
+            if (child.put(path, nextIndex, rule)) return true;
         }
 
         const newChild = new RuleNode(path.charAt(nextIndex), newChildPath);

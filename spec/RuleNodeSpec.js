@@ -1,5 +1,19 @@
 const RuleNode = require('../src/RuleNode');
 
+function buildRuleTree() {
+    const root = new RuleNode('/', '/');
+
+    root.put('/', 0, { name: 'root', method: 'get' });
+    root.put('/1', 0, { name: '1', method: 'get' });
+    root.put('/1/A', 0, { name: '1_A', method: 'get' });
+    root.put('/1/B', 0, { name: '1_B1', method: 'get' });
+    root.put('/1/B', 0, { name: '1_B2', method: 'get' });
+    root.put('/2/A/a', 0, { name: '2_A_a1', method: 'get' });
+    root.put('/2/A/a', 0, { name: '2_A_a2', method: 'post' });
+
+    return root;
+}
+
 describe("RuleNode test suite: ", function() {
     it("put the rule on this node exactly", function() {
         const n = new RuleNode('/', '/');
@@ -69,5 +83,32 @@ describe("RuleNode test suite: ", function() {
         const rule = { A: 'A' };
 
         expect(n.put('a', 0, rule)).toBe(false);
+    });
+
+    it("match rule with root node", function() {
+        const root = buildRuleTree();
+
+        const matched = root.match('get', '/', 0);
+
+        expect(matched.length).toBe(1);
+        expect(matched[0].name).toBe('root');
+    });
+
+    it("match rule with 2 child node", function() {
+        const root = buildRuleTree();
+
+        const matched = root.match('get', '/1/B', 0);
+
+        expect(matched.length).toBe(2);
+        expect(matched[0].name).toBe('1_B1');
+        expect(matched[1].name).toBe('1_B2');
+    });
+
+    it("no matched rule due to different method", function() {
+        const root = buildRuleTree();
+
+        const matched = root.match('post', '/1/B', 0);
+
+        expect(matched.length).toBe(0);
     });
 });
