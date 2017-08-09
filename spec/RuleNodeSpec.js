@@ -1,4 +1,5 @@
-const RuleNode = require('../src/RuleNode');
+const SRC = '../src';
+const RuleNode = require(`${SRC}/RuleNode`);
 
 function buildRuleTree() {
     const root = new RuleNode('/', '/');
