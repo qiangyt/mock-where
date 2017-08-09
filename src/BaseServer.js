@@ -16,33 +16,31 @@ class BaseServer {
 
     _initKoa() {
         const koa = new Koa();
-        koa.use(this.formatJsonError.bind(this));
+        koa.use( (ctx, next) => next().catch( err => this.formatJsonError(ctx, err)) );
         koa.use(koaLogger());
         koa.use(koaBody({
             jsonLimit: this._config.bodySizeLimit || '1kb'
         }));
 
         this._koa = koa;
+        
         this._koaRouter = CreateKoaRouter();
     }
 
-    formatJsonError(ctx, next) {
-        return next().catch(err => {
+    formatJsonError(ctx, err) {
+        this._logger.error(err);
 
-            this._logger.error(err);
+        if (err instanceof BaseError) {
+            ctx.body = err.build(); //TODO: locale
+            ctx.status = (err.errorType === Errors.INTERNAL_ERROR) ? 500 : 400;
+        } else {
+            //TODO: other error such as 404
+            ctx.body = BaseError.staticBuild(Errors.INTERNAL_ERROR, err.message); //TODO: locale
+            ctx.status = 500;
+        }
 
-            if (err instanceof BaseError) {
-                ctx.body = err.build(); //TODO: locale
-                ctx.status = (err.errorType === Errors.INTERNAL_ERROR) ? 500 : 400;
-            } else {
-                //TODO: other error such as 404
-                ctx.body = BaseError.staticBuild(Errors.INTERNAL_ERROR, err.message); //TODO: locale
-                ctx.status = 500;
-            }
-
-            // Emit the error if we really care
-            //ctx.app.emit('error', err, ctx);
-        });
+        // Emit the error if we really care
+        //ctx.app.emit('error', err, ctx);
     }
 
     _start() {
