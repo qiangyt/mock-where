@@ -30,6 +30,13 @@ function init() {
     init();
 }
 
+function render(bean, name, beanModuleAsClass) {
+    bean._module = beanModuleAsClass;
+    bean._name = name;
+    bean._logger = getLogger(name);
+    bean._config = Config[name] || {};
+}
+
 module.exports = {
     create: function(beanModulePath, name) {
         if (!name) {
@@ -39,10 +46,7 @@ module.exports = {
         // eslint ignore:global-require
         const beanModuleAsClass = require(beanModulePath);
         const r = new beanModuleAsClass();
-        r._module = beanModuleAsClass;
-        r._name = name;
-        r._logger = getLogger(name);
-        r._config = Config[name] || {};
+        render(r, name, beanModuleAsClass);
 
         if (_beans[name]) throw new Error(`duplicated bean: ${name}`);
         _beans[name] = r;
@@ -51,6 +55,8 @@ module.exports = {
 
         return r;
     },
+
+    render,
 
     init,
 
