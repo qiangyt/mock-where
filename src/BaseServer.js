@@ -16,14 +16,14 @@ class BaseServer {
 
     _initKoa() {
         const koa = new Koa();
-        koa.use( (ctx, next) => next().catch( err => this.formatJsonError(ctx, err)) );
+        koa.use((ctx, next) => next().catch(err => this.formatJsonError(ctx, err)));
         koa.use(koaLogger());
         koa.use(koaBody({
             jsonLimit: this._config.bodySizeLimit || '1kb'
         }));
 
         this._koa = koa;
-        
+
         this._koaRouter = CreateKoaRouter();
     }
 
@@ -32,7 +32,7 @@ class BaseServer {
 
         if (err instanceof BaseError) {
             ctx.body = err.build(); //TODO: locale
-            ctx.status = (err.errorType === Errors.INTERNAL_ERROR) ? 500 : 400;
+            ctx.status = (err.type === Errors.INTERNAL_ERROR) ? 500 : 400;
         } else {
             //TODO: other error such as 404
             ctx.body = BaseError.staticBuild(Errors.INTERNAL_ERROR, err.message); //TODO: locale
