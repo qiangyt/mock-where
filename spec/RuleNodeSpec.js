@@ -114,9 +114,11 @@ describe("RuleNode test suite: ", function() {
     });
 
     it("no matched rule due to different path", function() {
-        const root = buildRuleTree();
+        const n = new RuleNode('/', '/X');
+        const rule = { A: 'A', method: 'get' };
+        n.put('/X', 0, rule);
 
-        const matched = root.match('get', '3', 0);
+        const matched = n.match('get', '/Y', 0);
 
         expect(matched.length).toBe(0);
     });
