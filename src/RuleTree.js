@@ -7,18 +7,18 @@ class RuleTree {
     }
 
 
-    normalizePath(path) {
+    static normalizePath(path) {
         if ('/' === path.charAt(0)) return path;
         return '/' + path;
     }
 
     put(rule) {
-        const path = rule.path = this.normalizePath(rule.path);
+        const path = rule.path = RuleTree.normalizePath(rule.path);
         return this._rootNode.put(path, 0, rule);
     }
 
     match(method, path) {
-        path = this.normalizePath(path);
+        path = RuleTree.normalizePath(path);
         return this._rootNode.match(method, path, 0);
     }
 
