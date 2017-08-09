@@ -6,6 +6,11 @@ const Beans = require('./Beans');
 
 class ApiServer extends BaseServer {
 
+    constructor() {
+        super();
+        this._existing = {};
+    }
+
     _starting() {
         this._logger.debug(`registering api(s)`);
 
@@ -29,8 +34,6 @@ class ApiServer extends BaseServer {
     _loadAllApi() {
         this._logger.debug(`loading api(s)`);
 
-        this._existing = {};
-
         const r = [];
         r.push(this._loadApi('where'));
 
@@ -40,11 +43,15 @@ class ApiServer extends BaseServer {
     }
 
     _loadApi(name) {
-        if (this._existing[name]) throw new Error(`duplicated api name: ${name}`);
+        if (this._existing[name]) {
+            throw new Error(`duplicated api name: ${name}`);
+        }
 
         const api = Beans.create(`./api/${name}`, `api_${name}`);
         const mod = api._module;
-        if (!api.execute) throw new Error(`execute() not defined in api: ${name}`);
+        if (!api.execute) {
+            throw new Error(`execute() not defined in api: ${name}`);
+        }
 
         this._existing[name] = api;
 

@@ -20,7 +20,7 @@ describe("RuleNode test suite: ", function() {
         const n = new RuleNode('/', '/');
         const rule = { A: 'A' };
 
-        expect(n.put('/', 0, rule)).toBe(true);
+        expect(n.put('/', 0, rule)).toBeTruthy();
         expect(n.children.length).toBe(0);
         expect(n.rules.length).toBe(1);
         expect(n.rules[0]).toEqual(rule);
@@ -30,7 +30,7 @@ describe("RuleNode test suite: ", function() {
         const n = new RuleNode('/', '/');
         const rule = { A: 'A' };
 
-        expect(n.put('/1', 0, rule)).toBe(true);
+        expect(n.put('/1', 0, rule)).toBeTruthy();
         expect(n.children.length).toBe(1);
         expect(n.rules.length).toBe(0);
 
@@ -46,7 +46,7 @@ describe("RuleNode test suite: ", function() {
 
         const rule2 = { B: 'B' };
 
-        expect(n.put('/1', 0, rule2)).toBe(true);
+        expect(n.put('/1', 0, rule2)).toBeTruthy();
         expect(n.children.length).toBe(1);
         expect(n.rules.length).toBe(0);
 
@@ -66,7 +66,7 @@ describe("RuleNode test suite: ", function() {
 
         const rule3 = { C: 'C' };
 
-        expect(n.put('/2', 0, rule3)).toBe(true);
+        expect(n.put('/2', 0, rule3)).toBeTruthy();
         expect(n.children.length).toBe(2);
         expect(n.rules.length).toBe(0);
 
@@ -83,7 +83,7 @@ describe("RuleNode test suite: ", function() {
         const n = new RuleNode('/', '/');
         const rule = { A: 'A' };
 
-        expect(n.put('a', 0, rule)).toBe(false);
+        expect(n.put('a', 0, rule)).toBeFalsy();
     });
 
     it("match rule with root node", function() {

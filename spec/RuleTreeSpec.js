@@ -20,7 +20,7 @@ describe("RuleTree test suite: ", function() {
         const t = new RuleTree();
 
         const rule = { path: 'abc/123', method: 'get' };
-        expect(t.put(rule)).toBe(true);
+        expect(t.put(rule)).toBeTruthy();
         expect(rule.path).toBe('/abc/123');
 
         const matched = t.match('get', '/abc/123');
