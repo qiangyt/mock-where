@@ -41,13 +41,13 @@ class RuleEngine {
         rule.statement = 'select * from request' + (q ? ` where ${q}` : '');
 
         rule.response = rule.response || (dft.response || {});
-        this._normalizeResponse(rule.response);
+        RuleEngine.normalizeResponse(rule.response);
 
         this._ruleTree.put(rule);
     }
 
 
-    _normalizeResponse(response) {
+    static normalizeResponse(response) {
         response.status = response.status || 200;
         response.type = response.type || 'application/json';
 
@@ -55,14 +55,14 @@ class RuleEngine {
         if (!response.template) {
             response.body = response.body || 'no response body specified';
         } else {
-            response.template = this._normalizeTemplate(response.template);
+            response.template = RuleEngine.normalizeTemplate(response.template);
         }
 
         response.sleep = response.sleep || 0;
         response.sleepFix = response.sleepFix || -10;
     }
 
-    _normalizeTemplate(template) {
+    static normalizeTemplate(template) {
         let type;
         let text;
         if (typeof template === 'string') {
@@ -81,7 +81,7 @@ class RuleEngine {
     }
 
 
-    _normalizeRequest(req) {
+    static normalizeRequest(req) {
         return {
             header: req.header,
             method: req.method.toLowerCase(),
@@ -89,9 +89,9 @@ class RuleEngine {
             url: req.url,
             path: req.path,
             //type: req.type,
-            charset: req.charset,
+            charset: req.charset.toLowerCase(),
             query: req.query,
-            protocol: req.protocol,
+            protocol: req.protocol.toLowerCase(),
             ip: req.ip,
             body: req.body
         };
@@ -120,25 +120,14 @@ class RuleEngine {
                 }
             }
 
-            return null;
+            throw new RequestError('NO_RULE_MATCHES');
         } finally {
             this._ruleDb.exec('rollback transaction');
         }
     }
 
 
-    async mock(ctx, next) {
-        const request = this._normalizeRequest(ctx.request);
-        const rule = this._findMatchedRule(request);
-        if (!rule) throw new RequestError('NO_RULE_MATCHES');
-
-        const ruleResponse = rule.response;
-        const responseToMock = ctx.response;
-
-        if (ruleResponse.header) Object.assign(responseToMock.header, ruleResponse.header);
-
-        responseToMock.status = ruleResponse.status;
-
+    static renderMockResponseBody(request, ruleResponse, responseToMock) {
         if (ruleResponse.template) {
             try {
                 responseToMock.message = ruleResponse.template.func(request);
@@ -148,13 +137,37 @@ class RuleEngine {
         } else {
             responseToMock.body = ruleResponse.body;
         }
+    }
+
+    static renderMockResponse(request, ruleResponse, responseToMock) {
+        if (ruleResponse.header) Object.assign(responseToMock.header, ruleResponse.header);
 
         responseToMock.type = ruleResponse.type;
+        responseToMock.status = ruleResponse.status;
+
+        RuleEngine.renderMockResponseBody(request, ruleResponse, responseToMock);
 
         //if (ruleResponse.redirect) responseToMock.redirect(ruleResponse.redirect);
+    }
 
+    static determineTimeToSleep(ruleResponse) {
         let sleep = ruleResponse.sleep + ruleResponse.sleepFix;
-        if (sleep || sleep > 0) {
+        if (sleep && sleep > 0) {
+            return sleep;
+        }
+        return 0;
+    }
+
+    async mock(ctx, next) {
+        const request = RuleEngine.normalizeRequest(ctx.request);
+        const rule = this._findMatchedRule(request);
+
+        const ruleResponse = rule.response;
+        const responseToMock = ctx.response;
+        RuleEngine.renderMockResponse(request, ruleResponse, responseToMock);
+
+        let sleep = RuleEngine.determineTimeToSleep(ruleResponse);
+        if (sleep) {
             await new Promise(resolve => setTimeout(resolve, sleep));
         }
 
