@@ -4,7 +4,7 @@
     "description": "Flexible mock server for RESTful API testing, with a SQL-like mock rule engine",
     "main": "src/App.js",
     "scripts": {
-        "start": "node ./src/app.js",
+        "start": "node ./src/App.js",
         "coverage": "node ./node_modules/istanbul/lib/cli.js cover -color ./node_modules/jasmine/bin/jasmine.js",
         "test": "node ./node_modules/jasmine/bin/jasmine.js",
         "lint": "./node_modules/.bin/eslint -f stylish --cache --cache-location ./build/eslint/cache/ --color ./src/",
