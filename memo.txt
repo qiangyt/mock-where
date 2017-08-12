@@ -2,3 +2,5 @@ https://yarnpkg.com/en/docs/install#mac-tab
 https://yarnpkg.com/en/docs/usage
 
 https://github.com/smollweide/node-mock-server
+
+switch to in-memory sqlite ?
