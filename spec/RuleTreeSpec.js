@@ -2,21 +2,21 @@ const SRC = '../src';
 const RuleTree = require(`${SRC}/RuleTree`);
 
 describe("RuleTree test suite: ", function() {
-    it("has a root node", function() {
+    it("ctor(): has a root node", function() {
         const t = new RuleTree();
 
         expect(t._rootNode.path).toBe('/');
     });
 
-    it("path without slash prefix should be normalized to be prefixed with slash", function() {
+    it("normalizePath(): path without slash prefix should be normalized to be prefixed with slash", function() {
         expect(RuleTree.normalizePath('xyz')).toBe('/xyz');
     });
 
-    it("path with slash prefix should keep as it is", function() {
+    it("normalizePath(): path with slash prefix should keep as it is", function() {
         expect(RuleTree.normalizePath('/xyz')).toEqual('/xyz');
     });
 
-    it("matches the rule that just puts", function() {
+    it("put() & match(): matches the rule that just puts", function() {
         const t = new RuleTree();
 
         const rule = { path: 'abc/123', method: 'get' };

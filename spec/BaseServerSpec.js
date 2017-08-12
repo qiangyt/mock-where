@@ -13,7 +13,7 @@ function buildBaseServer() {
 
 describe("BaseServer test suite: ", function() {
 
-    it("formats non-INTERNAL_ERROR error as 400", function() {
+    it("formatJsonError(): formats non-INTERNAL_ERROR error as 400", function() {
         const s = buildBaseServer();
         const ctx = {};
 
@@ -23,7 +23,7 @@ describe("BaseServer test suite: ", function() {
         expect(ctx.body.key).toBe('MISSING_PARAMETER');
     });
 
-    it("formats INTERNAL_ERROR BaseError as 500", function() {
+    it("formatJsonError(): formats INTERNAL_ERROR BaseError as 500", function() {
         const s = buildBaseServer();
         const ctx = {};
 
@@ -33,7 +33,7 @@ describe("BaseServer test suite: ", function() {
         expect(ctx.body.key).toBe('INTERNAL_ERROR');
     });
 
-    it("formats other error as 500", function() {
+    it("formatJsonError(): formats other error as 500", function() {
         const s = buildBaseServer();
         const ctx = {};
 

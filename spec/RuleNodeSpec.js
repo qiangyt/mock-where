@@ -16,7 +16,7 @@ function buildRuleTree() {
 }
 
 describe("RuleNode test suite: ", function() {
-    it("put the rule on this node exactly", function() {
+    it("put(): put the rule on this node exactly", function() {
         const n = new RuleNode('/', '/');
         const rule = { A: 'A' };
 
@@ -26,7 +26,7 @@ describe("RuleNode test suite: ", function() {
         expect(n.rules[0]).toEqual(rule);
     });
 
-    it("put the rule on new child node", function() {
+    it("put(): put the rule on new child node", function() {
         const n = new RuleNode('/', '/');
         const rule = { A: 'A' };
 
@@ -39,7 +39,7 @@ describe("RuleNode test suite: ", function() {
         expect(child.rules[0]).toEqual(rule);
     });
 
-    it("put the rule on existing child node", function() {
+    it("put(): put the rule on existing child node", function() {
         const n = new RuleNode('/', '/');
         const rule1 = { A: 'A' };
         n.put('/1', 0, rule1);
@@ -55,7 +55,7 @@ describe("RuleNode test suite: ", function() {
         expect(child.rules[1]).toEqual(rule2);
     });
 
-    it("put the rule on secondary existing child node", function() {
+    it("put(): put the rule on secondary existing child node", function() {
         const n = new RuleNode('/', '/');
 
         const rule1 = { A: 'A' };
@@ -79,14 +79,14 @@ describe("RuleNode test suite: ", function() {
         expect(child2.rules[1]).toEqual(rule3);
     });
 
-    it("put rule with different path letter", function() {
+    it("put(): put rule with different path letter", function() {
         const n = new RuleNode('/', '/');
         const rule = { A: 'A' };
 
         expect(n.put('a', 0, rule)).toBeFalsy();
     });
 
-    it("match rule with root node", function() {
+    it("match(): match rule with root node", function() {
         const root = buildRuleTree();
 
         const matched = root.match('get', '/', 0);
@@ -95,7 +95,7 @@ describe("RuleNode test suite: ", function() {
         expect(matched[0].name).toBe('root');
     });
 
-    it("match rule with 2 child node", function() {
+    it("match(): match rule with 2 child node", function() {
         const root = buildRuleTree();
 
         const matched = root.match('get', '/1/B', 0);
@@ -105,7 +105,7 @@ describe("RuleNode test suite: ", function() {
         expect(matched[1].name).toBe('1_B2');
     });
 
-    it("no matched rule due to different method", function() {
+    it("match(): no matched rule due to different method", function() {
         const root = buildRuleTree();
 
         const matched = root.match('post', '/1/B', 0);
@@ -113,7 +113,7 @@ describe("RuleNode test suite: ", function() {
         expect(matched.length).toBe(0);
     });
 
-    it("no matched rule due to different path", function() {
+    it("match(): no matched rule due to different path", function() {
         const n = new RuleNode('/', '/X');
         const rule = { A: 'A', method: 'get' };
         n.put('/X', 0, rule);
@@ -123,7 +123,7 @@ describe("RuleNode test suite: ", function() {
         expect(matched.length).toBe(0);
     });
 
-    it("match rule with path as prefix", function() {
+    it("match(): match rule with path as prefix", function() {
         const root = buildRuleTree();
 
         const matched = root.match('get', '/1/BC', 0);

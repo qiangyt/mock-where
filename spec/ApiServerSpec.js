@@ -17,21 +17,21 @@ function mockApi(method, execute, description) {
 
 describe("ApiServer test suite: ", function() {
 
-    it("raise error when loading duplicated API", function() {
+    it("_loadApi(): raise error when loading duplicated API", function() {
         const s = buildApiServer();
         s._existing = { 'beanName': {} };
         expect(() => s._loadApi('beanName')).toThrow();
 
     });
 
-    it("raise error when API.execute function is not defined", function() {
+    it("_loadApi(): raise error when API.execute function is not defined", function() {
         const s = buildApiServer();
         mockApi('post', null, 'desc');
         expect(() => s._loadApi('beanName')).toThrow();
 
     });
 
-    it("load an API", function() {
+    it("_loadApi(): load an API", function() {
         const execute = function() {};
         mockApi('get', execute, 'description');
 
@@ -48,7 +48,7 @@ describe("ApiServer test suite: ", function() {
         expect(mod.description).toBe('description');
     });
 
-    it("method should be 'get' by default", function() {
+    it("_loadApi(): method should be 'get' by default", function() {
         const execute = function() {};
         mockApi(undefined, execute, 'description');
 
@@ -57,7 +57,7 @@ describe("ApiServer test suite: ", function() {
         expect(mod.method).toBe('get');
     });
 
-    it("method should be lowercased", function() {
+    it("_loadApi(): method should be lowercased", function() {
         const execute = function() {};
         mockApi('POST', execute, 'description');
 

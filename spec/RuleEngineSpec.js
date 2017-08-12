@@ -3,12 +3,12 @@ const RuleEngine = require(`${SRC}/RuleEngine`);
 
 describe("RuleEngine test suite: ", function() {
 
-    it("sleep", function() {
-        expect(RuleEngine.determineTimeToSleep({sleep: 100, sleepFix:10})).toBe(110);
-        expect(RuleEngine.determineTimeToSleep({sleep: -100, sleepFix:10})).toBe(0);
+    it("determineTimeToSleep(): sleep", function() {
+        expect(RuleEngine.determineTimeToSleep({ sleep: 100, sleepFix: 10 })).toBe(110);
+        expect(RuleEngine.determineTimeToSleep({ sleep: -100, sleepFix: 10 })).toBe(0);
     });
 
-    it("render response body as message with template", function() {
+    it("renderMockResponseBody(): render response body as message with template", function() {
         const ruleResponse = {
             template: {
                 func: function(request) {
@@ -16,34 +16,34 @@ describe("RuleEngine test suite: ", function() {
                 }
             }
         };
-        
+
         const responseToMock = {};
-        RuleEngine.renderMockResponseBody({you:'Yiting'}, ruleResponse, responseToMock);
+        RuleEngine.renderMockResponseBody({ you: 'Yiting' }, ruleResponse, responseToMock);
 
         expect(responseToMock.body).toBeUndefined();
         expect(responseToMock.message).toBe('hi Yiting');
     });
 
-    it("render response body as object", function() {
+    it("renderMockResponseBody(): render response body as object", function() {
         const body = {};
-        const ruleResponse = {body};
+        const ruleResponse = { body };
         const responseToMock = {};
-        RuleEngine.renderMockResponseBody({you:'Yiting'}, ruleResponse, responseToMock);
+        RuleEngine.renderMockResponseBody({ you: 'Yiting' }, ruleResponse, responseToMock);
 
         expect(responseToMock.message).toBeUndefined();
         expect(responseToMock.body).toEqual(body);
     });
 
-    it("render response", function() {
+    it("renderMockResponse(): render response", function() {
         const body = {};
         const header = {};
         const type = 'application/json';
         const status = 200;
-        const ruleResponse = {body, header, type, status};
+        const ruleResponse = { body, header, type, status };
         const responseToMock = {
             header: {}
         };
-        RuleEngine.renderMockResponse({you:'Yiting'}, ruleResponse, responseToMock);
+        RuleEngine.renderMockResponse({ you: 'Yiting' }, ruleResponse, responseToMock);
 
         expect(responseToMock.body).toEqual(body);
         expect(responseToMock.header).toEqual(header);
@@ -51,7 +51,7 @@ describe("RuleEngine test suite: ", function() {
         expect(responseToMock.status).toBe(status);
     });
 
-    it("normalize request", function() {
+    it("normalizeRequest(): normalize request", function() {
         const header = {};
         const body = {};
 
