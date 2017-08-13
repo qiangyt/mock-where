@@ -1,7 +1,6 @@
 const RequestError = require('./error/RequestError');
 const alasql = require('alasql');
 const getLogger = require('./Logger');
-const resolveTemplateFunc = require('./Template');
 const RuleTree = require('./RuleTree');
 
 
@@ -13,11 +12,6 @@ class RuleEngine {
         this._logger = getLogger(name);
         this._ruleTree = new RuleTree();
         this._ruleDb = this._initRuleDatabase();
-        this._nameIndex = 0;
-
-        for (let ruleName in definition.rules) {
-            this.put(definition.rules[ruleName]);
-        }
     }
 
     _initRuleDatabase() {
@@ -31,53 +25,7 @@ class RuleEngine {
     }
 
     put(rule) {
-        const dft = this._definition.default || {};
-
-        rule.name = rule.name || (this.name + this._nameIndex++);
-        rule.path = rule.path || (dft.path || '/');
-        rule.method = (rule.method || (dft.method || 'get')).toLowerCase();
-
-        const q = rule.q = rule.q || dft.q;
-        rule.statement = 'select * from request' + (q ? ` where ${q}` : '');
-
-        rule.response = rule.response || (dft.response || {});
-        RuleEngine.normalizeResponse(rule.response);
-
         this._ruleTree.put(rule);
-    }
-
-
-    static normalizeResponse(response) {
-        response.status = response.status || 200;
-        response.type = response.type || 'application/json';
-
-        if (response.template && response.body) throw new RequestError('MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED');
-        if (!response.template) {
-            response.body = response.body || 'no response body specified';
-        } else {
-            response.template = RuleEngine.normalizeTemplate(response.template);
-        }
-
-        response.sleep = response.sleep || 0;
-        response.sleepFix = response.sleepFix || -10;
-    }
-
-    static normalizeTemplate(template) {
-        let type;
-        let text;
-        if (typeof template === 'string') {
-            type = 'ejs';
-            text = template;
-        } else {
-            type = template.type || 'ejs';
-            text = template.text || 'template not specified';
-        }
-
-        return {
-            type,
-            text,
-            func: resolveTemplateFunc(type, text)
-        };
     }
 
 

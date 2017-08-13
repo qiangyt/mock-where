@@ -4,13 +4,13 @@ const RuleNode = require(`${SRC}/RuleNode`);
 function buildRuleTree() {
     const root = new RuleNode('/', '/');
 
-    root.put('/', 0, { name: 'root', method: 'get' });
-    root.put('/1', 0, { name: '1', method: 'get' });
-    root.put('/1/A', 0, { name: '1_A', method: 'get' });
-    root.put('/1/B', 0, { name: '1_B1', method: 'get' });
-    root.put('/1/B', 0, { name: '1_B2', method: 'get' });
-    root.put('/2/A/a', 0, { name: '2_A_a1', method: 'get' });
-    root.put('/2/A/a', 0, { name: '2_A_a2', method: 'post' });
+    root.put(0, { path: '/', name: 'root', method: 'get' });
+    root.put(0, { path: '/1', name: '1', method: 'get' });
+    root.put(0, { path: '/1/A', name: '1_A', method: 'get' });
+    root.put(0, { path: '/1/B', name: '1_B1', method: 'get' });
+    root.put(0, { path: '/1/B', name: '1_B2', method: 'get' });
+    root.put(0, { path: '/2/A/a', name: '2_A_a1', method: 'get' });
+    root.put(0, { path: '/2/A/a', name: '2_A_a2', method: 'post' });
 
     return root;
 }
@@ -18,9 +18,9 @@ function buildRuleTree() {
 describe("RuleNode test suite: ", function() {
     it("put(): put the rule on this node exactly", function() {
         const n = new RuleNode('/', '/');
-        const rule = { A: 'A' };
+        const rule = { A: 'A', path: '/' };
 
-        expect(n.put('/', 0, rule)).toBeTruthy();
+        expect(n.put(0, rule)).toBeTruthy();
         expect(n.children.length).toBe(0);
         expect(n.rules.length).toBe(1);
         expect(n.rules[0]).toEqual(rule);
@@ -28,9 +28,9 @@ describe("RuleNode test suite: ", function() {
 
     it("put(): put the rule on new child node", function() {
         const n = new RuleNode('/', '/');
-        const rule = { A: 'A' };
+        const rule = { A: 'A', path: '/1' };
 
-        expect(n.put('/1', 0, rule)).toBeTruthy();
+        expect(n.put(0, rule)).toBeTruthy();
         expect(n.children.length).toBe(1);
         expect(n.rules.length).toBe(0);
 
@@ -41,12 +41,12 @@ describe("RuleNode test suite: ", function() {
 
     it("put(): put the rule on existing child node", function() {
         const n = new RuleNode('/', '/');
-        const rule1 = { A: 'A' };
-        n.put('/1', 0, rule1);
+        const rule1 = { A: 'A', path: '/1' };
+        n.put(0, rule1);
 
-        const rule2 = { B: 'B' };
+        const rule2 = { B: 'B', path: '/1' };
 
-        expect(n.put('/1', 0, rule2)).toBeTruthy();
+        expect(n.put(0, rule2)).toBeTruthy();
         expect(n.children.length).toBe(1);
         expect(n.rules.length).toBe(0);
 
@@ -58,15 +58,15 @@ describe("RuleNode test suite: ", function() {
     it("put(): put the rule on secondary existing child node", function() {
         const n = new RuleNode('/', '/');
 
-        const rule1 = { A: 'A' };
-        n.put('/1', 0, rule1);
+        const rule1 = { A: 'A', path: '/1' };
+        n.put(0, rule1);
 
-        const rule2 = { B: 'B' };
-        n.put('/2', 0, rule2);
+        const rule2 = { B: 'B', path: '/2' };
+        n.put(0, rule2);
 
-        const rule3 = { C: 'C' };
+        const rule3 = { C: 'C', path: '/2' };
 
-        expect(n.put('/2', 0, rule3)).toBeTruthy();
+        expect(n.put(0, rule3)).toBeTruthy();
         expect(n.children.length).toBe(2);
         expect(n.rules.length).toBe(0);
 
@@ -81,9 +81,9 @@ describe("RuleNode test suite: ", function() {
 
     it("put(): put rule with different path letter", function() {
         const n = new RuleNode('/', '/');
-        const rule = { A: 'A' };
+        const rule = { A: 'A', path: 'a' };
 
-        expect(n.put('a', 0, rule)).toBeFalsy();
+        expect(n.put(0, rule)).toBeFalsy();
     });
 
     it("match(): match rule with root node", function() {
@@ -115,8 +115,8 @@ describe("RuleNode test suite: ", function() {
 
     it("match(): no matched rule due to different path", function() {
         const n = new RuleNode('/', '/X');
-        const rule = { A: 'A', method: 'get' };
-        n.put('/X', 0, rule);
+        const rule = { A: 'A', method: 'get', path: '/X' };
+        n.put(0, rule);
 
         const matched = n.match('get', '/Y', 0);
 

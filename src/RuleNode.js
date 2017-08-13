@@ -7,7 +7,8 @@ class RuleNode {
         this.children = [];
     }
 
-    put(path, index, rule) {
+    put(index, rule) {
+        const path = rule.path;
         const letter = path.charAt(index);
         if (letter !== this.letter) return false;
 
@@ -20,14 +21,14 @@ class RuleNode {
         const nextIndex = index + 1;
 
         for (let child of this.children) {
-            if (child.put(path, nextIndex, rule)) return true;
+            if (child.put(nextIndex, rule)) return true;
         }
 
         const newChildPath = path.substring(0, nextIndex + 1);
         const newChild = new RuleNode(path.charAt(nextIndex), newChildPath);
         this.children.push(newChild);
 
-        return newChild.put(path, nextIndex, rule);
+        return newChild.put(nextIndex, rule);
     }
 
     match(method, path, index) {
