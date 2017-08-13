@@ -3,5 +3,3 @@ Flexible mock server for RESTful API testing, with a SQL-like mock rule matching
 
 # build status
 https://travis-ci.org/qiangyt/mock-where
-
-# coverage
