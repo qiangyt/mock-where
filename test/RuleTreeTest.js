@@ -152,6 +152,16 @@ describe("RuleTree test suite: ", function() {
         expect(r.template.func).toBeDefined();
     });
 
+    it("normalizeTemplate(): template is not string but not inputted", function() {
+        const r = {
+            template: {}
+        };
+        new RuleTree().normalizeTemplate(r);
+        expect(r.template.type).toBe('ejs');
+        expect(r.template.text).toBeDefined();
+        expect(r.template.func).toBeDefined();
+    });
+
     it("normalizeTemplate(): template is not string and take default", function() {
         const r = {};
         const dft = {
@@ -167,18 +177,23 @@ describe("RuleTree test suite: ", function() {
 
     it("normalizeResponseBodyOrTemplate(): neither body nor template is defined", function() {
         try {
-            new RuleTree().normalizeResponseBodyOrTemplate({});
+            new RuleTree().normalizeResponseBodyOrTemplate({ template: 'test', body: {} });
+            fail('expect to raise error');
         } catch (e) {
-            expect(e.key).toBe('MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED');
+            expect(e.type.key).toBe('MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED');
         }
     });
 
     it("normalizeResponseBodyOrTemplate(): take template", function() {
         const r = {
-            template: 'dummy'
+            template: {
+                type: 'mustache',
+                text: 'dummy'
+            }
         };
         new RuleTree().normalizeResponseBodyOrTemplate(r);
         expect(r.template.text).toBe('dummy');
+        expect(r.template.type).toBe('mustache');
     });
 
     it("normalizeResponseBodyOrTemplate(): take body", function() {
