@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/RuleTree.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">src</a> RuleTree.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">98.25% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>56/57</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">95.31% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>61/64</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>9/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>55/55</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const RuleNode = require('./RuleNode');
+const resolveTemplateFunc = require('./Template');
+const RequestError = require('./error/RequestError');
+&nbsp;
+class RuleTree {
+&nbsp;
+    constructor(name, defaultRule) {
+        this.name = name || 'RuleTree';
+        this._defaultRule = RuleTree.normalizeDefaultRule(defaultRule);
+        this._nameIndex = 0;
+        this._rootNode = new RuleNode('/', '/');
+    }
+&nbsp;
+    static normalizeDefaultRule(defaultRule) {
+        const r = defaultRule || {};
+&nbsp;
+        r.path = RuleTree.normalizePath(r.path || '/');
+        r.method = (r.method || 'get').toLowerCase();
+&nbsp;
+        const resp = r.response = r.response || {};
+        resp.status = resp.status || 200;
+        resp.type = resp.type || 'application/json';
+        resp.sleep = (!resp.sleep || resp.sleep &lt; 0) ? 0 : resp.sleep;
+        resp.sleepFix = resp.sleepFix || -10;
+        resp.templateType = resp.templateType || 'ejs';
+&nbsp;
+        return r;
+    }
+&nbsp;
+    static normalizePath(path) {
+        if ('/' === path.charAt(0)) return path;
+        return '/' + path;
+    }
+&nbsp;
+    normalizeRule(rule) {
+        const r = rule || {};
+        const dft = this._defaultRule;
+&nbsp;
+        r.name = r.name || `${this.name}_${++this._nameIndex}`;
+        r.path = RuleTree.normalizePath(r.path || dft.path);
+        r.method = (r.method || dft.method).toLowerCase();
+        r.q = r.q || dft.q;
+        r.statement = 'select * from request' + (r.q ? ` where ${r.q}` : '');
+&nbsp;
+        r.response = this.normalizeRuleResponse(r.response);
+&nbsp;
+        return r;
+    }
+&nbsp;
+    normalizeRuleResponse(response) {
+        const dft = this._defaultRule.response;
+&nbsp;
+        const r = response || {};
+&nbsp;
+        r.status = r.status || dft.status;
+        r.type = r.type || dft.type;
+&nbsp;
+        this.normalizeResponseBodyOrTemplate(r);
+&nbsp;
+        r.sleep = (!r.sleep || r.sleep &lt; 0) ? dft.sleep : r.sleep;
+        r.sleepFix = r.sleepFix || dft.sleepFix;
+&nbsp;
+        return r;
+    }
+&nbsp;
+    normalizeResponseBodyOrTemplate(response) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (response.template &amp;&amp; response.body) <span class="cstat-no" title="statement not covered" >throw new RequestError('MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED');</span>
+&nbsp;
+        if (response.template) {
+            this.normalizeTemplate(response);
+        } else {
+            response.body = response.body || 'no response body specified';
+        }
+    }
+&nbsp;
+    normalizeTemplate(response) {
+        const template = response.template;
+&nbsp;
+        let type;
+        let text;
+&nbsp;
+        if (!template) {
+            type = this._defaultRule.response.templateType;
+            text = 'template not specified';
+        } else if (typeof template === 'string') {
+            type = 'ejs';
+            text = template;
+        } else {
+            type = template.type || <span class="branch-1 cbranch-no" title="branch not covered" >this._defaultRule.response.templateType;</span>
+            text = template.text || <span class="branch-1 cbranch-no" title="branch not covered" >'template text not specified';</span>
+        }
+&nbsp;
+        response.template = {
+            type,
+            text,
+            func: resolveTemplateFunc(type, text)
+        };
+    }
+&nbsp;
+    put(rule) {
+        rule = this.normalizeRule(rule);
+        return this._rootNode.put(0, rule);
+    }
+&nbsp;
+    match(method, path) {
+        path = RuleTree.normalizePath(path);
+        return this._rootNode.match(method, path, 0);
+    }
+&nbsp;
+}
+&nbsp;
+module.exports = RuleTree;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Aug 13 2017 23:38:34 GMT+0800 (CST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
