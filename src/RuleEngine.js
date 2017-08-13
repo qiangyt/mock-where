@@ -48,29 +48,37 @@ class RuleEngine {
     _findMatchedRule(req) {
         this._logger.debug('request: %s', req);
 
-        this._ruleDb.exec('begin transaction');
+        //this._ruleDb.exec('begin transaction');
 
         try {
-            const insertSql = `INSERT INTO request (url,charset,protocol,ip) VALUES ("${req.url}","${req.charset}","${req.protocol}","${req.ip}")`;
-            this._ruleDb.exec(insertSql);
+            //const insertSql = `INSERT INTO request (url,charset,protocol,ip) VALUES ("${req.url}","${req.charset}","${req.protocol}","${req.ip}")`;
+            //this._ruleDb.exec(insertSql);
+            this._ruleDb.tables.request.data = [{
+                url: req.url,
+                charset: req.charset,
+                protocol: req.protocol,
+                ip: req.ip,
+                path: req.path
+            }];
 
             const rules = this._ruleTree.match(req.method, req.path);
             this._logger.debug('candidate rules: %s', rules);
 
             for (const rule of rules) {
-                const statement = rule.statement;
-                this._logger.debug(`executing: ${statement}`);
+                const stmt = rule.statement;
+                this._logger.debug(`executing: ${stmt}`);
 
-                const matched = this._ruleDb.exec(statement);
+                const matched = this._ruleDb.exec(stmt);
                 if (matched.length > 0) {
                     this._logger.info('found matched rule: %s', rule);
                     return rule;
                 }
             }
 
-            throw new RequestError('NO_RULE_MATCHES');
+            return null;
         } finally {
-            this._ruleDb.exec('rollback transaction');
+            this._ruleDb.tables.request.data = [];
+            //this._ruleDb.exec('rollback transaction');
         }
     }
 
@@ -109,6 +117,9 @@ class RuleEngine {
     async mock(ctx, next) {
         const request = RuleEngine.normalizeRequest(ctx.request);
         const rule = this._findMatchedRule(request);
+        if (!rule) {
+            throw new RequestError('NO_RULE_MATCHES');
+        }
 
         const ruleResponse = rule.response;
         const responseToMock = ctx.response;
@@ -118,7 +129,6 @@ class RuleEngine {
         if (sleep) {
             await new Promise(resolve => setTimeout(resolve, sleep));
         }
-
         await next();
     }
 
