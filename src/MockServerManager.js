@@ -1,5 +1,4 @@
 const MockServer = require('./MockServer');
-const Config = require('./Config');
 const InternalError = require('./error/InternalError');
 
 class MockServerManager {
@@ -9,50 +8,48 @@ class MockServerManager {
     }
 
     init() {
-        this._loadConfig();
+        this._loadMockServers();
+    }
+
+    static resolveProviderClass(cfg) {
+        const type = cfg.type || 'localDirectory';
+        try {
+            return require(`./MockConfigProvider_${type}`);
+        } catch (e) {
+            throw new InternalError(`provider ${type} not found`);
+        }
     }
 
     _buildProvider() {
-        const providerConfig = Config.mockProvider = Config.mockProvider || {};
-        const providerType = providerConfig.type || 'localDirectory';
-        let providerClass;
-        try {
-            providerClass = require(`./MockConfigProvider_${providerType}`);
-        } catch (e) {
-            throw new InternalError(`provider ${providerType} not found`);
-        }
-        return new providerClass(providerClass);
+        const cfg = this._config.provider = this._config.provider || {};
+        const clazz = MockServerManager.resolveProviderClass(cfg);
+        return new clazz(cfg);
     }
 
-    _loadConfig() {
+    _loadMockServers() {
         const provider = this._buildProvider();
-        const mockServerConfigs = provider.load();
+        const defs = provider.load();
 
-        for (let mockServerName in mockServerConfigs) {
-            const mockServer = this._create(mockServerName, mockServerConfigs[mockServerName]);
-            this._all[mockServerName] = mockServer;
+        for (let name in defs) {
+            const def = defs[name];
+            const mockServer = this._create(name, def);
+            this._all[name] = mockServer;
         }
     }
 
-    _create(mockServerName, mockServerConfig) {
-        this._logger.info('begin creating mock server: %s', mockServerName);
+    _create(name, definition) {
+        this._logger.info('begin creating mock server: %s', name);
 
-        const r = new MockServer(mockServerName, mockServerConfig);
+        const r = new MockServer(name, definition);
         r.init();
 
-        this._logger.info('created mock server: %s', mockServerName);
+        this._logger.info('created mock server: %s', name);
 
         return r;
     }
 
     get(mockServerName) {
         return this._all[mockServerName];
-    }
-
-    load(mockServerName) {
-        const r = this.get(mockServerName);
-        if (!r) throw new Error('no mock server found with name: %s', mockServerName);
-        return r;
     }
 
 }
