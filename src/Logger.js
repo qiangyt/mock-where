@@ -1,4 +1,5 @@
 const log4js = require('log4js');
+const defaultLevels = require('log4js/lib/levels')();
 const vsprintf = require("sprintf-js").vsprintf;
 const Config = require('./Config');
 
@@ -9,7 +10,7 @@ function _formatMessage(args) {
     const jsonArgs = [];
     for (let arg of Array.from(args).slice(1)) {
         const type = typeof(arg);
-        if ('object' == type) {
+        if ('object' === type) {
             jsonArgs.push(JSON.stringify(arg));
         } else {
             jsonArgs.push(arg);
@@ -20,7 +21,10 @@ function _formatMessage(args) {
 
 module.exports = function(categoryName) {
     const _internal = log4js.getLogger(categoryName);
-    _internal.level = Config.log.level;
+
+    const configLog = Config.log;
+    const configedLevelName = (!configLog || !configLog.level) ? 'INFO' : configLog.level;
+    _internal.level = defaultLevels.getLevel(configedLevelName);
 
     return {
         isDebugEnabled: function() { return _internal.isDebugEnabled(); },
@@ -40,6 +44,10 @@ module.exports = function(categoryName) {
         error: function() {
             _internal.error(_formatMessage(arguments));
         },
+
+        format: function() {
+            return _formatMessage(arguments);
+        }
     }
 
 };
