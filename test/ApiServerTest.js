@@ -9,6 +9,8 @@ function buildApiServer() {
     return r;
 }
 
+const originalBeansCreate = Beans.create;
+
 function mockApi(method, execute, description) {
     Beans.create = function() {
         return { _module: { method, description }, execute };
@@ -16,6 +18,10 @@ function mockApi(method, execute, description) {
 }
 
 describe("ApiServer test suite: ", function() {
+
+    afterAll(function() {
+        Beans.create = originalBeansCreate;
+    });
 
     it("_loadApi(): raise error when loading duplicated API", function() {
         const s = buildApiServer();
