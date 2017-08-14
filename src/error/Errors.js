@@ -25,7 +25,7 @@ function register(codeStart, codeEnd, jsonFilePath) {
     try {
         Fs.statSync(jsonFilePath);
     } catch (e) {
-        return;
+        return false;
     }
 
     const entries = require(jsonFilePath);
@@ -51,9 +51,12 @@ function register(codeStart, codeEnd, jsonFilePath) {
         errorMapByCode[code] = type;
     }
 
+    return true;
 }
 
 // 初始化系统内部错误
 const sysErrorsJsonPath = Path.join(Path.parse(module.filename).dir, 'Errors.json');
 register(SYS_CODE_START, SYS_CODE_END, sysErrorsJsonPath);
 sysErrorInited = true;
+
+module.exports.register = register;
