@@ -2,18 +2,17 @@ const getLogger = require('./Logger');
 const _ = require('lodash');
 const Path = require('path');
 const Config = require('./Config');
-
 const _logger = getLogger('Beans');
-const _beans = global.beans = {};
+const all = global.beans = {};
 const _beansInited = {};
 
 
 function init() {
 
-    for (let name in _.clone(_beans)) {
+    for (let name in _.clone(all)) {
         if (_beansInited[name]) continue;
 
-        const b = _beans[name];
+        const b = all[name];
         if (b.init) {
             _logger.debug('begin initing bean: %s', name);
             b.init();
@@ -22,7 +21,7 @@ function init() {
         _beansInited[name] = b;
     }
 
-    if (_.size(_beans) === _.size(_beansInited)) {
+    if (_.size(all) === _.size(_beansInited)) {
         // no any more beans are dynamically created during bean.init();
         return;
     }
@@ -44,12 +43,12 @@ module.exports = {
         }
 
         // eslint ignore:global-require
-        const beanModuleAsClass = require(beanModulePath);
-        const r = new beanModuleAsClass();
-        render(r, name, beanModuleAsClass);
+        const clazz = require(beanModulePath);
+        const r = new clazz();
+        render(r, name, clazz);
 
-        if (_beans[name]) throw new Error(`duplicated bean: ${name}`);
-        _beans[name] = r;
+        if (all[name]) throw new Error(`duplicated bean: ${name}`);
+        all[name] = r;
 
         _logger.debug('loaded bean %s from module: %s', name, beanModulePath);
 
@@ -61,13 +60,15 @@ module.exports = {
     init,
 
     get: function(name) {
-        return _beans[name];
+        return all[name];
     },
 
     load: function(name) {
-        const r = _beans[name];
+        const r = all[name];
         if (!r) throw new Error(`no bean named: ${name}`);
         return r;
-    }
+    },
+
+    all
 
 };
