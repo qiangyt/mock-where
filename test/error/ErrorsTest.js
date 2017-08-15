@@ -4,10 +4,7 @@ const Errors = require(`${SRC}/error/Errors`);
 const mockRequire = require('mock-require');
 
 const mockFs = require('mock-fs');
-const mockFsObjects = {
-    createCwd: false,
-    createTmp: false
-};
+const mockFsObjects = {};
 
 const has_duplicated_key = {
     "INTERNAL_ERROR": {
@@ -16,14 +13,17 @@ const has_duplicated_key = {
         "zh_CN": "系统内部错误: %s"
     }
 };
+
 const path$has_duplicated_key = 'has_duplicated_key.error.json';
 mockRequire(path$has_duplicated_key, has_duplicated_key);
 mockFsObjects[path$has_duplicated_key] = JSON.stringify(has_duplicated_key);
 
-mockFs(mockFsObjects);
-
 
 describe("Errors test suite: ", function() {
+
+    beforeAll(function() {
+        mockFs(mockFsObjects, { createCwd: false, createTmp: false });
+    });
 
     afterAll(function() {
         mockFs.restore();
