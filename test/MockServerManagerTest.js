@@ -1,3 +1,5 @@
+/* eslint no-undef: "off" */
+
 const SRC = '../src';
 
 const mockRequire = require('mock-require');
@@ -31,9 +33,9 @@ class SpiedMockConfigProvider {
     }
 }
 
-mockRequire(`${SRC}/MockConfigProvider_localDirectory`, SpiedMockConfigProvider);
+mockRequire(`${SRC}/provider/MockConfigProvider_dir`, SpiedMockConfigProvider);
 
-const Beans = require(`${SRC}/Beans`);
+const Beans = require('node-beans').DEFAULT;
 const MockServerManager = require(`${SRC}/MockServerManager`);
 
 function buildMockServerManager() {

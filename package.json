@@ -1,6 +1,6 @@
 {
     "name": "mock-where",
-    "version": "0.1.0",
+    "version": "0.9.0",
     "description": "Flexible mock server for RESTful API testing, with a SQL-like mock rule engine",
     "main": "src/App.js",
     "scripts": {
@@ -33,13 +33,16 @@
         "alasql": "0.4.1",
         "ejs": "2.5.6",
         "handlebars": "4.0.10",
+        "js-yaml": "3.9.1",
+        "json-log4js": "1.0.0",
         "koa": "2.3.0",
         "koa-body": "2.3.0",
         "koa-logger": "3.0.1",
         "koa-router": "7.2.1",
         "lodash": "4.17.4",
-        "log4js": "2.3.0",
         "mustache": "2.3.0",
+        "node-beans": "1.0.0",
+        "node-config-any": "1.0.0",
         "sprintf-js": "1.1.1",
         "underscore": "1.8.3"
     },
@@ -58,5 +61,8 @@
         "mock-require": "2.0.2",
         "sinon": "2.4.1",
         "supertest": "3.0.0"
+    },
+    "browser": {
+        "os": false
     }
 }

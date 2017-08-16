@@ -1,13 +1,13 @@
 const BaseServer = require('./BaseServer');
 const RuleEngine = require('./RuleEngine');
-const getLogger = require('./Logger');
+const Logger = require('json-log4js');
 
 class MockServer extends BaseServer {
 
     constructor(name, definition) {
         super();
         this._name = name;
-        this._logger = getLogger(name);
+        this._logger = new Logger(name);
         this._definition = definition;
         this._config = definition.config;
     }

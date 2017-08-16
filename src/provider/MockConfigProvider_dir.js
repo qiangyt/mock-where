@@ -1,38 +1,39 @@
 const Path = require('path');
 const Fs = require('fs');
-const getLogger = require('./Logger');
-const InternalError = require('./error/InternalError');
+const Logger = require('json-log4js');
+const NodeConfigAny = require('node-config-any');
 
-
-class MockConfigProvider_localDirectory {
+class MockConfigProvider_dir {
 
     constructor(config) {
-        this._logger = getLogger('MockConfigProvider_localDirectory');
+        this._logger = new Logger(' MockConfigProvider_dir');
         this._portIndex = 1;
         this._config = config;
     }
 
 
+    resolveMockDir() {
+        let r = this._config.dir;
+        if (!r) r = Path.join(Path.dirname(require.main.filename), '../mock');
+        return r;
+    }
+
     load() {
 
-        let dir = this._config.dir;
-        if (!dir) dir = Path.join(Path.dirname(require.main.filename), '../mock');
+        let dir = this.resolveMockDir();
 
         const r = {};
 
-        /*eslint no-sync: "off"*/
+        /* eslint no-sync: "off" */
         for (const fileName of Fs.readdirSync(dir)) {
             const full = Path.join(dir, fileName);
             const stat = Fs.statSync(full);
             if (!stat.isDirectory()) continue;
 
-            const path = Path.parse(full);
-            const name = path.name;
+            const config = this.loadConfig(full);
+            const rules = this.loadRules('', full, true)
 
-            r[name] = {
-                config: this.loadConfig(name, full),
-                rules: this.loadRules('', full, true)
-            };
+            r[config.name] = { config, rules };
         }
 
         return r;
@@ -41,7 +42,7 @@ class MockConfigProvider_localDirectory {
     loadRules(parentPath, dir, excludeConfigJson) {
         const r = {};
 
-        /*eslint no-sync: "off"*/
+        /* eslint no-sync: "off" */
         for (const fileName of Fs.readdirSync(dir)) {
             const full = Path.join(dir, fileName);
             const stat = Fs.statSync(full);
@@ -57,7 +58,7 @@ class MockConfigProvider_localDirectory {
                 if (path.base === 'config.json' && excludeConfigJson) continue;
                 const rule = require(full);
                 if (rule.path) {
-                    throw new InternalError(`path is already defined for rule ${childPath} (derived from folder path)`);
+                    throw new Error(`path is already defined for rule ${childPath} (derived from folder path)`);
                 }
                 rule.path = parentPath;
                 r[childPath] = rule;
@@ -67,19 +68,13 @@ class MockConfigProvider_localDirectory {
         return r;
     }
 
-    loadConfig(name, dir) {
-        let r;
-
-        try {
-            r = require(Path.join(dir, 'config.json'));
-        } catch (e) {
-            r = this.buildDefaultConfig();
-        }
-
+    loadConfig(dir, dump) {
+        let r = NodeConfigAny.load({ dir, name: 'config' }, this.buildDefaultConfig(), dump);
+        let name = Path.parse(dir).name;
         if (r.name) {
-            throw new InternalError(`name is already defined as ${name} (derived from folder name)`);
+            throw new Error(`name is already defined as ${name} (derived from folder name)`);
         }
-
+        r.name = name;
         return r;
     }
 
@@ -91,4 +86,4 @@ class MockConfigProvider_localDirectory {
 
 }
 
-module.exports = MockConfigProvider_localDirectory;
+module.exports = MockConfigProvider_dir;

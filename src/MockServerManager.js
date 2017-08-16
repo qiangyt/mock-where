@@ -12,9 +12,10 @@ class MockServerManager {
     }
 
     static resolveProviderClass(cfg) {
-        const type = cfg.type || 'localDirectory';
+        const type = cfg.type || 'dir';
         try {
-            return require(`./MockConfigProvider_${type}`);
+            /* eslint global-require: "off" */
+            return require(`./provider/MockConfigProvider_${type}`);
         } catch (e) {
             throw new InternalError(`provider ${type} not found`);
         }

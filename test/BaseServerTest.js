@@ -1,8 +1,10 @@
+/* eslint no-undef: "off" */
+
 const SRC = '../src';
 const BaseServer = require(`${SRC}/BaseServer`);
 const MissingParamError = require(`${SRC}/error/MissingParamError`);
 const InternalError = require(`${SRC}/error/InternalError`);
-const Beans = require(`${SRC}/Beans`);
+const Beans = require('node-beans').DEFAULT;
 
 
 function buildBaseServer() {
@@ -41,7 +43,7 @@ describe("BaseServer test suite: ", function() {
 
         expect(ctx.status).toBe(500);
         expect(ctx.body.key).toBe('INTERNAL_ERROR');
-        expect(ctx.body.message).toBe('internal error: what?');
+        expect(ctx.body.message).toBe('internal error - what?');
     });
 
 

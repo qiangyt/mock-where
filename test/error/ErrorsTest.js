@@ -101,8 +101,12 @@ describe("Errors test suite: ", function() {
     });
 
     it("register(): file not exists", function() {
-        const ok = Errors.register(9100, 9200, 'xxx.json');
-        expect(ok).toBeFalsy();
+        try {
+            Errors.register(9100, 9200, 'xxx.json');
+            fail('exception is expected to raise');
+        } catch (e) {
+            expect(e.message.indexOf('file not found')).toBe(0);
+        }
     });
 
     it("register(): duplicated key", function() {

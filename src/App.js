@@ -1,11 +1,18 @@
-const getLogger = require('./Logger');
-const _logger = getLogger('app');
+/* eslint no-unused-vars:'off' */
 
-const Beans = require('./Beans');
+global.PROJECT_PREFIX = 'mw';
+
+const NodeConfigAny = require('node-config-any');
+global.config = NodeConfigAny.load('config', undefined, true);
+
+const Logger = require('json-log4js');
+const LOG = new Logger('App');
+
+const Beans = require('node-beans').DEFAULT;
 
 Beans.create('./ApiServer');
 Beans.create('./MockServerManager');
 
 Beans.init();
 
-_logger.info('app started');
+LOG.info('app started');

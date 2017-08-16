@@ -1,7 +1,7 @@
 const BaseServer = require('./BaseServer');
 const Errors = require('./error/Errors');
 const BaseError = require('./error/BaseError');
-const Beans = require('./Beans');
+const Beans = require('node-beans').DEFAULT;
 
 
 class ApiServer extends BaseServer {

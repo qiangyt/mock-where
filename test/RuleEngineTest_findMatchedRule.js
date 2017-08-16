@@ -1,3 +1,5 @@
+/* eslint no-undef: "off" */
+
 const SRC = '../src';
 const RuleEngine = require(`${SRC}/RuleEngine`);
 

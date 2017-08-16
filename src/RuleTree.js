@@ -64,7 +64,9 @@ class RuleTree {
     }
 
     normalizeResponseBodyOrTemplate(response) {
-        if (response.template && response.body) throw new RequestError('MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED');
+        if (response.template && response.body) {
+            throw new RequestError('MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED');
+        }
 
         if (response.template) {
             this.normalizeTemplate(response);

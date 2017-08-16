@@ -2258,7 +2258,7 @@ js-tokens@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
 
-js-yaml@3.x, js-yaml@^3.7.0, js-yaml@^3.8.4:
+js-yaml@3.9.1, js-yaml@3.x, js-yaml@^3.7.0, js-yaml@^3.8.4:
   version "3.9.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.9.1.tgz#08775cebdfdd359209f0d2acd383c8f86a6904a0"
   dependencies:
@@ -2280,6 +2280,13 @@ jsesc@^1.3.0:
 jsesc@~0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
+
+json-log4js@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/json-log4js/-/json-log4js-1.0.0.tgz#4b8c63a50d86c97403975a5a13477d352efc6105"
+  dependencies:
+    log4js "2.3.0"
+    sprintf-js "1.1.1"
 
 json-schema-traverse@^0.3.0:
   version "0.3.1"
@@ -2651,6 +2658,21 @@ negotiator@0.6.1:
 netmask@~1.0.4:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/netmask/-/netmask-1.0.6.tgz#20297e89d86f6f6400f250d9f4f6b4c1945fcd35"
+
+node-beans@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-beans/-/node-beans-1.0.0.tgz#a1a6bea2fcaf58fb10e982d09b6fe81b7574feef"
+  dependencies:
+    json-log4js "1.0.0"
+    lodash "4.17.4"
+
+node-config-any@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-config-any/-/node-config-any-1.0.0.tgz#f26b629ace0a6dc44f04af5f45a41c00fdf7d222"
+  dependencies:
+    js-yaml "3.9.1"
+    json-log4js "1.0.0"
+    lodash "4.17.4"
 
 node-pre-gyp@^0.6.36:
   version "0.6.36"

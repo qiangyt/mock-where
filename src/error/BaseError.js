@@ -19,7 +19,7 @@ class BaseError extends Error {
         let formater = type.formaters[locale] || type.formaters[BaseError.DEFAULT_LOCALE];
 
         return {
-            code: '' + type.code, // return the code as text so that conforms to default behaviors of restify
+            code: '' + type.code, // return text so that conforms to default restify behaviors
             key: type.key,
             message: vsprintf(formater, args),
             time: new Date().getTime()

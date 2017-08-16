@@ -1,5 +1,7 @@
+/* eslint no-undef: "off" */
+
 const SRC = '../src';
-const Beans = require(`${SRC}/Beans`);
+const Beans = require('node-beans').DEFAULT;
 const ApiServer = require(`${SRC}/ApiServer`);
 
 

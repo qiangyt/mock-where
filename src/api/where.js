@@ -1,4 +1,4 @@
-const Beans = require('../Beans');
+const Beans = require('node-beans').DEFAULT;
 const MissingParamError = require('../error/MissingParamError');
 const RequestError = require('../error/RequestError');
 

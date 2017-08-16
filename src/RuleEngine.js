@@ -1,6 +1,6 @@
 const RequestError = require('./error/RequestError');
 const alasql = require('alasql');
-const getLogger = require('./Logger');
+const Logger = require('json-log4js');
 const RuleTree = require('./RuleTree');
 
 
@@ -9,9 +9,10 @@ class RuleEngine {
     constructor(name, definition) {
         this.name = name;
         this._definition = definition;
-        this._logger = getLogger(name);
+        this._logger = new Logger(name);
         this._ruleTree = new RuleTree();
         this._ruleDb = this._initRuleDatabase();
+        this._ruleRequestTable = this._ruleDb.tables.request;
     }
 
     _initRuleDatabase() {
@@ -48,12 +49,8 @@ class RuleEngine {
     _findMatchedRule(req) {
         this._logger.debug('request: %s', req);
 
-        //this._ruleDb.exec('begin transaction');
-
         try {
-            //const insertSql = `INSERT INTO request (url,charset,protocol,ip) VALUES ("${req.url}","${req.charset}","${req.protocol}","${req.ip}")`;
-            //this._ruleDb.exec(insertSql);
-            this._ruleDb.tables.request.data = [{
+            this._ruleRequestTable.data = [{
                 url: req.url,
                 charset: req.charset,
                 protocol: req.protocol,
@@ -77,8 +74,7 @@ class RuleEngine {
 
             return null;
         } finally {
-            this._ruleDb.tables.request.data = [];
-            //this._ruleDb.exec('rollback transaction');
+            this._ruleRequestTable.data = [];
         }
     }
 
