@@ -1,4 +1,4 @@
-const RequestError = require('./error/RequestError');
+const RequestError = require('qnode-error').RequestError;
 const alasql = require('alasql');
 const Logger = require('qnode-log');
 const RuleTree = require('./RuleTree');

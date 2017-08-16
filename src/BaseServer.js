@@ -1,6 +1,6 @@
 const Koa = require('koa');
-const BaseError = require('./error/BaseError');
-const Errors = require('./error/Errors');
+const BaseError = require('qnode-error').BaseError;
+const Errors = require('qnode-error').Errors;
 const koaLogger = require('koa-logger');
 const koaBody = require('koa-body');
 const Http = require('http');
@@ -32,7 +32,23 @@ class BaseServer {
 
         if (err instanceof BaseError) {
             ctx.body = err.build(); //TODO: locale
-            ctx.status = (err.type === Errors.INTERNAL_ERROR) ? 500 : 400;
+
+            const errType = err.type;
+            if (errType === Errors.INTERNAL_ERROR) {
+                ctx.status = 500;
+            } else if (errType === Errors.API_NOT_FOUND ||
+                errType === Errors.SERVICE_NOT_FOUND) {
+                ctx.status = 404;
+            } else if (errType === Errors.NO_PERMISSION ||
+                errType === Errors.INVALID_AUTH_TOKEN ||
+                errType === Errors.SESSION_NOT_FOUND ||
+                errType === Errors.INVALID_SESSION ||
+                errType === Errors.INVALID_AUTH_FORMAT ||
+                errType === Errors.EXPIRED_AUTH_TOKEN) {
+                ctx.status = 403;
+            } else {
+                ctx.status = 400;
+            }
         } else {
             //TODO: other error such as 404
             ctx.body = BaseError.staticBuild(Errors.INTERNAL_ERROR, err.message); //TODO: locale

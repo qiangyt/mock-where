@@ -1,6 +1,6 @@
 const ejs = require('ejs');
 const Mustache = require('mustache');
-const RequestError = require('./error/RequestError');
+const RequestError = require('qnode-error').RequestError;
 const lodash = require('lodash');
 const underscore = require('underscore');
 const Handlebars = require('handlebars');

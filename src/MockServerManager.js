@@ -1,5 +1,5 @@
 const MockServer = require('./MockServer');
-const InternalError = require('./error/InternalError');
+const InternalError = require('qnode-error').InternalError;
 
 class MockServerManager {
 

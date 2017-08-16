@@ -2281,13 +2281,6 @@ jsesc@~0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
 
-json-log4js@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/json-log4js/-/json-log4js-1.0.0.tgz#4b8c63a50d86c97403975a5a13477d352efc6105"
-  dependencies:
-    log4js "2.3.0"
-    sprintf-js "1.1.1"
-
 json-schema-traverse@^0.3.0:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/json-schema-traverse/-/json-schema-traverse-0.3.1.tgz#349a6d44c53a51de89b40805c5d5e59b417d3340"
@@ -2659,13 +2652,6 @@ netmask@~1.0.4:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/netmask/-/netmask-1.0.6.tgz#20297e89d86f6f6400f250d9f4f6b4c1945fcd35"
 
-node-beans@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/node-beans/-/node-beans-1.0.0.tgz#a1a6bea2fcaf58fb10e982d09b6fe81b7574feef"
-  dependencies:
-    json-log4js "1.0.0"
-    lodash "4.17.4"
-
 node-pre-gyp@^0.6.36:
   version "0.6.36"
   resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.6.36.tgz#db604112cb74e0d477554e9b505b17abddfab786"
@@ -3028,6 +3014,13 @@ qnode-config@1.0.2:
     js-yaml "3.9.1"
     lodash "4.17.4"
     qnode-log "1.0.1"
+
+qnode-error@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/qnode-error/-/qnode-error-1.0.0.tgz#c1f7f0b24870a549b7e8678ccfc5b2b3c4c95c3e"
+  dependencies:
+    qnode-config "1.0.2"
+    sprintf-js "1.1.1"
 
 qnode-log@1.0.1:
   version "1.0.1"

@@ -1,6 +1,6 @@
 const RuleNode = require('./RuleNode');
 const resolveTemplateFunc = require('./Template');
-const RequestError = require('./error/RequestError');
+const RequestError = require('qnode-error').RequestError;
 
 class RuleTree {
 

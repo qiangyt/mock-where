@@ -2,8 +2,8 @@
 
 const SRC = '../src';
 const BaseServer = require(`${SRC}/BaseServer`);
-const MissingParamError = require(`${SRC}/error/MissingParamError`);
-const InternalError = require(`${SRC}/error/InternalError`);
+const MissingParamError = require('qnode-error').MissingParamError;
+const InternalError = require('qnode-error').InternalError;
 const Beans = require('qnode-beans').DEFAULT;
 
 

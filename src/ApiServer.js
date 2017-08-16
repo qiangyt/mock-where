@@ -1,6 +1,6 @@
 const BaseServer = require('./BaseServer');
-const Errors = require('./error/Errors');
-const BaseError = require('./error/BaseError');
+const Errors = require('qnode-error').Errors;
+const BaseError = require('qnode-error').BaseError;
 const Beans = require('qnode-beans').DEFAULT;
 
 

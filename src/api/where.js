@@ -1,6 +1,6 @@
 const Beans = require('qnode-beans').DEFAULT;
-const MissingParamError = require('../error/MissingParamError');
-const RequestError = require('../error/RequestError');
+const MissingParamError = require('qnode-error').MissingParamError;
+const RequestError = require('qnode-error').RequestError;
 
 
 class Where {
