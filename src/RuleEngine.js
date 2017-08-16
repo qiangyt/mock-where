@@ -1,6 +1,6 @@
 const RequestError = require('./error/RequestError');
 const alasql = require('alasql');
-const Logger = require('json-log4js');
+const Logger = require('qnode-log');
 const RuleTree = require('./RuleTree');
 
 

@@ -1,6 +1,6 @@
 const BaseServer = require('./BaseServer');
 const RuleEngine = require('./RuleEngine');
-const Logger = require('json-log4js');
+const Logger = require('qnode-log');
 
 class MockServer extends BaseServer {
 

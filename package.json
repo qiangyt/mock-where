@@ -34,7 +34,6 @@
         "ejs": "2.5.6",
         "handlebars": "4.0.10",
         "js-yaml": "3.9.1",
-        "json-log4js": "1.0.0",
         "koa": "2.3.0",
         "koa-body": "2.3.0",
         "koa-logger": "3.0.1",
@@ -43,6 +42,7 @@
         "mustache": "2.3.0",
         "node-beans": "1.0.0",
         "node-config-any": "1.0.0",
+        "qnode-log": "1.0.1",
         "sprintf-js": "1.1.1",
         "underscore": "1.8.3"
     },

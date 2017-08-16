@@ -1,6 +1,6 @@
 const Path = require('path');
 const Fs = require('fs');
-const Logger = require('json-log4js');
+const Logger = require('qnode-log');
 const NodeConfigAny = require('node-config-any');
 
 class MockConfigProvider_dir {
