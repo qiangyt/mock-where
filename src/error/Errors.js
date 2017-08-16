@@ -1,5 +1,5 @@
 const BaseError = require('./BaseError');
-const NodeConfigAny = require('node-config-any');
+const QNodeConfig = require('qnode-config');
 const Path = require('path');
 
 const ERROR_MAP_BY_CODE = {};
@@ -24,7 +24,7 @@ function register(codeStart, codeEnd, file) {
         }
     }
 
-    let entries = NodeConfigAny.load(file);
+    let entries = QNodeConfig.load(file);
 
     for (let key in entries) {
         if (module.exports[key]) throw new Error('duplicated error key: ' + key);

@@ -41,7 +41,7 @@
         "lodash": "4.17.4",
         "mustache": "2.3.0",
         "node-beans": "1.0.0",
-        "node-config-any": "1.0.0",
+        "qnode-config": "1.0.2",
         "qnode-log": "1.0.1",
         "sprintf-js": "1.1.1",
         "underscore": "1.8.3"

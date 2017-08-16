@@ -1,7 +1,7 @@
 const Path = require('path');
 const Fs = require('fs');
 const Logger = require('qnode-log');
-const NodeConfigAny = require('node-config-any');
+const QNodeConfig = require('qnode-config');
 
 class MockConfigProvider_dir {
 
@@ -69,7 +69,7 @@ class MockConfigProvider_dir {
     }
 
     loadConfig(dir, dump) {
-        let r = NodeConfigAny.load({ dir, name: 'config' }, this.buildDefaultConfig(), dump);
+        let r = QNodeConfig.load({ dir, name: 'config' }, this.buildDefaultConfig(), dump);
         let name = Path.parse(dir).name;
         if (r.name) {
             throw new Error(`name is already defined as ${name} (derived from folder name)`);

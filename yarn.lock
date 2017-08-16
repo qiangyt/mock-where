@@ -3022,6 +3022,14 @@ q@~1.4.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.4.1.tgz#55705bcd93c5f3673530c2c2cbc0c2b3addc286e"
 
+qnode-config@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/qnode-config/-/qnode-config-1.0.2.tgz#773f74f5ad683c750163e4229f324fe3c2554430"
+  dependencies:
+    js-yaml "3.9.1"
+    lodash "4.17.4"
+    qnode-log "1.0.1"
+
 qnode-log@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/qnode-log/-/qnode-log-1.0.1.tgz#aae8460fa77637271ab1bad52afe6b357119d553"

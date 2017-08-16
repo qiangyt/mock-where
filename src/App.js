@@ -2,8 +2,8 @@
 
 global.PROJECT_PREFIX = 'mw';
 
-const NodeConfigAny = require('node-config-any');
-global.config = NodeConfigAny.load('config', undefined, true);
+const QNodeConfig = require('qnode-config');
+global.config = QNodeConfig.load('config', undefined, true);
 
 const Logger = require('qnode-log');
 const LOG = new Logger('App');
