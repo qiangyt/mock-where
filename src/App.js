@@ -10,9 +10,12 @@ const LOG = new Logger('App');
 
 const Beans = require('qnode-beans');
 
-Beans.create('./ApiServer');
-Beans.create('./MockServerManager');
+const mockServerManager = Beans.create('./MockServerManager');
+const apiServer = Beans.create('./ApiServer');
 
 Beans.init();
+
+mockServerManager.start();
+apiServer.start();
 
 LOG.info('app started');

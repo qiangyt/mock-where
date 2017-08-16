@@ -11,33 +11,81 @@ module.exports = class MockServerManager {
         this._loadMockServers();
     }
 
-    static resolveProviderClass(cfg) {
-        const type = cfg.type || 'dir';
+    static resolveProviderClass(name, cfg) {
+        let type;
+        if (cfg && cfg.type) {
+            type = cfg.type;
+        } else {
+            type = name || 'dir';
+        }
+
         try {
             /* eslint global-require: "off" */
             return require(`./provider/MockConfigProvider_${type}`);
         } catch (e) {
-            throw new InternalError(`provider ${type} not found`);
+            throw new InternalError(`failed to load provider: ${type}`);
         }
     }
 
-    _buildProvider() {
-        const cfg = this._config.provider = this._config.provider || {};
-        const clazz = MockServerManager.resolveProviderClass(cfg);
-        return new clazz(cfg);
+    _buildProvider(name, providerConfig) {
+        const clazz = MockServerManager.resolveProviderClass(name, providerConfig);
+        return new clazz(providerConfig);
+    }
+
+    _resolveDefaultProviders() {
+        return {
+            dir: {
+                type: 'dir'
+            },
+            empty: {}
+        };
+    }
+
+    _buildProviders() {
+        const providerConfigs = this._config.providers = this._config.providers || this._resolveDefaultProviders();
+
+        const r = [];
+        for (let name in providerConfigs) {
+            const providerConfig = providerConfigs[name];
+            r.push(this._buildProvider(name, providerConfig));
+        }
+        return r;
     }
 
     _loadMockServers() {
-        this._all['test'] = this._create('test', { server: { port: 12345 } });
+        const providers = this._buildProviders();
+        providers.forEach(provider => this._loadMockServerWithProvider(provider));
+    }
 
-        const provider = this._buildProvider();
+    _loadMockServerWithProvider(provider) {
+        //this._all['test'] = this._create('test', { server: { port: 12345 } });
+
+        //const provider = this._buildProvider();
         const defs = provider.load();
+        const all = this._all;
 
         for (let name in defs) {
+            if (all[name]) throw new Error(`duplicated mocker server: ${name}`);
+
             const def = defs[name];
             const mockServer = this._create(name, def);
-            this._all[name] = mockServer;
+            all[name] = mockServer;
         }
+    }
+
+    start() {
+        const log = this._logger;
+        log.info('starting mock servers');
+
+        const all = this._all;
+        for (let name in all) {
+            log.info('starting mock server: %s', name);
+
+            all[name].start();
+
+            log.info('created mock server: %s', name);
+        }
+        log.info('started all mock servers');
     }
 
     _create(name, definition) {
@@ -45,7 +93,6 @@ module.exports = class MockServerManager {
 
         const r = new MockServer(name, definition);
         r.init();
-        r.start();
 
         this._logger.info('created mock server: %s', name);
 

@@ -23,6 +23,8 @@ class SpiedMockServer {
 
 mockRequire(`${SRC}/MockServer`, SpiedMockServer);
 
+let _addDuplicatedConfig = false;
+
 class SpiedMockConfigProvider {
 
     constructor(config) {
@@ -30,10 +32,16 @@ class SpiedMockConfigProvider {
     }
 
     load() {
-        return {
+        const r = {
             a: 'config_a',
             b: 'config_b'
         };
+        if (_addDuplicatedConfig) {
+            r['test'] = {
+                server: { port: 12345 }
+            };
+        }
+        return r;
     }
 
 }
@@ -53,7 +61,14 @@ describe("MockServerManager test suite: ", function() {
 
     it("resolveProviderClass(): configured and not exists", function() {
         try {
-            MockServerManager.resolveProviderClass({ type: 'xxx' });
+            MockServerManager.resolveProviderClass('dir', { type: 'xxx' });
+            fail('exception is expected to raise');
+        } catch (e) {
+            expect(e.type.key).toBe('INTERNAL_ERROR');
+        }
+
+        try {
+            MockServerManager.resolveProviderClass('xxx');
             fail('exception is expected to raise');
         } catch (e) {
             expect(e.type.key).toBe('INTERNAL_ERROR');
@@ -62,17 +77,26 @@ describe("MockServerManager test suite: ", function() {
     });
 
     it("resolveProviderClass(): take default", function() {
-        const t = MockServerManager.resolveProviderClass({});
+        const t = MockServerManager.resolveProviderClass();
         expect(t).toEqual(SpiedMockConfigProvider);
     });
 
     it("_buildProvider(): happy", function() {
         const t = buildMockServerManager();
-        const cfg = t._config.provider = {};
-        const p = t._buildProvider();
+        const cfg = {};
+        const p = t._buildProvider('dir', cfg);
 
         expect(p instanceof SpiedMockConfigProvider).toBeTruthy();
         expect(p.config).toEqual(cfg);
+    });
+
+    it("_resolveDefaultProviders", function() {
+        const t = buildMockServerManager();
+        t.init();
+
+        const r = t._resolveDefaultProviders();
+        expect(r.dir.type).toBe('dir');
+        expect(r.empty).not.toBeNull();
     });
 
     it("init(): happy", function() {
@@ -84,14 +108,34 @@ describe("MockServerManager test suite: ", function() {
         expect(a.name).toBe('a');
         expect(a.definition).toBe('config_a');
         expect(a.inited).toBeTruthy();
-        expect(a.started).toBeTruthy();
+        expect(a.started).toBeFalsy();
 
         const b = t._all['b'];
         expect(b instanceof SpiedMockServer).toBeTruthy();
         expect(b.name).toBe('b');
         expect(b.definition).toBe('config_b');
         expect(b.inited).toBeTruthy();
-        expect(b.started).toBeTruthy();
+        expect(b.started).toBeFalsy();
+
+        const test = t._all['test'];
+        expect(test instanceof SpiedMockServer).toBeTruthy();
+        expect(test.name).toBe('test');
+        expect(test.inited).toBeTruthy();
+        expect(b.started).toBeFalsy();
+    });
+
+    it("init(): duplicated mocker server", function() {
+        _addDuplicatedConfig = true;
+        const t = buildMockServerManager();
+
+        try {
+            t.init();
+            fail('exception is expected to raise');
+        } catch (e) {
+            // dymmmy
+        } finally {
+            _addDuplicatedConfig = false;
+        }
     });
 
     it("get(): happy", function() {

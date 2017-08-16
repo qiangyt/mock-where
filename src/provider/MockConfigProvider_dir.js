@@ -6,7 +6,7 @@ const QNodeConfig = require('qnode-config');
 module.exports = class MockConfigProvider_dir {
 
     constructor(config) {
-        this._logger = new Logger(' MockConfigProvider_dir');
+        this._logger = new Logger('MockConfigProvider_dir');
         this._portIndex = 1;
         this._config = config;
     }
