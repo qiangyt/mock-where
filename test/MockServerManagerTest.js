@@ -35,7 +35,7 @@ class SpiedMockConfigProvider {
 
 mockRequire(`${SRC}/provider/MockConfigProvider_dir`, SpiedMockConfigProvider);
 
-const Beans = require('node-beans').DEFAULT;
+const Beans = require('qnode-beans').DEFAULT;
 const MockServerManager = require(`${SRC}/MockServerManager`);
 
 function buildMockServerManager() {

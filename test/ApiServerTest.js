@@ -1,7 +1,7 @@
 /* eslint no-undef: "off" */
 
 const SRC = '../src';
-const Beans = require('node-beans').DEFAULT;
+const Beans = require('qnode-beans').DEFAULT;
 const ApiServer = require(`${SRC}/ApiServer`);
 
 

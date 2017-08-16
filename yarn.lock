@@ -2666,14 +2666,6 @@ node-beans@1.0.0:
     json-log4js "1.0.0"
     lodash "4.17.4"
 
-node-config-any@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/node-config-any/-/node-config-any-1.0.0.tgz#f26b629ace0a6dc44f04af5f45a41c00fdf7d222"
-  dependencies:
-    js-yaml "3.9.1"
-    json-log4js "1.0.0"
-    lodash "4.17.4"
-
 node-pre-gyp@^0.6.36:
   version "0.6.36"
   resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.6.36.tgz#db604112cb74e0d477554e9b505b17abddfab786"
@@ -3021,6 +3013,13 @@ punycode@1.4.1, punycode@^1.4.1:
 q@~1.4.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.4.1.tgz#55705bcd93c5f3673530c2c2cbc0c2b3addc286e"
+
+qnode-beans@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/qnode-beans/-/qnode-beans-1.0.1.tgz#45d5e1f00418c959d451d4d76848b79933f2325b"
+  dependencies:
+    lodash "4.17.4"
+    qnode-log "1.0.1"
 
 qnode-config@1.0.2:
   version "1.0.2"

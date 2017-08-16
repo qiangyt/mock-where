@@ -4,7 +4,7 @@ const SRC = '../src';
 const BaseServer = require(`${SRC}/BaseServer`);
 const MissingParamError = require(`${SRC}/error/MissingParamError`);
 const InternalError = require(`${SRC}/error/InternalError`);
-const Beans = require('node-beans').DEFAULT;
+const Beans = require('qnode-beans').DEFAULT;
 
 
 function buildBaseServer() {

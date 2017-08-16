@@ -40,7 +40,7 @@
         "koa-router": "7.2.1",
         "lodash": "4.17.4",
         "mustache": "2.3.0",
-        "node-beans": "1.0.0",
+        "qnode-beans": "1.0.1",
         "qnode-config": "1.0.2",
         "qnode-log": "1.0.1",
         "sprintf-js": "1.1.1",
