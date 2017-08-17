@@ -3,12 +3,15 @@ const Fs = require('fs');
 const Logger = require('qnode-log');
 const QNodeConfig = require('qnode-config');
 
+const _CONFIG_FILE_NAME = 'mw';
+
+
 module.exports = class MockConfigProvider_dir {
 
     constructor(config) {
         this._logger = new Logger('MockConfigProvider_dir');
         this._portIndex = 1;
-        this._config = config;
+        this._config = config || {};
     }
 
 
@@ -31,7 +34,7 @@ module.exports = class MockConfigProvider_dir {
             if (!stat.isDirectory()) continue;
 
             const config = this.loadConfig(full);
-            const rules = this.loadRules('', full, true)
+            const rules = this.loadRules('', full);
 
             r[config.name] = { config, rules };
         }
@@ -39,7 +42,8 @@ module.exports = class MockConfigProvider_dir {
         return r;
     }
 
-    loadRules(parentPath, dir, excludeConfigJson) {
+
+    loadRules(parentPath, dir) {
         const r = {};
 
         /* eslint no-sync: "off" */
@@ -49,17 +53,14 @@ module.exports = class MockConfigProvider_dir {
             const path = Path.parse(full);
             const childPath = `${parentPath}/${path.name}`;
             if (stat.isDirectory()) {
-                const children = this.loadRules(childPath, full, false);
-                for (let ruleName in children) {
-                    r[ruleName] = children[ruleName];
+                const children = this.loadRules(childPath, full);
+                for (let childPath in children) {
+                    r[childPath] = children[childPath];
                 }
             } else {
-                if (path.ext !== '.json') continue;
-                if (path.base === 'config.json' && excludeConfigJson) continue;
-                const rule = require(full);
-                if (rule.path) {
-                    throw new Error(`path is already defined for rule ${childPath} (derived from folder path)`);
-                }
+                if (QNodeConfig.is(full, _CONFIG_FILE_NAME)) continue;
+
+                const rule = QNodeConfig.load({ dir: path.dir, name: path.name });
                 rule.path = parentPath;
                 r[childPath] = rule;
             }
@@ -69,19 +70,19 @@ module.exports = class MockConfigProvider_dir {
     }
 
     loadConfig(dir, dump) {
-        let r = QNodeConfig.load({ dir, name: 'config' }, this.buildDefaultConfig(), dump);
-        let name = Path.parse(dir).name;
-        if (r.name) {
-            throw new Error(`name is already defined as ${name} (derived from folder name)`);
-        }
-        r.name = name;
+        let r = QNodeConfig.load({ dir, name: _CONFIG_FILE_NAME }, {}, dump);
+        this.renderConfigWithDefaults(r);
+
+        r.name = Path.basename(dir);
+
         return r;
     }
 
-    buildDefaultConfig() {
-        return {
-            port: 8000 + (++this._portIndex)
-        };
+    renderConfigWithDefaults(cfg) {
+        if (!cfg.port) {
+            cfg.port = 8000 + (this._portIndex++);
+        }
+        return cfg;
     }
 
 }
