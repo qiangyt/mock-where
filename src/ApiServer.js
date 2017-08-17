@@ -1,7 +1,7 @@
 const BaseServer = require('./BaseServer');
 const Errors = require('qnode-error').Errors;
 const BaseError = require('qnode-error').BaseError;
-const Beans = require('qnode-beans').DEFAULT;
+const Beans = require('qnode-beans');
 
 
 class ApiServer extends BaseServer {

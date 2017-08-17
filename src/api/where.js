@@ -1,4 +1,4 @@
-const Beans = require('qnode-beans').DEFAULT;
+const Beans = require('qnode-beans');
 const MissingParamError = require('qnode-error').MissingParamError;
 const RequestError = require('qnode-error').RequestError;
 

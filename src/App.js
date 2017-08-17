@@ -8,7 +8,7 @@ global.config = QNodeConfig.load('config', undefined, true);
 const Logger = require('qnode-log');
 const LOG = new Logger('App');
 
-const Beans = require('qnode-beans').DEFAULT;
+const Beans = require('qnode-beans');
 
 Beans.create('./ApiServer');
 Beans.create('./MockServerManager');

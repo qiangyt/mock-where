@@ -4,8 +4,8 @@ const SRC = '../src';
 const BaseServer = require(`${SRC}/BaseServer`);
 const MissingParamError = require('qnode-error').MissingParamError;
 const InternalError = require('qnode-error').InternalError;
-const Beans = require('qnode-beans').DEFAULT;
-
+const Beans = require('qnode-beans');
+const finishTestcase = require('jasmine-supertest');
 
 function buildBaseServer() {
     const r = new BaseServer();
