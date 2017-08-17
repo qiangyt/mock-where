@@ -35,6 +35,18 @@ describe("Template test suite: ", function() {
         expect(f({ you: 'Qiang Yiting' })).toBe('hi Qiang Yiting');
     });
 
+    it("jade", function() {
+        const f = template('jade', 'div #{you}');
+        expect(f instanceof Function).toBeTruthy();
+        expect(f({ you: 'Qiang Yiting' })).toBe('<div>Qiang Yiting</div>');
+    });
+
+    it("pug", function() {
+        const f = template('pug', 'div #{you}');
+        expect(f instanceof Function).toBeTruthy();
+        expect(f({ you: 'Qiang Yiting' })).toBe('<div>Qiang Yiting</div>');
+    });
+
     it("unknown template type", function() {
         try {
             template('xxx', 'hi {{you}}');
