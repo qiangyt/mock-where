@@ -1,9 +1,8 @@
 /* eslint no-undef: "off" */
 
 const SRC = '../src';
-const Beans = require('qnode-beans').DEFAULT;
+const Beans = require('qnode-beans');
 const ApiServer = require(`${SRC}/ApiServer`);
-
 
 function buildApiServer() {
     const r = new ApiServer();
@@ -19,7 +18,7 @@ function mockApi(method, execute, description) {
     };
 }
 
-describe("ApiServer test suite: ", function() {
+describe("ApiServer test suite 1: ", function() {
 
     afterAll(function() {
         Beans.create = originalBeansCreate;
