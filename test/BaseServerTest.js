@@ -2,8 +2,10 @@
 
 const SRC = '../src';
 const BaseServer = require(`${SRC}/BaseServer`);
-const MissingParamError = require('qnode-error').MissingParamError;
-const InternalError = require('qnode-error').InternalError;
+const qnodeError = require('qnode-error');
+const MissingParamError = qnodeError.MissingParamError;
+const InternalError = qnodeError.InternalError;
+const RequestError = qnodeError.RequestError;
 const Beans = require('qnode-beans');
 const finishTestcase = require('jasmine-supertest');
 
@@ -15,7 +17,49 @@ function buildBaseServer() {
 
 describe("BaseServer test suite: ", function() {
 
-    it("formatJsonError(): formats non-INTERNAL_ERROR error as 400", function() {
+    it("formatJsonError(): 403", function() {
+        const s = buildBaseServer();
+        const ctx = {};
+
+        s.formatJsonError(ctx, new RequestError('NO_PERMISSION'));
+        expect(ctx.status).toBe(403);
+        expect(ctx.body.key).toBe('NO_PERMISSION');
+
+        s.formatJsonError(ctx, new RequestError('INVALID_AUTH_TOKEN'));
+        expect(ctx.status).toBe(403);
+        expect(ctx.body.key).toBe('INVALID_AUTH_TOKEN');
+
+        s.formatJsonError(ctx, new RequestError('SESSION_NOT_FOUND'));
+        expect(ctx.status).toBe(403);
+        expect(ctx.body.key).toBe('SESSION_NOT_FOUND');
+
+        s.formatJsonError(ctx, new RequestError('INVALID_SESSION'));
+        expect(ctx.status).toBe(403);
+        expect(ctx.body.key).toBe('INVALID_SESSION');
+
+        s.formatJsonError(ctx, new RequestError('INVALID_AUTH_FORMAT'));
+        expect(ctx.status).toBe(403);
+        expect(ctx.body.key).toBe('INVALID_AUTH_FORMAT');
+
+        s.formatJsonError(ctx, new RequestError('EXPIRED_AUTH_TOKEN'));
+        expect(ctx.status).toBe(403);
+        expect(ctx.body.key).toBe('EXPIRED_AUTH_TOKEN');
+    });
+
+    it("formatJsonError(): formats API_NOT_FOUND/SERVICE_NOT_FOUND error as 404", function() {
+        const s = buildBaseServer();
+        const ctx = {};
+
+        s.formatJsonError(ctx, new RequestError('API_NOT_FOUND'));
+        expect(ctx.status).toBe(404);
+        expect(ctx.body.key).toBe('API_NOT_FOUND');
+
+        s.formatJsonError(ctx, new RequestError('SERVICE_NOT_FOUND'));
+        expect(ctx.status).toBe(404);
+        expect(ctx.body.key).toBe('SERVICE_NOT_FOUND');
+    });
+
+    it("formatJsonError(): formats other non-INTERNAL_ERROR error as 400", function() {
         const s = buildBaseServer();
         const ctx = {};
 
@@ -46,6 +90,13 @@ describe("BaseServer test suite: ", function() {
         expect(ctx.body.message).toBe('internal error - what?');
     });
 
-
+    it("_starting(): throw error", function() {
+        try {
+            buildBaseServer()._starting();
+            fail('exception is expected to raise');
+        } catch (e) {
+            expect(e.message).toBe('TODO');
+        }
+    });
 
 });
