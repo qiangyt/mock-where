@@ -6,4 +6,14 @@ reference:
   - https://github.com/smollweide/node-mock-server
 
 todo:
-  - switch to in-memory sqlite ?
+  - switch to in-memory sqlite ? https://github.com/mapbox/node-sqlite3
+  - add nodemon script
+  - https://github.com/jsdoc3/jsdoc
+  - https://github.com/cnodejs/nodeclub
+  - https://github.com/jstrace/jstrace
+  - http://yeoman.io/
+  - support https
+  - should
+  - pm2 script
+  - mock js
+  - anyproxy，node-http-proxy
