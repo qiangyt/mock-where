@@ -1,7 +1,7 @@
 const MockServer = require('./MockServer');
 const InternalError = require('qnode-error').InternalError;
 
-class MockServerManager {
+module.exports = class MockServerManager {
 
     constructor() {
         this._all = {};
@@ -54,5 +54,3 @@ class MockServerManager {
     }
 
 }
-
-module.exports = MockServerManager;

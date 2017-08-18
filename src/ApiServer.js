@@ -4,7 +4,7 @@ const BaseError = require('qnode-error').BaseError;
 const Beans = require('qnode-beans');
 
 
-class ApiServer extends BaseServer {
+module.exports = class ApiServer extends BaseServer {
 
     constructor() {
         super();
@@ -66,5 +66,3 @@ class ApiServer extends BaseServer {
 
 
 }
-
-module.exports = ApiServer;

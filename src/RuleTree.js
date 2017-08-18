@@ -2,7 +2,7 @@ const RuleNode = require('./RuleNode');
 const resolveTemplateFunc = require('./Template');
 const RequestError = require('qnode-error').RequestError;
 
-class RuleTree {
+module.exports = class RuleTree {
 
     constructor(name, defaultRule) {
         this.name = name || 'RuleTree';
@@ -110,5 +110,3 @@ class RuleTree {
     }
 
 }
-
-module.exports = RuleTree;

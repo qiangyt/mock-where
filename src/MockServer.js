@@ -2,7 +2,7 @@ const BaseServer = require('./BaseServer');
 const RuleEngine = require('./RuleEngine');
 const Logger = require('qnode-log');
 
-class MockServer extends BaseServer {
+module.exports = class MockServer extends BaseServer {
 
     constructor(name, definition) {
         super();
@@ -22,5 +22,3 @@ class MockServer extends BaseServer {
         this._ruleEngine.put(rule);
     }
 }
-
-module.exports = MockServer;
