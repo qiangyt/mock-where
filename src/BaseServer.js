@@ -6,7 +6,7 @@ const koaBody = require('koa-body');
 const Http = require('http');
 const CreateKoaRouter = require('koa-router');
 
-class BaseServer {
+module.exports = class BaseServer {
 
     init() {
         this._initKoa();
