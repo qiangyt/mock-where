@@ -10,8 +10,6 @@ module.exports = class BaseServer {
 
     init() {
         this._initKoa();
-
-        this._start();
     }
 
     _initKoa() {
@@ -59,19 +57,17 @@ module.exports = class BaseServer {
         //ctx.app.emit('error', err, ctx);
     }
 
-    _start() {
+    start() {
         this._logger.debug('starting %s server', this._name);
-
-        this._starting();
 
         const port = this._config.port;
         if (!port) throw new Error(`port NOT specified for ${this._name}`);
-        Http.createServer(this._koa.callback()).listen(port);
+
+        this.prepare();
+
+        this._server = Http.createServer(this._koa.callback()).listen(port);
 
         this._logger.info('%s server listening on %s', this._name, port);
     }
 
-    _starting() {
-        throw new Error('TODO');
-    }
 }

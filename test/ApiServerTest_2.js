@@ -5,9 +5,14 @@ const Beans = require('qnode-beans');
 const ApiServer = require(`${SRC}/ApiServer`);
 const finishTestcase = require('jasmine-supertest');
 
-function buildApiServer() {
+const _config = {};
+const _beans = new Beans(_config);
+
+function buildApiServer(name, port) {
     const r = new ApiServer();
-    Beans.render(r);
+    _config[name] = { port };
+    _beans.render(r);
+    r.init();
     return r;
 }
 

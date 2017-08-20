@@ -11,7 +11,7 @@ module.exports = class ApiServer extends BaseServer {
         this._existing = {};
     }
 
-    _starting() {
+    prepare() {
         this._logger.debug(`registering api(s)`);
 
         const apiList = this._loadAllApi();

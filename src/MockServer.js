@@ -12,10 +12,10 @@ module.exports = class MockServer extends BaseServer {
         this._config = definition.config;
     }
 
-    _starting() {
-        this._ruleEngine = new RuleEngine(this._name, this._definition);
+    prepare() {
+        const re = this._ruleEngine = new RuleEngine(this._name, this._definition);
 
-        this._koa.use(this._ruleEngine.mock.bind(this._ruleEngine));
+        this._koa.use(re.mock.bind(re));
     }
 
     putRule(rule) {
