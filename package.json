@@ -43,7 +43,7 @@
         "lodash": "4.17.4",
         "mustache": "2.3.0",
         "pug": "2.0.0-rc.3",
-        "qnode-beans": "1.0.3",
+        "qnode-beans": "1.0.5",
         "qnode-config": "1.0.2",
         "qnode-error": "1.0.0",
         "qnode-log": "1.0.1",
