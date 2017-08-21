@@ -28,6 +28,8 @@ module.exports = class MockServerManager {
     }
 
     _loadMockServers() {
+        this._all['test'] = this._create('test', { server: { port: 12345 } });
+
         const provider = this._buildProvider();
         const defs = provider.load();
 
@@ -43,6 +45,7 @@ module.exports = class MockServerManager {
 
         const r = new MockServer(name, definition);
         r.init();
+        r.start();
 
         this._logger.info('created mock server: %s', name);
 

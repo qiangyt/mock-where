@@ -9,7 +9,7 @@ module.exports = class MockServer extends BaseServer {
         this._name = name;
         this._logger = new Logger(name);
         this._definition = definition;
-        this._config = definition.config;
+        this._config = definition.server;
     }
 
     prepare() {

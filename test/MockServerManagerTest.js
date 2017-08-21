@@ -15,6 +15,10 @@ class SpiedMockServer {
     init() {
         this.inited = true;
     }
+
+    start() {
+        this.started = true;
+    }
 }
 
 mockRequire(`${SRC}/MockServer`, SpiedMockServer);
@@ -31,6 +35,7 @@ class SpiedMockConfigProvider {
             b: 'config_b'
         };
     }
+
 }
 
 mockRequire(`${SRC}/provider/MockConfigProvider_dir`, SpiedMockConfigProvider);
@@ -79,12 +84,14 @@ describe("MockServerManager test suite: ", function() {
         expect(a.name).toBe('a');
         expect(a.definition).toBe('config_a');
         expect(a.inited).toBeTruthy();
+        expect(a.started).toBeTruthy();
 
         const b = t._all['b'];
         expect(b instanceof SpiedMockServer).toBeTruthy();
         expect(b.name).toBe('b');
         expect(b.definition).toBe('config_b');
         expect(b.inited).toBeTruthy();
+        expect(b.started).toBeTruthy();
     });
 
     it("get(): happy", function() {

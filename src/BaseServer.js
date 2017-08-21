@@ -68,6 +68,8 @@ module.exports = class BaseServer {
         this._server = Http.createServer(this._koa.callback()).listen(port);
 
         this._logger.info('%s server listening on %s', this._name, port);
+
+        return this._server;
     }
 
 }
