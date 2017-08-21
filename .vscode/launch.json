@@ -6,7 +6,7 @@
             "type": "node",
             "request": "launch",
             "name": "launch the application",
-            "program": "${workspaceRoot}/src/app.js"
+            "program": "${workspaceRoot}/src/App.js"
         },
 
         {
