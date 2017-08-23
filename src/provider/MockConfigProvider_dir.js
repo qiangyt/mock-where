@@ -3,10 +3,10 @@ const Fs = require('fs');
 const Logger = require('qnode-log');
 const QNodeConfig = require('qnode-config');
 
-class MockConfigProvider_dir {
+module.exports = class MockConfigProvider_dir {
 
     constructor(config) {
-        this._logger = new Logger(' MockConfigProvider_dir');
+        this._logger = new Logger('MockConfigProvider_dir');
         this._portIndex = 1;
         this._config = config;
     }
@@ -85,5 +85,3 @@ class MockConfigProvider_dir {
     }
 
 }
-
-module.exports = MockConfigProvider_dir;

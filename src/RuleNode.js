@@ -1,4 +1,4 @@
-class RuleNode {
+module.exports = class RuleNode {
 
     constructor(letter, path) {
         this.letter = letter;
@@ -62,5 +62,3 @@ class RuleNode {
     }
 
 }
-
-module.exports = RuleNode;

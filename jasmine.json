@@ -1,10 +1,11 @@
 {
     "spec_dir": "test",
     "spec_files": [
+        "**/MockServerTest.js",
         "**/*[tT]est*.js"
     ],
     "helpers": [
-        "helpers/**/*.js"
+        "helper/**/*.js"
     ],
     "stopSpecOnExpectationFailure": false,
     "random": false

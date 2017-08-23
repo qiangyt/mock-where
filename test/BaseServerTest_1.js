@@ -15,7 +15,7 @@ function buildBaseServer() {
     return r;
 }
 
-describe("BaseServer test suite: ", function() {
+describe("BaseServer test suite 1: ", function() {
 
     it("formatJsonError(): 403", function() {
         const s = buildBaseServer();
@@ -88,15 +88,6 @@ describe("BaseServer test suite: ", function() {
         expect(ctx.status).toBe(500);
         expect(ctx.body.key).toBe('INTERNAL_ERROR');
         expect(ctx.body.message).toBe('internal error - what?');
-    });
-
-    it("_starting(): throw error", function() {
-        try {
-            buildBaseServer()._starting();
-            fail('exception is expected to raise');
-        } catch (e) {
-            expect(e.message).toBe('TODO');
-        }
     });
 
 });

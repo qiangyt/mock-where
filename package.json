@@ -5,7 +5,7 @@
     "main": "src/App.js",
     "scripts": {
         "start": "node ./src/App.js",
-        "coverage": "JASMINE_CONFIG_PATH=./jasmine.json node ./node_modules/istanbul/lib/cli.js cover -color ./node_modules/jasmine/bin/jasmine.js",
+        "coverage": "JASMINE_CONFIG_PATH=./jasmine.json node ./node_modules/istanbul/lib/cli.js cover --include-all-sources ./node_modules/jasmine/bin/jasmine.js",
         "test": "node ./node_modules/jasmine/bin/jasmine.js --config=./jasmine.json",
         "lint": "./node_modules/.bin/eslint -f stylish --cache --cache-location ./build/eslint/cache/ --color ./src/",
         "watch": "./node_modules/.bin/esw --watch -f stylish --cache --cache-location ./build/eslint/cache/ --color ./src/"
@@ -43,7 +43,7 @@
         "lodash": "4.17.4",
         "mustache": "2.3.0",
         "pug": "2.0.0-rc.3",
-        "qnode-beans": "1.0.3",
+        "qnode-beans": "1.0.5",
         "qnode-config": "1.0.2",
         "qnode-error": "1.0.0",
         "qnode-log": "1.0.1",

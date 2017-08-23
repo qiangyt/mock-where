@@ -4,7 +4,7 @@ const Logger = require('qnode-log');
 const RuleTree = require('./RuleTree');
 
 
-class RuleEngine {
+module.exports = class RuleEngine {
 
     constructor(name, definition) {
         this.name = name;
@@ -130,5 +130,3 @@ class RuleEngine {
 
 
 }
-
-module.exports = RuleEngine;
