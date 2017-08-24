@@ -45,15 +45,21 @@ module.exports = class MockServer extends BaseServer {
         engine.put(rule);
     }
 
+    static parseHost(hostHeader) {
+        const pos = hostHeader.indexOf(':');
+        if (pos > 0) return hostHeader.substring(0, pos);
+        return hostHeader;
+    }
+
     async mock(ctx, next) {
-        const host = ctx.host;
+        const request = MockServer.normalizeRequest(ctx.request);
+        const host = MockServer.parseHost(request.header.host);
 
         const engine = this._engines[host];
         if (!engine) {
             throw RequestError('TODO');
         }
 
-        const request = MockServer.normalizeRequest(ctx.request);
         const response = ctx.response;
         await engine.mock(request, response);
 

@@ -19,6 +19,11 @@ Logger.prototype.warn = function() {};
 
 describe("MockServer test suite: ", function() {
 
+    it("parseHost()", function() {
+        expect(MockServer.parseHost('localhost:12345')).toBe('localhost');
+        expect(MockServer.parseHost('localhost')).toBe('localhost');
+    });
+
     it("happy", function(done) {
         const def = {
             port: 12345,
