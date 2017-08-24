@@ -21,16 +21,17 @@ describe("MockServer test suite: ", function() {
 
     it("happy", function(done) {
         const def = {
-            server: {
-                port: 12345
+            port: 12345,
+            vhosts: {
+                test: {}
             }
         };
-        const r = new MockServer('mock', def);
+        const r = new MockServer(def);
         r.init();
         const server = r.start();
 
         const rule = { path: '/abc' };
-        r.putRule(rule);
+        r.putRule('test', rule);
 
         supertest(server).get('/abc').expect(500).end(function(err, res) {
             if (err) {
@@ -40,4 +41,34 @@ describe("MockServer test suite: ", function() {
             done();
         });
     });
+
+    it("normalizeRequest(): normalize request", function() {
+        const header = {};
+        const body = {};
+
+        const req = {
+            header: header,
+            method: 'POST',
+            url: 'http://temp/query?a=b',
+            path: 'http://temp/query',
+            charset: 'UTF-8',
+            query: 'a=b',
+            protocol: 'HTTP',
+            ip: '192.168.0.1',
+            body: body
+        };
+
+        const r = MockServer.normalizeRequest(req);
+
+        expect(r.header).toEqual(header);
+        expect(r.method).toBe('post');
+        expect(r.url).toBe('http://temp/query?a=b');
+        expect(r.path).toBe('http://temp/query');
+        expect(r.charset).toBe('utf-8');
+        expect(r.query).toBe('a=b');
+        expect(r.protocol).toBe('http');
+        expect(r.ip).toBe('192.168.0.1');
+        expect(r.body).toEqual(body);
+    });
+
 });

@@ -6,9 +6,8 @@ const mockRequire = require('mock-require');
 
 class SpiedMockServer {
 
-    constructor(name, definition) {
-        this.name = name;
-        this.definition = definition;
+    constructor(config) {
+        this._config = config;
         this.inited = false;
     }
 
@@ -32,21 +31,16 @@ class SpiedMockConfigProvider {
     }
 
     load() {
-        const r = {
-            a: 'config_a',
-            b: 'config_b'
+        return {
+            123: {},
+            456: {}
         };
-        if (_addDuplicatedConfig) {
-            r['test'] = {
-                server: { port: 12345 }
-            };
-        }
-        return r;
     }
 
 }
 
 mockRequire(`${SRC}/provider/MockConfigProvider_dir`, SpiedMockConfigProvider);
+mockRequire(`${SRC}/provider/MockConfigProvider_dir2`, SpiedMockConfigProvider);
 
 const Beans = require('qnode-beans');
 const MockServerManager = require(`${SRC}/MockServerManager`);
@@ -54,6 +48,14 @@ const MockServerManager = require(`${SRC}/MockServerManager`);
 function buildMockServerManager() {
     const r = new MockServerManager();
     Beans.render(r);
+    if (_addDuplicatedConfig) {
+        r._config.providers = {
+            dir: {
+                type: 'dir'
+            },
+            dir2: {}
+        };
+    }
     return r;
 }
 
@@ -103,28 +105,18 @@ describe("MockServerManager test suite: ", function() {
         const t = buildMockServerManager();
         t.init();
 
-        const a = t._all['a'];
+        const a = t._allByPort[123];
         expect(a instanceof SpiedMockServer).toBeTruthy();
-        expect(a.name).toBe('a');
-        expect(a.definition).toBe('config_a');
         expect(a.inited).toBeTruthy();
         expect(a.started).toBeFalsy();
 
-        const b = t._all['b'];
+        const b = t._allByPort[456];
         expect(b instanceof SpiedMockServer).toBeTruthy();
-        expect(b.name).toBe('b');
-        expect(b.definition).toBe('config_b');
         expect(b.inited).toBeTruthy();
-        expect(b.started).toBeFalsy();
-
-        const test = t._all['test'];
-        expect(test instanceof SpiedMockServer).toBeTruthy();
-        expect(test.name).toBe('test');
-        expect(test.inited).toBeTruthy();
         expect(b.started).toBeFalsy();
     });
 
-    it("init(): duplicated mocker server", function() {
+    it("init(): duplicated mock server", function() {
         _addDuplicatedConfig = true;
         const t = buildMockServerManager();
 

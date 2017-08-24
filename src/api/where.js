@@ -15,13 +15,16 @@ class Where {
         const rule = req.body;
         this._logger.info('rule is requested: %s', rule);
 
-        const mockServerName = rule.server;
-        if (!mockServerName) throw new MissingParamError('server');
+        const port = rule.port;
+        if (!port) throw new MissingParamError('port');
 
-        const mockServer = this._mockServerManager.get(mockServerName);
-        if (!mockServer) throw new RequestError('MOCK_SERVER_NOT_FOUND', mockServerName);
+        const host = rule.host;
+        if (!host) throw new MissingParamError('host');
 
-        mockServer.putRule(rule);
+        const mockServer = this._mockServerManager.get(port);
+        if (!mockServer) throw new RequestError('MOCK_SERVER_NOT_FOUND', port);
+
+        mockServer.putRule(host, rule);
 
         ctx.body = { code: 0 };
 

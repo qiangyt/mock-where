@@ -6,9 +6,8 @@ const RuleTree = require('./RuleTree');
 
 module.exports = class RuleEngine {
 
-    constructor(name, definition) {
+    constructor(name) {
         this.name = name;
-        this._definition = definition;
         this._logger = new Logger(name);
         this._ruleTree = new RuleTree();
         this._ruleDb = this._initRuleDatabase();
@@ -27,23 +26,6 @@ module.exports = class RuleEngine {
 
     put(rule) {
         this._ruleTree.put(rule);
-    }
-
-
-    static normalizeRequest(req) {
-        return {
-            header: req.header,
-            method: req.method.toLowerCase(),
-            //length: req.length,
-            url: req.url,
-            path: req.path,
-            //type: req.type,
-            charset: req.charset.toLowerCase(),
-            query: req.query,
-            protocol: req.protocol.toLowerCase(),
-            ip: req.ip,
-            body: req.body
-        };
     }
 
     _findMatchedRule(req) {
@@ -110,22 +92,20 @@ module.exports = class RuleEngine {
         return 0;
     }
 
-    async mock(ctx, next) {
-        const request = RuleEngine.normalizeRequest(ctx.request);
+    mock(request, response) {
         const rule = this._findMatchedRule(request);
         if (!rule) {
             throw new RequestError('NO_RULE_MATCHES');
         }
 
         const ruleResponse = rule.response;
-        const responseToMock = ctx.response;
-        RuleEngine.renderMockResponse(request, ruleResponse, responseToMock);
+        RuleEngine.renderMockResponse(request, ruleResponse, response);
 
         let sleep = RuleEngine.determineTimeToSleep(ruleResponse);
         if (sleep) {
-            await new Promise(resolve => setTimeout(resolve, sleep));
+            return new Promise(resolve => setTimeout(resolve, sleep));
         }
-        await next();
+        return Promise.resolve();
     }
 
 

@@ -70,49 +70,18 @@ describe("RuleEngine test suite: ", function() {
         expect(responseToMock.status).toBe(status);
     });
 
-    it("normalizeRequest(): normalize request", function() {
-        const header = {};
-        const body = {};
-
-        const req = {
-            header: header,
-            method: 'POST',
-            url: 'http://temp/query?a=b',
-            path: 'http://temp/query',
-            charset: 'UTF-8',
-            query: 'a=b',
-            protocol: 'HTTP',
-            ip: '192.168.0.1',
-            body: body
-        };
-
-        const r = RuleEngine.normalizeRequest(req);
-
-        expect(r.header).toEqual(header);
-        expect(r.method).toBe('post');
-        expect(r.url).toBe('http://temp/query?a=b');
-        expect(r.path).toBe('http://temp/query');
-        expect(r.charset).toBe('utf-8');
-        expect(r.query).toBe('a=b');
-        expect(r.protocol).toBe('http');
-        expect(r.ip).toBe('192.168.0.1');
-        expect(r.body).toEqual(body);
-    });
-
     it("mock(): happy", function() {
         const re = new RuleEngine('test');
 
-        const ctx = {
-            request: {
-                path: '/ab',
-                method: 'get',
-                url: 'https://host/ab',
-                charset: 'utf-8',
-                protocol: 'https',
-                ip: '::1'
-            },
-            response: {}
+        const request = {
+            path: '/ab',
+            method: 'get',
+            url: 'https://host/ab',
+            charset: 'utf-8',
+            protocol: 'https',
+            ip: '::1'
         };
+        const response = {};
 
         const rule = {
             path: '/ab',
@@ -122,58 +91,48 @@ describe("RuleEngine test suite: ", function() {
         };
         re.put(rule);
 
-        let nextIsCalled = false;
         const beginTime = new Date().getTime();
 
-        return re.mock(ctx, function() {
-            nextIsCalled = true;
-        }).then(() => {
+        return re.mock(request, response).then(() => {
             const duration = new Date().getTime() - beginTime;
             expect(duration).toBeLessThanOrEqual(110);
             expect(duration).toBeGreaterThanOrEqual(90);
-
-            expect(nextIsCalled).toBeTruthy();
         });
     });
 
     it("mock(): no rule matched", function() {
         const re = new RuleEngine('test');
 
-        const ctx = {
-            request: {
-                path: '/ab',
-                method: 'get',
-                url: 'https://host/ab',
-                charset: 'utf-8',
-                protocol: 'https',
-                ip: '::1'
-            },
-            response: {}
+        const request = {
+            path: '/ab',
+            method: 'get',
+            url: 'https://host/ab',
+            charset: 'utf-8',
+            protocol: 'https',
+            ip: '::1'
         };
+        const response = {};
 
-        return re.mock(ctx, function() {})
-            .then(() => {
-                fail('exception is expected to raise');
-            })
-            .catch(e => {
-                expect(e.type.key).toBe('NO_RULE_MATCHES');
-            });
+        try {
+            re.mock(request, response);
+            fail('exception is expected to raise');
+        } catch (e) {
+            expect(e.type.key).toBe('NO_RULE_MATCHES');
+        }
     });
 
     it("mock(): no sleep", function() {
         const re = new RuleEngine('test');
 
-        const ctx = {
-            request: {
-                path: '/ab',
-                method: 'get',
-                url: 'https://host/ab',
-                charset: 'utf-8',
-                protocol: 'https',
-                ip: '::1'
-            },
-            response: {}
+        const request = {
+            path: '/ab',
+            method: 'get',
+            url: 'https://host/ab',
+            charset: 'utf-8',
+            protocol: 'https',
+            ip: '::1'
         };
+        const response = {};
 
         const rule = {
             path: '/ab'
@@ -182,7 +141,7 @@ describe("RuleEngine test suite: ", function() {
 
         const beginTime = new Date().getTime();
 
-        return re.mock(ctx, function() {}).then(() => {
+        return re.mock(request, response).then(() => {
             const duration = new Date().getTime() - beginTime;
             expect(duration).toBeLessThanOrEqual(10);
         });

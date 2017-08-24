@@ -10,7 +10,6 @@ module.exports = class MockConfigProvider_dir {
 
     constructor(config) {
         this._logger = new Logger('MockConfigProvider_dir');
-        this._portIndex = 1;
         this._config = config || {};
     }
 
@@ -29,21 +28,49 @@ module.exports = class MockConfigProvider_dir {
 
         /* eslint no-sync: "off" */
         for (const fileName of Fs.readdirSync(dir)) {
-            const full = Path.join(dir, fileName);
-            const stat = Fs.statSync(full);
-            if (!stat.isDirectory()) continue;
+            const server = this.loadServerByPort(Path.join(dir, fileName));
+            if (!server) continue;
 
-            const config = this.loadConfig(full);
-            const rules = this.loadRules('', full);
-
-            r[config.name] = { config, rules };
+            r[server.port] = server;
         }
 
         return r;
     }
 
+    loadServerByPort(dir) {
+        /* eslint no-sync: "off" */
+        const stat = Fs.statSync(dir);
+        if (!stat.isDirectory()) return undefined;
 
-    loadRules(parentPath, dir) {
+        let port = parseInt(Path.basename(dir), 10);
+        if (isNaN(port)) return undefined;
+
+        const vhosts = {};
+
+        /* eslint no-sync: "off" */
+        for (const fileName of Fs.readdirSync(dir)) {
+            const vhost = this.loadVirtualHost(Path.join(dir, fileName));
+            if (!vhost) continue;
+
+            vhosts[vhost.name] = vhost;
+        }
+
+        return { port, vhosts };
+    }
+
+    loadVirtualHost(dir) {
+        /* eslint no-sync: "off" */
+        const stat = Fs.statSync(dir);
+        if (!stat.isDirectory()) return undefined;
+
+        return {
+            name: Path.basename(dir),
+            config: this.loadVirtualHostConfig(dir),
+            rules: this.loadVirtualHostRules('', dir)
+        };
+    }
+
+    loadVirtualHostRules(parentPath, dir) {
         const r = {};
 
         /* eslint no-sync: "off" */
@@ -53,7 +80,7 @@ module.exports = class MockConfigProvider_dir {
             const path = Path.parse(full);
             const childPath = `${parentPath}/${path.name}`;
             if (stat.isDirectory()) {
-                const children = this.loadRules(childPath, full);
+                const children = this.loadVirtualHostRules(childPath, full);
                 for (let childPath in children) {
                     r[childPath] = children[childPath];
                 }
@@ -69,20 +96,8 @@ module.exports = class MockConfigProvider_dir {
         return r;
     }
 
-    loadConfig(dir, dump) {
-        let r = QNodeConfig.load({ dir, name: _CONFIG_FILE_NAME }, {}, dump);
-        this.renderConfigWithDefaults(r);
-
-        r.name = Path.basename(dir);
-
-        return r;
-    }
-
-    renderConfigWithDefaults(cfg) {
-        if (!cfg.port) {
-            cfg.port = 8000 + (this._portIndex++);
-        }
-        return cfg;
+    loadVirtualHostConfig(dir, dump) {
+        return QNodeConfig.load({ dir, name: _CONFIG_FILE_NAME }, {}, dump);
     }
 
 }

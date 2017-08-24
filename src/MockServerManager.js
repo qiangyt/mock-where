@@ -4,7 +4,7 @@ const InternalError = require('qnode-error').InternalError;
 module.exports = class MockServerManager {
 
     constructor() {
-        this._all = {};
+        this._allByPort = {};
     }
 
     init() {
@@ -58,18 +58,15 @@ module.exports = class MockServerManager {
     }
 
     _loadMockServerWithProvider(provider) {
-        //this._all['test'] = this._create('test', { server: { port: 12345 } });
+        const vhostsConfigByPort = provider.load();
+        const allByPort = this._allByPort;
 
-        //const provider = this._buildProvider();
-        const defs = provider.load();
-        const all = this._all;
+        for (let port in vhostsConfigByPort) {
+            if (allByPort[port]) throw new Error(`duplicated mocker server port: ${port}`);
 
-        for (let name in defs) {
-            if (all[name]) throw new Error(`duplicated mocker server: ${name}`);
-
-            const def = defs[name];
-            const mockServer = this._create(name, def);
-            all[name] = mockServer;
+            const vhostsConfig = vhostsConfigByPort[port];
+            const mockServer = this._create(vhostsConfig);
+            allByPort[port] = mockServer;
         }
     }
 
@@ -77,30 +74,30 @@ module.exports = class MockServerManager {
         const log = this._logger;
         log.info('starting mock servers');
 
-        const all = this._all;
-        for (let name in all) {
-            log.info('starting mock server: %s', name);
+        const allByPort = this._allByPort;
+        for (let port in allByPort) {
+            log.info('starting mock server on port: %i', port);
 
-            all[name].start();
+            allByPort[port].start();
 
-            log.info('created mock server: %s', name);
+            log.info('created mock server on port: %i', port);
         }
-        log.info('started all mock servers');
+        log.info('started mock servers');
     }
 
-    _create(name, definition) {
-        this._logger.info('begin creating mock server: %s', name);
+    _create(vhostsConfig) {
+        this._logger.info('begin creating mock server on port: %i', vhostsConfig.port);
 
-        const r = new MockServer(name, definition);
+        const r = new MockServer(vhostsConfig);
         r.init();
 
-        this._logger.info('created mock server: %s', name);
+        this._logger.info('created mock server on port: %i', vhostsConfig.port);
 
         return r;
     }
 
-    get(mockServerName) {
-        return this._all[mockServerName];
+    get(port) {
+        return this._allByPort[port];
     }
 
 }
