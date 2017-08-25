@@ -75,7 +75,8 @@ describe("MockConfigProvider_dir test suite 1: ", function() {
 
         const first = vhosts.vhosts['first.com'];
         expect(first.name).toBe('first.com');
-
+        expect(first.domains.length).toBe(1);
+        expect(first.domains[0]).toBe(first.name);
         expect(first.config.nosense).toBe('blah');
 
         const f1_1_rule1 = first.rules['/f1/f1_1_rule1'];
@@ -92,6 +93,8 @@ describe("MockConfigProvider_dir test suite 1: ", function() {
 
         const second = vhosts.vhosts['second.org'];
         expect(second.name).toBe('second.org');
+        expect(second.domains.length).toBe(1);
+        expect(second.domains[0]).toBe(second.name);
 
         const s1_2_rule1 = second.rules['/s1/s1_2/s1_2_rule1'];
         expect(s1_2_rule1.path).toBe('/s1/s1_2');

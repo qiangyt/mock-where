@@ -2,17 +2,17 @@ const Path = require('path');
 const Fs = require('fs');
 const Logger = require('qnode-log');
 const QNodeConfig = require('qnode-config');
+const MockConfigProvider = require('../MockConfigProvider');
 
 const _CONFIG_FILE_NAME = 'mw';
 
 
-module.exports = class MockConfigProvider_dir {
+module.exports = class MockConfigProvider_dir extends MockConfigProvider {
 
     constructor(config) {
+        super(config);
         this._logger = new Logger('MockConfigProvider_dir');
-        this._config = config || {};
     }
-
 
     resolveMockDir() {
         let r = this._config.dir;
@@ -63,11 +63,10 @@ module.exports = class MockConfigProvider_dir {
         const stat = Fs.statSync(dir);
         if (!stat.isDirectory()) return undefined;
 
-        return {
-            name: Path.basename(dir),
-            config: this.loadVirtualHostConfig(dir),
-            rules: this.loadVirtualHostRules('', dir)
-        };
+        const config = this.loadVirtualHostConfig(dir);
+        const rules = this.loadVirtualHostRules('', dir);
+
+        return this.normalizeVirtualHost(config, rules);
     }
 
     loadVirtualHostRules(parentPath, dir) {
@@ -97,7 +96,9 @@ module.exports = class MockConfigProvider_dir {
     }
 
     loadVirtualHostConfig(dir, dump) {
-        return QNodeConfig.load({ dir, name: _CONFIG_FILE_NAME }, {}, dump);
+        const r = QNodeConfig.load({ dir, name: _CONFIG_FILE_NAME }, {}, dump);
+        r.name = Path.basename(dir);
+        return r;
     }
 
 }

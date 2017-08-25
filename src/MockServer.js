@@ -18,9 +18,16 @@ module.exports = class MockServer extends BaseServer {
         this._engines = {};
 
         const vhostConfigs = this._config.vhosts;
-        for (let vhostName in vhostConfigs) {
-            //TODO: const vhostConfig = vhostConfigs[vhostName];
-            this._engines[vhostName] = new RuleEngine('ruleEngine_' + vhostName);
+        for (const vhostName in vhostConfigs) {
+            const engine = new RuleEngine('ruleEngine_' + vhostName);
+
+            const vhostConfig = vhostConfigs[vhostName];
+            for( const domain of vhostConfig.domains ) {
+                if( this._engines[domain] ) {
+                    throw new Error(`${this._name}: duplicated domain: domain`);
+                }
+                this._engines[domain] = engine;
+            }
         }
     }
 
@@ -40,12 +47,12 @@ module.exports = class MockServer extends BaseServer {
         };
     }
 
-    putRule(vhostName, rule) {
-        const engine = this._engines[vhostName];
+    putRule(domain, rule) {
+        const engine = this._engines[domain];
         engine.put(rule);
     }
 
-    static parseHost(hostHeader) {
+    static resolveDomain(hostHeader) {
         const pos = hostHeader.indexOf(':');
         if (pos > 0) return hostHeader.substring(0, pos);
         return hostHeader;
@@ -53,9 +60,9 @@ module.exports = class MockServer extends BaseServer {
 
     async mock(ctx, next) {
         const request = MockServer.normalizeRequest(ctx.request);
-        const host = MockServer.parseHost(request.header.host);
+        const domain = MockServer.resolveDomain(request.header.host);
 
-        const engine = this._engines[host];
+        const engine = this._engines[domain];
         if (!engine) {
             throw RequestError('SERVICE_NOT_FOUND', host);
         }

@@ -19,9 +19,11 @@ Logger.prototype.warn = function() {};
 
 describe("MockServer test suite: ", function() {
 
-    it("parseHost()", function() {
-        expect(MockServer.parseHost('localhost:12345')).toBe('localhost');
-        expect(MockServer.parseHost('localhost')).toBe('localhost');
+    it("resolveDomain()", function() {
+        expect(MockServer.resolveDomain('localhost:12345')).toBe('localhost');
+        expect(MockServer.resolveDomain('localhost')).toBe('localhost');
+        expect(MockServer.resolveDomain('127.0.0.1:12345')).toBe('127.0.0.1');
+        expect(MockServer.resolveDomain('127.0.0.1')).toBe('127.0.0.1');
     });
 
     it("happy", function(done) {

@@ -85,13 +85,13 @@ module.exports = class MockServerManager {
         log.info('started mock servers');
     }
 
-    _create(vhostsConfig) {
-        this._logger.info('begin creating mock server on port: %i', vhostsConfig.port);
+    _create(serverConfig) {
+        this._logger.info('begin creating mock server on port: %i', serverConfig.port);
 
-        const r = new MockServer(vhostsConfig);
+        const r = new MockServer(serverConfig);
         r.init();
 
-        this._logger.info('created mock server on port: %i', vhostsConfig.port);
+        this._logger.info('created mock server on port: %i', serverConfig.port);
 
         return r;
     }

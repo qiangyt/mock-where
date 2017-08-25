@@ -18,13 +18,13 @@ class Where {
         const port = rule.port;
         if (!port) throw new MissingParamError('port');
 
-        const host = rule.host;
-        if (!host) throw new MissingParamError('host');
+        const domain = rule.domain;
+        if (!domain) throw new MissingParamError('domain');
 
         const mockServer = this._mockServerManager.get(port);
         if (!mockServer) throw new RequestError('MOCK_SERVER_NOT_FOUND', port);
 
-        mockServer.putRule(host, rule);
+        mockServer.putRule(domain, rule);
 
         ctx.body = { code: 0 };
 
