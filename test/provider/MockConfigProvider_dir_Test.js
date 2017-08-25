@@ -1,5 +1,5 @@
 /* eslint no-undef: "off" */
-
+const _ = require('lodash');
 const SRC = '../../src';
 const MockConfigProvider_dir = require(`${SRC}/provider/MockConfigProvider_dir`);
 
@@ -99,6 +99,12 @@ describe("MockConfigProvider_dir test suite 1: ", function() {
         const s1_2_rule1 = second.rules['/s1/s1_2/s1_2_rule1'];
         expect(s1_2_rule1.path).toBe('/s1/s1_2');
         expect(s1_2_rule1.s1_2_rule1_key).toBe('s1_2_rule1_value');
+    });
+
+    it("load(): dir not found", function() {
+        const t = new MockConfigProvider_dir({ dir: 'not_existed' });
+        const vhostsByPort = t.load();
+        expect(_.isEmpty(vhostsByPort)).toBeTruthy();
     });
 
 });

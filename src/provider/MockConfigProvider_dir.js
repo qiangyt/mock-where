@@ -23,6 +23,12 @@ module.exports = class MockConfigProvider_dir extends MockConfigProvider {
     load() {
 
         let dir = this.resolveMockDir();
+        try {
+            Fs.statSync(dir);
+        } catch (e) {
+            this._logger.warn(`mock directory ${dir} is not found`);
+            return {};
+        }
 
         const r = {};
 
