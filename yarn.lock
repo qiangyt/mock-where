@@ -3294,9 +3294,9 @@ qnode-config@1.0.2:
     lodash "4.17.4"
     qnode-log "1.0.1"
 
-qnode-config@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/qnode-config/-/qnode-config-1.0.3.tgz#9dd5c7318daafe8f6ac0ff2d165b0ffba70f3647"
+qnode-config@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/qnode-config/-/qnode-config-1.0.4.tgz#0ca695a62cdc0952785fd5a06646325e9c29e86a"
   dependencies:
     js-yaml "3.9.1"
     lodash "4.17.4"
