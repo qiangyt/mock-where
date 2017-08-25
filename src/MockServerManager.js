@@ -76,22 +76,23 @@ module.exports = class MockServerManager {
 
         const allByPort = this._allByPort;
         for (let port in allByPort) {
-            log.info('starting mock server on port: %i', port);
+            log.debug('starting mock server on port: %i', port);
 
             allByPort[port].start();
 
-            log.info('created mock server on port: %i', port);
+            log.debug('created mock server on port: %i', port);
         }
         log.info('started mock servers');
     }
 
     _create(serverConfig) {
-        this._logger.info('begin creating mock server on port: %i', serverConfig.port);
+        this._logger.debug('begin creating mock server on port: %i', serverConfig.port);
 
         const r = new MockServer(serverConfig);
+        Beans.render(r);
         r.init();
 
-        this._logger.info('created mock server on port: %i', serverConfig.port);
+        this._logger.debug('created mock server on port: %i', serverConfig.port);
 
         return r;
     }

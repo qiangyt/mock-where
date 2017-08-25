@@ -18,4 +18,4 @@ Beans.init();
 mockServerManager.start();
 apiServer.start();
 
-LOG.info('app started');
+LOG.info('started');
