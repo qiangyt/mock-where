@@ -1,14 +1,12 @@
 const RequestError = require('qnode-error').RequestError;
 const BaseServer = require('./BaseServer');
 const RuleEngine = require('./RuleEngine');
-const Logger = require('qnode-log');
 
 module.exports = class MockServer extends BaseServer {
 
     constructor(config) {
         super();
-        this._name = 'mockServer_' + config.port;
-        this._logger = new Logger(this._name);
+        this._name = 'MockServer:' + config.port;
         this._config = config;
     }
 

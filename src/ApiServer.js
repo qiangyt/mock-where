@@ -14,6 +14,8 @@ module.exports = class ApiServer extends BaseServer {
     prepare() {
         this._logger.debug(`registering api(s)`);
 
+        this._config.port = this._config.port || 7000;
+
         const apiList = this._loadAllApi();
 
         for (const api of apiList) {

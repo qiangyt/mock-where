@@ -1,7 +1,7 @@
 /* eslint no-undef: "off" */
 
 const SRC = '../src';
-
+const MockConfigProvider = require(`${SRC}/MockConfigProvider`);
 const mockRequire = require('mock-require');
 
 class SpiedMockServer {
@@ -24,11 +24,7 @@ mockRequire(`${SRC}/MockServer`, SpiedMockServer);
 
 let _addDuplicatedConfig = false;
 
-class SpiedMockConfigProvider {
-
-    constructor(config) {
-        this.config = config;
-    }
+class SpiedMockConfigProvider extends MockConfigProvider {
 
     load() {
         return {
@@ -65,35 +61,44 @@ function buildMockServerManager() {
 
 describe("MockServerManager test suite: ", function() {
 
-    it("resolveProviderClass(): configured and not exists", function() {
-        try {
-            MockServerManager.resolveProviderClass('dir', { type: 'xxx' });
-            fail('exception is expected to raise');
-        } catch (e) {
-            expect(e.type.key).toBe('INTERNAL_ERROR');
-        }
+    it("resolveProviderClassName(): happy", function() {
+        const s = buildMockServerManager();
+        let className = s.resolveProviderClassName('dir', { type: 'xxx' });
+        expect(className).toBe('MockConfigProvider_xxx');
 
-        try {
-            MockServerManager.resolveProviderClass('xxx');
-            fail('exception is expected to raise');
-        } catch (e) {
-            expect(e.type.key).toBe('INTERNAL_ERROR');
-        }
+        className = s.resolveProviderClassName('yyy');
+        expect(className).toBe('MockConfigProvider_yyy');
 
+        className = s.resolveProviderClassName();
+        expect(className).toBe('MockConfigProvider_dir');
     });
 
-    it("resolveProviderClass(): take default", function() {
-        const t = MockServerManager.resolveProviderClass();
+    it("resolveProviderClass(): happy", function() {
+        const s = buildMockServerManager();
+        const className = s.resolveProviderClassName();
+        const t = s.resolveProviderClass(className);
         expect(t).toEqual(SpiedMockConfigProvider);
+    });
+
+    it("resolveProviderClass(): not exists", function() {
+        const s = buildMockServerManager();
+        try {
+            s.resolveProviderClass('MockConfigProvider_zzz');
+            fail('exception is expected to raise here');
+        } catch (e) {
+            expect(e.message.indexOf('MockConfigProvider_zzz') >= 0).toBeTruthy();
+        }
     });
 
     it("_buildProvider(): happy", function() {
         const t = buildMockServerManager();
-        const cfg = {};
+        const cfg = { test: 'test' };
         const p = t._buildProvider('dir', cfg);
 
         expect(p instanceof SpiedMockConfigProvider).toBeTruthy();
-        expect(p.config).toEqual(cfg);
+        expect(p._config.test).toBe('test');
+        expect(p._logger).not.toBeNull();
+        expect(p._name).toBe('MockConfigProvider_dir');
     });
 
     it("_resolveDefaultProviders", function() {

@@ -12,7 +12,7 @@ module.exports = class MockConfigProvider_empty extends MockConfigProvider {
         vhosts[vhost.name] = vhost;
 
         const r = {};
-        const port = 12345; //TODO: configurable
+        const port = this._config.port || 8000;
         r[port] = { port, vhosts };
 
         return r;

@@ -1,5 +1,6 @@
 const MockServer = require('./MockServer');
 const InternalError = require('qnode-error').InternalError;
+const Beans = require('qnode-beans');
 
 module.exports = class MockServerManager {
 
@@ -11,25 +12,32 @@ module.exports = class MockServerManager {
         this._loadMockServers();
     }
 
-    static resolveProviderClass(name, cfg) {
+    resolveProviderClassName(name, cfg) {
         let type;
         if (cfg && cfg.type) {
             type = cfg.type;
         } else {
             type = name || 'dir';
         }
+        return `MockConfigProvider_${type}`;
+    }
 
+    resolveProviderClass(className) {
         try {
             /* eslint global-require: "off" */
-            return require(`./provider/MockConfigProvider_${type}`);
+            return require(`./provider/${className}`);
         } catch (e) {
-            throw new InternalError(`failed to load provider: ${type}`);
+            this._logger.error(e);
+            throw new Error(`failed to load provider: ${className}`);
         }
     }
 
     _buildProvider(name, providerConfig) {
-        const clazz = MockServerManager.resolveProviderClass(name, providerConfig);
-        return new clazz(providerConfig);
+        const className = this.resolveProviderClassName(name, providerConfig);
+        const clazz = this.resolveProviderClass(className);
+        const r = new clazz(providerConfig);
+        Beans.render(r, className);
+        return r;
     }
 
     _resolveDefaultProviders() {

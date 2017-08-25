@@ -9,11 +9,6 @@ const _CONFIG_FILE_NAME = 'mw';
 
 module.exports = class MockConfigProvider_dir extends MockConfigProvider {
 
-    constructor(config) {
-        super(config);
-        this._logger = new Logger('MockConfigProvider_dir');
-    }
-
     resolveMockDir() {
         let r = this._config.dir;
         if (!r) r = Path.join(Path.dirname(require.main.filename), '../mock');
