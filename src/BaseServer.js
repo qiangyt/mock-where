@@ -14,7 +14,13 @@ module.exports = class BaseServer {
 
     _initKoa() {
         const koa = new Koa();
-        koa.use((ctx, next) => next().catch(err => this.formatJsonError(ctx, err)));
+        koa.use((ctx, next) =>
+            next()
+            .then(result => {
+
+                return result;
+            })
+            .catch(err => this.formatJsonError(ctx, err)));
         koa.use(koaLogger());
         koa.use(koaBody({
             jsonLimit: this._config.bodySizeLimit || '1kb'
@@ -67,7 +73,7 @@ module.exports = class BaseServer {
 
         this._server = Http.createServer(this._koa.callback()).listen(port);
 
-        this._logger.info('%s server listening on %s', this._name, port);
+        this._logger.info('listening on %s', this._name, port);
 
         return this._server;
     }
