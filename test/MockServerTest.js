@@ -26,7 +26,7 @@ describe("MockServer test suite: ", function() {
         expect(MockServer.resolveDomain('127.0.0.1')).toBe('127.0.0.1');
     });
 
-    it("happy", function(done) {
+    it("getEngine(): engine not found", function() {
         const def = {
             port: 12345,
             vhosts: {
@@ -36,12 +36,34 @@ describe("MockServer test suite: ", function() {
                 }
             }
         };
+
+        const r = new MockServer(def);
+        r.init();
+        r.prepare();
+
+        try {
+            r.getEngine('xxx');
+            fail('exception is expected to raise');
+        } catch (e) {
+            expect(e.type.key).toBe('SERVICE_NOT_FOUND');
+        }
+    });
+
+    it("happy", function(done) {
+        const host = '127.0.0.1';
+        const vhosts = {};
+        vhosts[host] = {
+            name: host,
+            domains: [host]
+        }
+        const def = { port: 12345, vhosts };
+
         const r = new MockServer(def);
         r.init();
         const server = r.start();
 
         const rule = { path: '/abc' };
-        r.putRule('test', rule);
+        r.putRule(host, rule);
 
         supertest(server).get('/abc').expect(500).end(function(err, res) {
             if (err) {
