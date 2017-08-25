@@ -1,4 +1,4 @@
-const RuleNode = require('./RuleNode');
+const RuleTreeNode = require('./RuleTreeNode');
 const resolveTemplateFunc = require('./Template');
 const RequestError = require('qnode-error').RequestError;
 
@@ -8,7 +8,7 @@ module.exports = class RuleTree {
         this.name = name || 'RuleTree';
         this._defaultRule = RuleTree.normalizeDefaultRule(defaultRule);
         this._nameIndex = 0;
-        this._rootNode = new RuleNode('/', '/');
+        this._rootNode = new RuleTreeNode('/', '/');
     }
 
     static normalizeDefaultRule(defaultRule) {

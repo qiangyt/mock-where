@@ -1,10 +1,10 @@
 /* eslint no-undef: "off" */
 
 const SRC = '../src';
-const RuleNode = require(`${SRC}/RuleNode`);
+const RuleTreeNode = require(`${SRC}/RuleTreeNode`);
 
 function buildRuleTree() {
-    const root = new RuleNode('/', '/');
+    const root = new RuleTreeNode('/', '/');
 
     root.put(0, { path: '/', name: 'root', method: 'get' });
     root.put(0, { path: '/1', name: '1', method: 'get' });
@@ -17,9 +17,9 @@ function buildRuleTree() {
     return root;
 }
 
-describe("RuleNode test suite: ", function() {
+describe("RuleTreeNode test suite: ", function() {
     it("put(): put the rule on this node exactly", function() {
-        const n = new RuleNode('/', '/');
+        const n = new RuleTreeNode('/', '/');
         const rule = { A: 'A', path: '/' };
 
         expect(n.put(0, rule)).toBeTruthy();
@@ -29,7 +29,7 @@ describe("RuleNode test suite: ", function() {
     });
 
     it("put(): put the rule on new child node", function() {
-        const n = new RuleNode('/', '/');
+        const n = new RuleTreeNode('/', '/');
         const rule = { A: 'A', path: '/1' };
 
         expect(n.put(0, rule)).toBeTruthy();
@@ -42,7 +42,7 @@ describe("RuleNode test suite: ", function() {
     });
 
     it("put(): put the rule on existing child node", function() {
-        const n = new RuleNode('/', '/');
+        const n = new RuleTreeNode('/', '/');
         const rule1 = { A: 'A', path: '/1' };
         n.put(0, rule1);
 
@@ -58,7 +58,7 @@ describe("RuleNode test suite: ", function() {
     });
 
     it("put(): put the rule on secondary existing child node", function() {
-        const n = new RuleNode('/', '/');
+        const n = new RuleTreeNode('/', '/');
 
         const rule1 = { A: 'A', path: '/1' };
         n.put(0, rule1);
@@ -82,7 +82,7 @@ describe("RuleNode test suite: ", function() {
     });
 
     it("put(): put rule with different path letter", function() {
-        const n = new RuleNode('/', '/');
+        const n = new RuleTreeNode('/', '/');
         const rule = { A: 'A', path: 'a' };
 
         expect(n.put(0, rule)).toBeFalsy();
@@ -116,7 +116,7 @@ describe("RuleNode test suite: ", function() {
     });
 
     it("match(): no matched rule due to different path", function() {
-        const n = new RuleNode('/', '/X');
+        const n = new RuleTreeNode('/', '/X');
         const rule = { A: 'A', method: 'get', path: '/X' };
         n.put(0, rule);
 

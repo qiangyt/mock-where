@@ -1,4 +1,4 @@
-module.exports = class RuleNode {
+module.exports = class RuleTreeNode {
 
     constructor(letter, path) {
         this.letter = letter;
@@ -25,7 +25,7 @@ module.exports = class RuleNode {
         }
 
         const newChildPath = path.substring(0, nextIndex + 1);
-        const newChild = new RuleNode(path.charAt(nextIndex), newChildPath);
+        const newChild = new RuleTreeNode(path.charAt(nextIndex), newChildPath);
         this.children.push(newChild);
 
         return newChild.put(nextIndex, rule);
