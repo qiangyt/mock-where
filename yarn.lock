@@ -3316,6 +3316,13 @@ qnode-log@1.0.1:
     log4js "2.3.0"
     sprintf-js "1.1.1"
 
+qnode-log@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/qnode-log/-/qnode-log-1.0.2.tgz#e5a0fd34d066decdb7c992ff9cfd7b5086647e4e"
+  dependencies:
+    log4js "2.3.0"
+    sprintf-js "1.1.1"
+
 qs@^6.1.0, qs@^6.4.0:
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.0.tgz#8d04954d364def3efc55b5a0793e1e2c8b1e6e49"
