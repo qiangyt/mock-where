@@ -60,7 +60,7 @@ describe("MockConfigProvider_dir test suite 1: ", function() {
 
     it("resolveMockDir(): dir is not specified via ctor", function() {
         const dir = new MockConfigProvider_dir().resolveMockDir();
-        expect(dir.indexOf('node_modules/jasmine/mock') > 0).toBeTruthy();
+        expect(dir.indexOf('/node_modules/jasmine/mock') > 0 || dir.indexOf('\\node_modules\\jasmine\\mock') > 0).toBeTruthy();
     });
 
     it("load(): happy", function() {
