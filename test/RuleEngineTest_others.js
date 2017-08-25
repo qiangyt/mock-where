@@ -95,7 +95,7 @@ describe("RuleEngine test suite: ", function() {
 
         return re.mock(request, response).then(() => {
             const duration = new Date().getTime() - beginTime;
-            expect(duration).toBeLessThanOrEqual(110);
+            expect(duration).toBeLessThanOrEqual(120);
             expect(duration).toBeGreaterThanOrEqual(90);
         });
     });
