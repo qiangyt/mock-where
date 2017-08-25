@@ -57,7 +57,7 @@ module.exports = class MockServer extends BaseServer {
 
         const engine = this._engines[host];
         if (!engine) {
-            throw RequestError('TODO');
+            throw RequestError('SERVICE_NOT_FOUND', host);
         }
 
         const response = ctx.response;
