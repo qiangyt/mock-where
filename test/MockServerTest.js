@@ -81,4 +81,28 @@ describe("MockServer test suite: ", function() {
         expect(r.body).toEqual(body);
     });
 
+    it("prepare(): domain duplicated", function() {
+        const def = {
+            port: 12345,
+            vhosts: {
+                test1: {
+                    domains: ['test1', 'dup']
+                },
+                test2: {
+                    domains: ['test2', 'dup']
+                }
+            }
+        };
+
+        const r = new MockServer(def);
+        r.init();
+
+        try {
+            r.prepare();
+            fail('exception is expected to raise');
+        } catch (e) {
+            expect(e.message.indexOf('duplicated')).toBeTruthy();
+        }
+    });
+
 });
