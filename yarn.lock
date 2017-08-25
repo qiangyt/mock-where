@@ -3279,9 +3279,9 @@ q@~1.4.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.4.1.tgz#55705bcd93c5f3673530c2c2cbc0c2b3addc286e"
 
-qnode-beans@1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/qnode-beans/-/qnode-beans-1.0.7.tgz#0db5cc843b3eda6822d36c207029016bcd6dae2a"
+qnode-beans@1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/qnode-beans/-/qnode-beans-1.0.8.tgz#c1b642c75f638cba73d24bb51b462e35c340440c"
   dependencies:
     lodash "4.17.4"
     qnode-log "1.0.2"
