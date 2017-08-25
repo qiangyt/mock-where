@@ -1,3 +1,5 @@
+const Util = require('util');
+
 module.exports = class MockConfigProvider {
 
     constructor(config) {
@@ -9,18 +11,17 @@ module.exports = class MockConfigProvider {
     }
 
     resolveDomains(domains, name) {
-        if( !domains ) return [name];
+        if (!domains) return [name];
 
-        const type = typeof domains;
-        if( 'string' === type ) return [domains];
-        if( 'array' !== type ) throw new Error('config domains should be either string or array of string');
-        if( !type.length ) return [name];
-        
+        if ('string' === typeof domains) return [domains];
+        if (!Util.isArray(domains)) throw new Error('config domains should be either string or array of string');
+        if (!domains.length) return [name];
+
         return domains;
     }
 
     resolveVirtualHostName(domains) {
-        if( domains.length === 1 ) return domains[0];
+        if (domains.length === 1) return domains[0];
         return domains.join('|');
     }
 
@@ -28,7 +29,7 @@ module.exports = class MockConfigProvider {
         const domains = this.resolveDomains(config.domains, config.name);
 
         return {
-            config, 
+            config,
             domains,
             name: this.resolveVirtualHostName(domains),
             rules
