@@ -41,6 +41,8 @@ module.exports = class BaseServer {
             if (errType === Errors.INTERNAL_ERROR) {
                 ctx.status = 500;
             } else if (errType === Errors.API_NOT_FOUND ||
+                errType === Errors.SERVER_NOT_FOUND ||
+                errType === Errors.VHOST_NOT_FOUND ||
                 errType === Errors.SERVICE_NOT_FOUND) {
                 ctx.status = 404;
             } else if (errType === Errors.NO_PERMISSION ||

@@ -46,7 +46,7 @@ describe("BaseServer test suite 1: ", function() {
         expect(ctx.body.key).toBe('EXPIRED_AUTH_TOKEN');
     });
 
-    it("formatJsonError(): formats API_NOT_FOUND/SERVICE_NOT_FOUND error as 404", function() {
+    it("formatJsonError(): formats *_NOT_FOUND error as 404", function() {
         const s = buildBaseServer();
         const ctx = {};
 
@@ -57,6 +57,14 @@ describe("BaseServer test suite 1: ", function() {
         s.formatJsonError(ctx, new RequestError('SERVICE_NOT_FOUND'));
         expect(ctx.status).toBe(404);
         expect(ctx.body.key).toBe('SERVICE_NOT_FOUND');
+
+        s.formatJsonError(ctx, new RequestError('SERVER_NOT_FOUND'));
+        expect(ctx.status).toBe(404);
+        expect(ctx.body.key).toBe('SERVER_NOT_FOUND');
+
+        s.formatJsonError(ctx, new RequestError('VHOST_NOT_FOUND'));
+        expect(ctx.status).toBe(404);
+        expect(ctx.body.key).toBe('VHOST_NOT_FOUND');
     });
 
     it("formatJsonError(): formats other non-INTERNAL_ERROR error as 400", function() {

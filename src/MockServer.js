@@ -55,7 +55,7 @@ module.exports = class MockServer extends BaseServer {
     getEngine(domain) {
         const r = this._engines[domain];
         if (!r) {
-            throw new RequestError('SERVICE_NOT_FOUND', domain);
+            throw new RequestError('VHOST_NOT_FOUND', domain);
         }
         return r;
     }

@@ -45,7 +45,7 @@ describe("MockServer test suite: ", function() {
             r.getEngine('xxx');
             fail('exception is expected to raise');
         } catch (e) {
-            expect(e.type.key).toBe('SERVICE_NOT_FOUND');
+            expect(e.type.key).toBe('VHOST_NOT_FOUND');
         }
     });
 
