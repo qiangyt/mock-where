@@ -19,7 +19,7 @@
             "preLaunchTask": null,
             "runtimeExecutable": null,
             "args": [
-                "--config=${workspaceRoot}/jasmine.json"
+                "--config=${workspaceRoot}/spec/support/jasmine.json"
             ],
             "runtimeArgs": [
                 "--nolazy"
