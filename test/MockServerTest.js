@@ -30,7 +30,10 @@ describe("MockServer test suite: ", function() {
         const def = {
             port: 12345,
             vhosts: {
-                test: {}
+                test: {
+                    name: 'test',
+                    domains: ['test']
+                }
             }
         };
         const r = new MockServer(def);
