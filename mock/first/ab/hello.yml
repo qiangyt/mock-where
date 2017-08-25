@@ -1,7 +1,0 @@
-q: ip like '::%'s,
-response: {
-  status: 200,
-  sleep: 500,
-  template:
-    type: handlebars,
-    text: hi 's{{ip}}''
