@@ -84,10 +84,10 @@ module.exports = class RuleEngine {
         //if (ruleResponse.redirect) responseToMock.redirect(ruleResponse.redirect);
     }
 
-    static determineTimeToSleep(ruleResponse) {
-        let sleep = ruleResponse.sleep + ruleResponse.sleepFix;
-        if (sleep && sleep > 0) {
-            return sleep;
+    static determineTimeToDelay(ruleResponse) {
+        let delay = ruleResponse.delay + ruleResponse.delayFix;
+        if (delay && delay > 0) {
+            return delay;
         }
         return 0;
     }
@@ -101,9 +101,9 @@ module.exports = class RuleEngine {
         const ruleResponse = rule.response;
         RuleEngine.renderMockResponse(request, ruleResponse, response);
 
-        let sleep = RuleEngine.determineTimeToSleep(ruleResponse);
-        if (sleep) {
-            return new Promise(resolve => setTimeout(resolve, sleep));
+        let delay = RuleEngine.determineTimeToDelay(ruleResponse);
+        if (delay) {
+            return new Promise(resolve => setTimeout(resolve, delay));
         }
         return Promise.resolve();
     }

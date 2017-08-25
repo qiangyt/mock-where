@@ -20,8 +20,8 @@ module.exports = class RuleTree {
         const resp = r.response = r.response || {};
         resp.status = resp.status || 200;
         resp.type = resp.type || 'application/json';
-        resp.sleep = (!resp.sleep || resp.sleep < 0) ? 0 : resp.sleep;
-        resp.sleepFix = resp.sleepFix || -10;
+        resp.delay = (!resp.delay || resp.delay < 0) ? 0 : resp.delay;
+        resp.delayFix = resp.delayFix || -10;
         resp.templateType = resp.templateType || 'ejs';
 
         return r;
@@ -57,8 +57,8 @@ module.exports = class RuleTree {
 
         this.normalizeResponseBodyOrTemplate(r);
 
-        r.sleep = (!r.sleep || r.sleep < 0) ? dft.sleep : r.sleep;
-        r.sleepFix = r.sleepFix || dft.sleepFix;
+        r.delay = (!r.delay || r.delay < 0) ? dft.delay : r.delay;
+        r.delayFix = r.delayFix || dft.delayFix;
 
         return r;
     }

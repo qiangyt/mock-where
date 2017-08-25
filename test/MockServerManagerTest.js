@@ -32,8 +32,12 @@ class SpiedMockConfigProvider {
 
     load() {
         return {
-            123: {},
-            456: {}
+            123: {
+                port: 123
+            },
+            456: {
+                port: 456
+            }
         };
     }
 

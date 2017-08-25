@@ -43,7 +43,7 @@ const mockFsObjects = {
 }
 
 
-describe("MockConfigProvider_dir test suite 1: ", function() {
+describe("MockConfigProvider_dir test suite: ", function() {
 
     beforeAll(function() {
         mockFs(mockFsObjects, { createCwd: false, createTmp: false });

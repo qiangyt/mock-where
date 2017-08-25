@@ -5,9 +5,9 @@ const RuleEngine = require(`${SRC}/RuleEngine`);
 
 describe("RuleEngine test suite: ", function() {
 
-    it("determineTimeToSleep(): sleep", function() {
-        expect(RuleEngine.determineTimeToSleep({ sleep: 100, sleepFix: 10 })).toBe(110);
-        expect(RuleEngine.determineTimeToSleep({ sleep: -100, sleepFix: 10 })).toBe(0);
+    it("determineTimeToDelay(): delay", function() {
+        expect(RuleEngine.determineTimeToDelay({ delay: 100, delayFix: 10 })).toBe(110);
+        expect(RuleEngine.determineTimeToDelay({ delay: -100, delayFix: 10 })).toBe(0);
     });
 
     it("renderMockResponseBody(): render response body as message with template", function() {
@@ -86,7 +86,7 @@ describe("RuleEngine test suite: ", function() {
         const rule = {
             path: '/ab',
             response: {
-                sleep: 100
+                delay: 100
             }
         };
         re.put(rule);
@@ -121,7 +121,7 @@ describe("RuleEngine test suite: ", function() {
         }
     });
 
-    it("mock(): no sleep", function() {
+    it("mock(): no delay", function() {
         const re = new RuleEngine('test');
 
         const request = {

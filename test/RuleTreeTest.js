@@ -22,8 +22,8 @@ describe("RuleTree test suite: ", function() {
         const resp = r.response;
         expect(resp.status).toBe(200);
         expect(resp.type).toBe('application/json');
-        expect(resp.sleep).toBe(0);
-        expect(resp.sleepFix).toBe(-10);
+        expect(resp.delay).toBe(0);
+        expect(resp.delayFix).toBe(-10);
         expect(resp.templateType).toBe('ejs');
     });
 
@@ -34,8 +34,8 @@ describe("RuleTree test suite: ", function() {
             response: {
                 status: 400,
                 type: 'application/xml',
-                sleep: 123,
-                sleepFix: -456,
+                delay: 123,
+                delayFix: -456,
                 templateType: 'handlebars'
             }
         };
@@ -47,8 +47,8 @@ describe("RuleTree test suite: ", function() {
         const resp = r.response;
         expect(resp.status).toBe(400);
         expect(resp.type).toBe('application/xml');
-        expect(resp.sleep).toBe(123);
-        expect(resp.sleepFix).toBe(-456);
+        expect(resp.delay).toBe(123);
+        expect(resp.delayFix).toBe(-456);
         expect(resp.templateType).toBe('handlebars');
     });
 
@@ -94,8 +94,8 @@ describe("RuleTree test suite: ", function() {
             response: {
                 status: 400,
                 type: 'application/xml',
-                sleep: 123,
-                sleepFix: -456
+                delay: 123,
+                delayFix: -456
             }
         };
 
@@ -103,8 +103,8 @@ describe("RuleTree test suite: ", function() {
 
         expect(r.status).toBe(400);
         expect(r.type).toBe('application/xml');
-        expect(r.sleep).toBe(123);
-        expect(r.sleepFix).toBe(-456);
+        expect(r.delay).toBe(123);
+        expect(r.delayFix).toBe(-456);
     });
 
     it("normalizeRuleResponse(): take input", function() {
@@ -112,23 +112,23 @@ describe("RuleTree test suite: ", function() {
             response: {
                 status: 400,
                 type: 'application/xml',
-                sleep: 123,
-                sleepFix: -456
+                delay: 123,
+                delayFix: -456
             }
         };
         const input = {
             status: 200,
             type: 'text/html',
-            sleep: 456,
-            sleepFix: -123
+            delay: 456,
+            delayFix: -123
         };
 
         const r = new RuleTree('test', dr).normalizeRuleResponse(input);
 
         expect(r.status).toBe(200);
         expect(r.type).toBe('text/html');
-        expect(r.sleep).toBe(456);
-        expect(r.sleepFix).toBe(-123);
+        expect(r.delay).toBe(456);
+        expect(r.delayFix).toBe(-123);
     });
 
     it("normalizeTemplate(): template is string", function() {
