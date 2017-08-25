@@ -45,7 +45,7 @@
         "pug": "2.0.0-rc.3",
         "qnode-beans": "1.0.6",
         "qnode-config": "1.0.3",
-        "qnode-error": "1.0.0",
+        "qnode-error": "1.0.2",
         "qnode-log": "1.0.1",
         "sprintf-js": "1.1.1",
         "underscore": "1.8.3"
