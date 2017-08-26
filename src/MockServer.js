@@ -1,4 +1,5 @@
 const RequestError = require('qnode-error').RequestError;
+const Beans = require('qnode-beans');
 const BaseServer = require('./BaseServer');
 const RuleEngine = require('./RuleEngine');
 
@@ -17,7 +18,9 @@ module.exports = class MockServer extends BaseServer {
 
         const vhostConfigs = this._config.vhosts;
         for (const vhostName in vhostConfigs) {
-            const engine = new RuleEngine('ruleEngine_' + vhostName);
+            const engine = new RuleEngine();
+            Beans.render(engine, 'RuleEngine:' + vhostName);
+            engine.init();
 
             const vhostConfig = vhostConfigs[vhostName];
             for (const domain of vhostConfig.domains) {

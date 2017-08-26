@@ -1,12 +1,20 @@
 /* eslint no-undef: "off" */
+const Beans = require('qnode-beans');
 
 const SRC = '../src';
 const RuleEngine = require(`${SRC}/RuleEngine`);
 
+function buildEngine(name) {
+    const r = new RuleEngine();
+    Beans.render(r, name);
+    r.init();
+    return r;
+}
+
 describe("RuleEngine test suite: ", function() {
 
     it("_findMatchedRule(): the rule db should be rollbacked always", function() {
-        const re = new RuleEngine('test');
+        const re = buildEngine('test');
         const req = {
             path: '/ab',
             url: 'https://host/ab',
@@ -27,7 +35,7 @@ describe("RuleEngine test suite: ", function() {
     });
 
     it("_findMatchedRule(): no matched rules from rule tree", function() {
-        const re = new RuleEngine('test');
+        const re = buildEngine('test');
         const req = {
             path: '/ab',
             method: 'get',
@@ -42,7 +50,7 @@ describe("RuleEngine test suite: ", function() {
     });
 
     it("_findMatchedRule(): have matched rules from rule tree, but filtered by rule db", function() {
-        const re = new RuleEngine('test');
+        const re = buildEngine('test');
         const req = {
             path: '/ab',
             method: 'get',
@@ -60,7 +68,7 @@ describe("RuleEngine test suite: ", function() {
     });
 
     it("_findMatchedRule(): got matched rules", function() {
-        const re = new RuleEngine('test');
+        const re = buildEngine('test');
         const req = {
             path: '/ab',
             method: 'get',

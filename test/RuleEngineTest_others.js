@@ -1,7 +1,15 @@
 /* eslint no-undef: "off" */
+const Beans = require('qnode-beans');
 
 const SRC = '../src';
 const RuleEngine = require(`${SRC}/RuleEngine`);
+
+function buildEngine(name) {
+    const r = new RuleEngine();
+    Beans.render(r, name);
+    r.init();
+    return r;
+}
 
 describe("RuleEngine test suite: ", function() {
 
@@ -71,7 +79,7 @@ describe("RuleEngine test suite: ", function() {
     });
 
     it("mock(): happy", function() {
-        const re = new RuleEngine('test');
+        const re = buildEngine('test');
 
         const request = {
             path: '/ab',
@@ -101,7 +109,7 @@ describe("RuleEngine test suite: ", function() {
     });
 
     it("mock(): no rule matched", function() {
-        const re = new RuleEngine('test');
+        const re = buildEngine('test');
 
         const request = {
             path: '/ab',
@@ -122,7 +130,7 @@ describe("RuleEngine test suite: ", function() {
     });
 
     it("mock(): no delay", function() {
-        const re = new RuleEngine('test');
+        const re = buildEngine('test');
 
         const request = {
             path: '/ab',

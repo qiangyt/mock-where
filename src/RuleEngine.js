@@ -6,9 +6,7 @@ const RuleTree = require('./RuleTree');
 
 module.exports = class RuleEngine {
 
-    constructor(name) {
-        this.name = name;
-        this._logger = new Logger(name);
+    init() {
         this._ruleTree = new RuleTree();
         this._ruleDb = this._initRuleDatabase();
         this._ruleRequestTable = this._ruleDb.tables.request;
