@@ -30,7 +30,7 @@ module.exports = class ApiServer extends BaseServer {
 
         this._koa.use(this._koaRouter.routes());
 
-        this._logger.debug('%s api(s) registered', apiList.length);
+        this._logger.debug('api(s) registered: %i', apiList.length);
     }
 
     _loadAllApi() {
@@ -39,7 +39,7 @@ module.exports = class ApiServer extends BaseServer {
         const r = [];
         r.push(this._loadApi('where'));
 
-        this._logger.debug('%s api(s) loaded', r.length);
+        this._logger.debug('api(s) loaded: %i', r.length);
 
         return r;
     }

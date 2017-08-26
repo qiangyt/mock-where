@@ -21,7 +21,7 @@ module.exports = class MockConfigProvider_dir extends MockConfigProvider {
         try {
             Fs.statSync(dir);
         } catch (e) {
-            this._logger.warn(`mock directory ${dir} is not found`);
+            this._logger.warn(`mock directory is not found: ${dir}`);
             return {};
         }
 

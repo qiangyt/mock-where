@@ -11,6 +11,7 @@ const LOG = new Logger('App');
 const Beans = require('qnode-beans');
 
 const mockServerManager = Beans.create('./MockServerManager');
+
 const apiServer = Beans.create('./ApiServer');
 
 Beans.init();
