@@ -66,7 +66,7 @@ module.exports = class BaseServer {
     }
 
     start() {
-        this._logger.debug('starting %s server', this._name);
+        this._logger.debug('starting server: %s', this._name);
 
         const port = this._config.port;
         if (!port) throw new Error(`port NOT specified for ${this._name}`);
@@ -75,7 +75,7 @@ module.exports = class BaseServer {
 
         this._server = Http.createServer(this._koa.callback()).listen(port);
 
-        this._logger.info('listening on %s', port);
+        this._logger.info('port listening on: %s', port);
 
         return this._server;
     }

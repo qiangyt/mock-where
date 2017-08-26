@@ -28,6 +28,8 @@ module.exports = class MockServer extends BaseServer {
                     throw new Error(`${this._name}: duplicated domain: domain`);
                 }
                 this._engines[domain] = engine;
+
+                this._logger.info(`virtual host: ${domain}`);
             }
         }
     }
