@@ -90,11 +90,11 @@ module.exports = class MockServerManager {
 
             log.debug('created mock server on port: %i', port);
         }
-        log.info('started mock servers');
+        log.info('started mock servers\n');
     }
 
     _create(serverConfig) {
-        this._logger.debug('begin creating mock server on port: %i', serverConfig.port);
+        this._logger.debug('creating mock server on port: %i', serverConfig.port);
 
         const r = new MockServer(serverConfig);
         Beans.renderThenInitBean(r);
