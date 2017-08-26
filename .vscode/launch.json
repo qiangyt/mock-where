@@ -6,7 +6,10 @@
             "type": "node",
             "request": "launch",
             "name": "launch",
-            "program": "${workspaceRoot}/src/App.js"
+            "program": "${workspaceRoot}/src/App.js",
+            "env": {
+                "LOG_LEVEL": "debug"
+            }
         },
 
         {
