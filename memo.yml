@@ -18,3 +18,4 @@ todo:
   - mock js
   - anyproxy，node-http-proxy
   - change to bunyan
+  - register as micro service (spring cloud eureka initially)
