@@ -19,8 +19,7 @@ module.exports = class MockServer extends BaseServer {
         const vhostConfigs = this._config.vhosts;
         for (const vhostName in vhostConfigs) {
             const engine = new RuleEngine();
-            Beans.render(engine, 'RuleEngine:' + vhostName);
-            engine.init();
+            Beans.renderThenInitBean(engine, 'RuleEngine:' + vhostName);
 
             const vhostConfig = vhostConfigs[vhostName];
             for (const domain of vhostConfig.domains) {

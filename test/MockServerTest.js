@@ -38,8 +38,7 @@ describe("MockServer test suite: ", function() {
         };
 
         const r = new MockServer(def);
-        Beans.render(r);
-        r.init();
+        Beans.renderThenInitBean(r);
         r.prepare();
 
         try {
@@ -60,8 +59,8 @@ describe("MockServer test suite: ", function() {
         const def = { port: 12345, vhosts };
 
         const r = new MockServer(def);
-        Beans.render(r);
-        r.init();
+        Beans.renderThenInitBean(r);
+
         const server = r.start();
 
         const rule = { path: '/abc' };
@@ -119,8 +118,7 @@ describe("MockServer test suite: ", function() {
         };
 
         const r = new MockServer(def);
-        Beans.render(r);
-        r.init();
+        Beans.renderThenInitBean(r);
 
         try {
             r.prepare();
