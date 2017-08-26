@@ -6,7 +6,7 @@ const RequestError = require('qnode-error').RequestError;
 class Where {
 
     init() {
-        this._mockServerManager = Beans.load('mockServerManager');
+        this._mockServerManager = Beans.load('MockServerManager');
     }
 
     async execute(ctx, next) {
