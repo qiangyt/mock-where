@@ -7,6 +7,7 @@ const ApiServer = require(`${SRC}/ApiServer`);
 function buildApiServer() {
     const r = new ApiServer();
     Beans.render(r);
+    r.init();
     return r;
 }
 
@@ -24,11 +25,10 @@ describe("ApiServer test suite 1: ", function() {
         Beans.create = originalBeansCreate;
     });
 
-    it("_loadApi(): raise error when loading duplicated API", function() {
+    it("_loadAllApi(): raise error when loading duplicated API", function() {
         const s = buildApiServer();
-        s._existing = { 'beanName': {} };
-        expect(() => s._loadApi('beanName')).toThrow();
-
+        const apiFileList = ['Where', 'Where'];
+        expect(() => s._loadAllApi(apiFileList)).toThrow();
     });
 
     it("_loadApi(): raise error when API.execute function is not defined", function() {
@@ -39,19 +39,14 @@ describe("ApiServer test suite 1: ", function() {
     });
 
     it("_loadApi(): load an API", function() {
-        const execute = function() {};
-        mockApi('get', execute, 'description');
+        mockApi('get', () => {}, 'description');
 
         const s = buildApiServer();
         const mod = s._loadApi('beanName');
-        const api = s._existing['beanName'];
 
-        expect(api._module).toEqual(mod);
-        expect(api.execute).toEqual(execute);
-
-        expect(mod.instance).toEqual(api);
+        expect(mod.instance).not.toBeNull();
         expect(mod.method).toBe('get');
-        expect(mod.path).toBe('/api/beanName');
+        expect(mod.path).toBe('/beanname');
         expect(mod.description).toBe('description');
     });
 
@@ -65,8 +60,7 @@ describe("ApiServer test suite 1: ", function() {
     });
 
     it("_loadApi(): method should be lowercased", function() {
-        const execute = function() {};
-        mockApi('POST', execute, 'description');
+        mockApi('POST', () => {}, 'description');
 
         const s = buildApiServer();
         const mod = s._loadApi('beanName');

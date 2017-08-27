@@ -2,34 +2,34 @@ const BaseServer = require('./BaseServer');
 const Errors = require('qnode-error').Errors;
 const BaseError = require('qnode-error').BaseError;
 const Beans = require('qnode-beans');
+const Path = require('path');
 
 
 module.exports = class ApiServer extends BaseServer {
-
-    constructor() {
-        super();
-        this._existing = {};
-    }
 
     init() {
         super.init();
 
         this._normalizeConfiguration();
-        this._apiList = this._loadAllApi();
+
+        const apiFileList = this._findAllApiFiles();
+        this._apiByPath = this._loadAllApi(apiFileList);
     }
 
     _normalizeConfiguration() {
         const cfg = this._config;
 
         cfg.port = cfg.port || 7000;
-        cfg.root = cfg.root || '/api/';
+        cfg.rootPath = cfg.rootPath || '/';
+        cfg.rootDir = cfg.rootDir || './api';
     }
 
     prepare() {
         this._logger.debug(`registering api(s)`);
 
-        for (const api of this._apiList) {
-            this._koaRouter[api.method](api.path, async(ctx, next) => {
+        for (const path in this._apiByPath) {
+            const api = this._apiByPath[path];
+            this._koaRouter[api.method](path, async(ctx, next) => {
                 const data = await api.instance.execute(ctx, next);
                 ctx.body = BaseError.staticBuild(Errors.OK); //TODO: locale
                 ctx.body.data = data;
@@ -40,49 +40,54 @@ module.exports = class ApiServer extends BaseServer {
 
         this._koa.use(this._koaRouter.routes());
 
-        this._logger.debug('api(s) registered: %i', this._apiList.length);
+        this._logger.debug('api(s) registered: %i');
     }
 
-    _loadAllApi() {
+    _findAllApiFiles() {
+        return ['Where'];
+    }
+
+    _loadAllApi(apiFileList) {
         const log = this._logger;
         log.debug(`loading api(s)`);
 
-        const r = [];
-        r.push(this._loadApi('where'));
+        const apiList = apiFileList.map(apiFile => this._loadApi(apiFile));
+
+        const r = {};
 
         log.info('-----------------------------------------------------------------------------------');
-        for (let i = 0; i < r.length; i++) {
-            const api = r[i];
-            log.info(' %i. %s %s\t# %s', i, api.method.toUpperCase(), api.path, api.description);
+        for (let i = 0; i < apiList.length; i++) {
+            const api = apiList[i];
+            const path = api.path;
+            if (r[path]) throw new Error(`duplicated api path: ${path}`);
+            r[path] = api;
+
+            log.info(' %i. %s %s\t# %s', i, api.method.toUpperCase(), path, api.description);
         }
         log.info('-----------------------------------------------------------------------------------');
-        log.debug('api(s) loaded: %i', r.length);
+
+        log.debug('api(s) loaded');
 
         return r;
     }
 
-    _normalizePath(path, defaultPath) {
-        let r = path || defaultPath;
+    _normalizeRootPath(path, defaultPath) {
+        let r = path || defaultPath.toLowerCase();
         if ('/' === r.charAt(0)) r = path.substring(1);
-        return this._config.root + r;
+        return this._config.rootPath + r;
     }
 
-    _loadApi(name) {
-        if (this._existing[name]) {
-            throw new Error(`duplicated api name: ${name}`);
-        }
-
-        const api = Beans.create(`./api/${name}`, `api_${name}`);
+    _loadApi(relativeFile) {
+        const file = Path.join(this._config.rootDir, relativeFile);
+        const api = Beans.create(file, relativeFile);
         const mod = api._module;
         if (!api.execute) {
-            throw new Error(`execute() not defined in api: ${name}`);
+            throw new Error(`execute() not defined in api: ${relativeFile}`);
         }
-
-        this._existing[name] = api;
 
         mod.instance = api;
         mod.method = (mod.method || 'get').toLowerCase();
-        mod.path = this._normalizePath(mod.path, name);
+        mod.path = this._normalizeRootPath(mod.path, relativeFile);
 
         return mod;
     }
