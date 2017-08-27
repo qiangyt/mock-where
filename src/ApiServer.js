@@ -11,14 +11,24 @@ module.exports = class ApiServer extends BaseServer {
         this._existing = {};
     }
 
+    init() {
+        super.init();
+
+        this._normalizeConfiguration();
+        this._apiList = this._loadAllApi();
+    }
+
+    _normalizeConfiguration() {
+        const cfg = this._config;
+
+        cfg.port = cfg.port || 7000;
+        cfg.root = cfg.root || '/api/';
+    }
+
     prepare() {
         this._logger.debug(`registering api(s)`);
 
-        this._config.port = this._config.port || 7000;
-
-        const apiList = this._loadAllApi();
-
-        for (const api of apiList) {
+        for (const api of this._apiList) {
             this._koaRouter[api.method](api.path, async(ctx, next) => {
                 const data = await api.instance.execute(ctx, next);
                 ctx.body = BaseError.staticBuild(Errors.OK); //TODO: locale
@@ -30,18 +40,31 @@ module.exports = class ApiServer extends BaseServer {
 
         this._koa.use(this._koaRouter.routes());
 
-        this._logger.debug('api(s) registered: %i', apiList.length);
+        this._logger.debug('api(s) registered: %i', this._apiList.length);
     }
 
     _loadAllApi() {
-        this._logger.debug(`loading api(s)`);
+        const log = this._logger;
+        log.debug(`loading api(s)`);
 
         const r = [];
         r.push(this._loadApi('where'));
 
-        this._logger.debug('api(s) loaded: %i', r.length);
+        log.info('-----------------------------------------------------------------------------------');
+        for (let i = 0; i < r.length; i++) {
+            const api = r[i];
+            log.info(' %i. %s %s\t# %s', i, api.method.toUpperCase(), api.path, api.description);
+        }
+        log.info('-----------------------------------------------------------------------------------');
+        log.debug('api(s) loaded: %i', r.length);
 
         return r;
+    }
+
+    _normalizePath(path, defaultPath) {
+        let r = path || defaultPath;
+        if ('/' === r.charAt(0)) r = path.substring(1);
+        return this._config.root + r;
     }
 
     _loadApi(name) {
@@ -59,9 +82,7 @@ module.exports = class ApiServer extends BaseServer {
 
         mod.instance = api;
         mod.method = (mod.method || 'get').toLowerCase();
-        mod.path = `/api/${name}`;
-
-        this._logger.debug('%s %s\t\t # %s', mod.method.toUpperCase(), mod.path, mod.description);
+        mod.path = this._normalizePath(mod.path, name);
 
         return mod;
     }
