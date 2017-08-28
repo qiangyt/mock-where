@@ -7,19 +7,19 @@ const ApiServer = require(`${SRC}/ApiServer`);
 function buildApiServer(mockMethod, mockExecute, mockDescription) {
     const beans = new Beans();
 
-    if(mockMethod || mockExecute) {
+    if (mockMethod || mockExecute) {
         beans.create = function() {
-            return { 
-                _module: { 
-                    method:mockMethod, 
-                    description:mockDescription 
-                }, 
-                execute:mockExecute 
+            return {
+                _module: {
+                    method: mockMethod,
+                    description: mockDescription
+                },
+                execute: mockExecute
             };
         };
     }
 
-    const r = new ApiServer({rootDir: 'src/api'});
+    const r = new ApiServer({ rootDir: 'src/api' });
     beans.render(r);
     r.init();
     return r;
@@ -27,17 +27,21 @@ function buildApiServer(mockMethod, mockExecute, mockDescription) {
 
 describe("ApiServer test suite 1: ", function() {
 
-    it("_loadAllApi(): raise error when loading duplicated API", function() {
-        const s = buildApiServer();
-        const apiFileList = ['Where', 'Where'];
-        expect(() => s._loadAllApi(apiFileList)).toThrow();
+    it("_loadAllApi(): raise error when duplicated bean", function() {
+        try {
+            const s = buildApiServer();
+            const apiFileList = ['Where'];
+            s._loadAllApi(apiFileList);
+        } catch (e) {
+            expect(e.message.indexOf('duplicated bean') >= 0).toBeTruthy();
+        }
     });
 
     it("_loadApi(): raise error when API.execute function is not defined", function() {
         try {
             s = buildApiServer('post', null, 'desc');
             fail('exception is expected to raise here');
-        } catch(e) {
+        } catch (e) {
             expect(e.message.indexOf('execute() not defined') >= 0).toBeTruthy();
         }
     });
