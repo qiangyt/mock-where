@@ -1,6 +1,4 @@
 const MockServer = require('./MockServer');
-const InternalError = require('qnode-error').InternalError;
-const Beans = require('qnode-beans');
 
 module.exports = class MockServerManager {
 

@@ -1,5 +1,4 @@
 const RequestError = require('qnode-error').RequestError;
-const Beans = require('qnode-beans');
 const BaseServer = require('./BaseServer');
 const RuleEngine = require('./RuleEngine');
 

@@ -11,7 +11,7 @@ module.exports = class BaseServer {
     constructor(config) {
         this._config = config;
     }
-    
+
     init() {
         this._initKoa();
     }

@@ -1,6 +1,5 @@
 const Path = require('path');
 const Fs = require('fs');
-const Logger = require('qnode-log');
 const QNodeConfig = require('qnode-config');
 const MockConfigProvider = require('../MockConfigProvider');
 
