@@ -50,7 +50,7 @@ describe("Template test suite: ", function() {
     it("unknown template type", function() {
         try {
             template('xxx', 'hi {{you}}');
-            fail('expect to raise exception');
+            failhere();
         } catch (e) {
             expect(e.type.key).toBe('UNSUPPORTED_TEMPLATE_TYPE');
         }

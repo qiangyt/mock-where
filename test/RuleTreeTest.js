@@ -180,7 +180,7 @@ describe("RuleTree test suite: ", function() {
     it("normalizeResponseBodyOrTemplate(): neither body nor template is defined", function() {
         try {
             new RuleTree().normalizeResponseBodyOrTemplate({ template: 'test', body: {} });
-            fail('expect to raise error');
+            failhere();
         } catch (e) {
             expect(e.type.key).toBe('MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED');
         }

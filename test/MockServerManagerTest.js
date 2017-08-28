@@ -84,7 +84,7 @@ describe("MockServerManager test suite: ", function() {
         const s = buildMockServerManager();
         try {
             s.resolveProviderClass('MockConfigProvider_zzz');
-            fail('exception is expected to raise here');
+            failhere();
         } catch (e) {
             expect(e.message.indexOf('MockConfigProvider_zzz') >= 0).toBeTruthy();
         }
@@ -131,7 +131,7 @@ describe("MockServerManager test suite: ", function() {
 
         try {
             t.init();
-            fail('exception is expected to raise');
+            failhere();
         } catch (e) {
             // dymmmy
         } finally {

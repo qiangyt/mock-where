@@ -9,7 +9,7 @@ describe("MockConfigProvider test suite: ", function() {
         const t = new MockConfigProvider();
         try {
             t.load();
-            fail('exception is expected to raise');
+            failhere();
         } catch (e) {
             expect(e.message).toBe('to be implemented');
         }
@@ -43,7 +43,7 @@ describe("MockConfigProvider test suite: ", function() {
         const t = new MockConfigProvider();
         try {
             t.resolveDomains({});
-            fail('exception is expected to raise');
+            failhere();
         } catch (e) {
             expect(e.message).not.toBeNull();
         }

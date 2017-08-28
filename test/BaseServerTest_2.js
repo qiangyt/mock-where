@@ -33,7 +33,7 @@ describe("BaseServer test suite 2: ", function() {
         const s = buildBaseServer(undefined);
         try {
             s.start();
-            fail('exception is expected to raise');
+            failhere();
         } catch (e) {
             // empty
         }

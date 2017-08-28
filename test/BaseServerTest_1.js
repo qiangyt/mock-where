@@ -7,7 +7,6 @@ const MissingParamError = qnodeError.MissingParamError;
 const InternalError = qnodeError.InternalError;
 const RequestError = qnodeError.RequestError;
 const Beans = require('qnode-beans');
-const finishTestcase = require('jasmine-supertest');
 
 function buildBaseServer() {
     const r = new BaseServer();

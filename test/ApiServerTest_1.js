@@ -4,7 +4,7 @@ const SRC = '../src';
 const Beans = require('qnode-beans');
 const ApiServer = require(`${SRC}/ApiServer`);
 
-function buildApiServer(mockMethod, mockExecute, mockDescription) {
+function buildApiServer(mockMethod, mockExecute, mockDescription, mockPath) {
     const beans = new Beans();
 
     if (mockMethod || mockExecute) {
@@ -12,7 +12,8 @@ function buildApiServer(mockMethod, mockExecute, mockDescription) {
             return {
                 _module: {
                     method: mockMethod,
-                    description: mockDescription
+                    description: mockDescription,
+                    path: mockPath
                 },
                 execute: mockExecute
             };
@@ -27,6 +28,17 @@ function buildApiServer(mockMethod, mockExecute, mockDescription) {
 
 describe("ApiServer test suite 1: ", function() {
 
+    it("_loadAllApi(): raise error when duplicated path", function() {
+        try {
+            const s = buildApiServer('get', () => {}, '', '/where');
+            const apiFileList = ['dup'];
+            s._loadAllApi(apiFileList);
+            //failhere();
+        } catch (e) {
+            expect(e.message.indexOf('duplicated path') >= 0).toBeTruthy();
+        }
+    });
+
     it("_loadAllApi(): raise error when duplicated bean", function() {
         try {
             const s = buildApiServer();
@@ -40,7 +52,7 @@ describe("ApiServer test suite 1: ", function() {
     it("_loadApi(): raise error when API.execute function is not defined", function() {
         try {
             s = buildApiServer('post', null, 'desc');
-            fail('exception is expected to raise here');
+            failhere();
         } catch (e) {
             expect(e.message.indexOf('execute() not defined') >= 0).toBeTruthy();
         }

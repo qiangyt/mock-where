@@ -122,7 +122,7 @@ describe("RuleEngine test suite: ", function() {
 
         try {
             re.mock(request, response);
-            fail('exception is expected to raise');
+            failhere();
         } catch (e) {
             expect(e.type.key).toBe('NO_RULE_MATCHES');
         }

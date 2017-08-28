@@ -6,7 +6,7 @@
         "**/*[tT]est*.js"
     ],
     "helpers": [
-        "helper/**/*.js"
+        "../spec/helper/*.js"
     ],
     "stopSpecOnExpectationFailure": false,
     "random": false

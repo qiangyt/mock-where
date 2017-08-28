@@ -43,7 +43,7 @@ describe("MockServer test suite: ", function() {
 
         try {
             r.getEngine('xxx');
-            fail('exception is expected to raise');
+            failhere();
         } catch (e) {
             expect(e.type.key).toBe('VHOST_NOT_FOUND');
         }
@@ -122,7 +122,7 @@ describe("MockServer test suite: ", function() {
 
         try {
             r.prepare();
-            fail('exception is expected to raise');
+            failhere();
         } catch (e) {
             expect(e.message.indexOf('duplicated')).toBeTruthy();
         }
