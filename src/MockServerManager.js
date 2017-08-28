@@ -36,7 +36,7 @@ module.exports = class MockServerManager {
         const className = this.resolveProviderClassName(name, providerConfig);
         const clazz = this.resolveProviderClass(className);
         const r = new clazz(providerConfig);
-        Beans.renderThenInitBean(r, className);
+        this._beans.renderThenInitBean(r, className);
         return r;
     }
 
@@ -97,7 +97,7 @@ module.exports = class MockServerManager {
         this._logger.debug('creating mock server on port: %i', serverConfig.port);
 
         const r = new MockServer(serverConfig);
-        Beans.renderThenInitBean(r);
+        this._beans.renderThenInitBean(r);
 
         this._logger.debug('created mock server on port: %i', serverConfig.port);
 

@@ -1,9 +1,12 @@
 /* eslint no-unused-vars:'off' */
+const Path = require('path');
 
 global.PROJECT_PREFIX = 'mw';
 
 const QNodeConfig = require('qnode-config');
-global.config = QNodeConfig.load('config', undefined, true);
+const cfg = global.config = QNodeConfig.load('config', undefined, true);
+if( !cfg.Beans ) cfg.Beans = {};
+if( !cfg.Beans.baseDir ) cfg.Beans.baseDir = Path.join(process.cwd(), 'src');
 
 const Logger = require('qnode-log');
 const LOG = new Logger('App');

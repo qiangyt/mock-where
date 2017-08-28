@@ -4,26 +4,28 @@ const SRC = '../src';
 const Beans = require('qnode-beans');
 const ApiServer = require(`${SRC}/ApiServer`);
 
-function buildApiServer() {
-    const r = new ApiServer();
-    Beans.render(r);
+function buildApiServer(mockMethod, mockExecute, mockDescription) {
+    const beans = new Beans();
+
+    if(mockMethod || mockExecute) {
+        beans.create = function() {
+            return { 
+                _module: { 
+                    method:mockMethod, 
+                    description:mockDescription 
+                }, 
+                execute:mockExecute 
+            };
+        };
+    }
+
+    const r = new ApiServer({rootDir: 'src/api'});
+    beans.render(r);
     r.init();
     return r;
 }
 
-const originalBeansCreate = Beans.create;
-
-function mockApi(method, execute, description) {
-    Beans.create = function() {
-        return { _module: { method, description }, execute };
-    };
-}
-
 describe("ApiServer test suite 1: ", function() {
-
-    afterAll(function() {
-        Beans.create = originalBeansCreate;
-    });
 
     it("_loadAllApi(): raise error when loading duplicated API", function() {
         const s = buildApiServer();
@@ -32,16 +34,16 @@ describe("ApiServer test suite 1: ", function() {
     });
 
     it("_loadApi(): raise error when API.execute function is not defined", function() {
-        const s = buildApiServer();
-        mockApi('post', null, 'desc');
-        expect(() => s._loadApi('beanName')).toThrow();
-
+        try {
+            s = buildApiServer('post', null, 'desc');
+            fail('exception is expected to raise here');
+        } catch(e) {
+            expect(e.message.indexOf('execute() not defined') >= 0).toBeTruthy();
+        }
     });
 
     it("_loadApi(): load an API", function() {
-        mockApi('get', () => {}, 'description');
-
-        const s = buildApiServer();
+        const s = buildApiServer('get', () => {}, 'description');
         const mod = s._loadApi('beanName');
 
         expect(mod.instance).not.toBeNull();
@@ -51,18 +53,13 @@ describe("ApiServer test suite 1: ", function() {
     });
 
     it("_loadApi(): method should be 'get' by default", function() {
-        const execute = function() {};
-        mockApi(undefined, execute, 'description');
-
-        const s = buildApiServer();
+        const s = buildApiServer(undefined, function() {}, 'description');
         const mod = s._loadApi('beanName');
         expect(mod.method).toBe('get');
     });
 
     it("_loadApi(): method should be lowercased", function() {
-        mockApi('POST', () => {}, 'description');
-
-        const s = buildApiServer();
+        const s = buildApiServer('POST', () => {}, 'description');
         const mod = s._loadApi('beanName');
         expect(mod.method).toBe('post');
     });

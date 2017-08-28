@@ -21,7 +21,7 @@ module.exports = class ApiServer extends BaseServer {
 
         cfg.port = cfg.port || 7000;
         cfg.rootPath = cfg.rootPath || '/';
-        cfg.rootDir = cfg.rootDir || './api';
+        cfg.rootDir = cfg.rootDir || 'api';
     }
 
     prepare() {
@@ -79,7 +79,7 @@ module.exports = class ApiServer extends BaseServer {
 
     _loadApi(relativeFile) {
         const file = Path.join(this._config.rootDir, relativeFile);
-        const api = Beans.create(file, relativeFile);
+        const api = this._beans.create(file, relativeFile);
         const mod = api._module;
         if (!api.execute) {
             throw new Error(`execute() not defined in api: ${relativeFile}`);
