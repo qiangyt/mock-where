@@ -5,8 +5,9 @@ const SRC = '../src';
 const RuleEngine = require(`${SRC}/RuleEngine`);
 
 function buildEngine(name) {
+    const beans = new Beans();
     const r = new RuleEngine();
-    Beans.renderThenInitBean(r, name);
+    beans.renderThenInitBean(r, name);
     return r;
 }
 

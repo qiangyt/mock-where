@@ -8,8 +8,9 @@ const RequestError = qnodeError.RequestError;
 const Beans = require('qnode-beans');
 
 function buildBaseServer(port) {
+    const beans = new Beans();
     const r = new BaseServer();
-    Beans.render(r);
+    beans.render(r);
     r._config.port = port;
     r.prepare = function() {};
     r.init();

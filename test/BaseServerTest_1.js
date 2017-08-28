@@ -9,8 +9,9 @@ const RequestError = qnodeError.RequestError;
 const Beans = require('qnode-beans');
 
 function buildBaseServer() {
+    const beans = new Beans();
     const r = new BaseServer();
-    Beans.render(r);
+    beans.render(r);
     return r;
 }
 

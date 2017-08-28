@@ -103,8 +103,9 @@ describe("MockConfigProvider_dir test suite: ", function() {
     });
 
     it("load(): dir not found", function() {
+        const beans = new Beans();
         const t = new MockConfigProvider_dir({ dir: 'not_existed' });
-        Beans.render(t);
+        beans.render(t);
         const vhostsByPort = t.load();
         expect(_.isEmpty(vhostsByPort)).toBeTruthy();
     });

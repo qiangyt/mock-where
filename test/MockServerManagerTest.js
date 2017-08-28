@@ -46,8 +46,9 @@ const Beans = require('qnode-beans');
 const MockServerManager = require(`${SRC}/MockServerManager`);
 
 function buildMockServerManager() {
+    const beans = new Beans();
     const r = new MockServerManager();
-    Beans.render(r);
+    beans.render(r);
     if (_addDuplicatedConfig) {
         r._config.providers = {
             dir: {
