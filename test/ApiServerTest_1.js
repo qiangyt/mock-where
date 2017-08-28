@@ -30,12 +30,12 @@ describe("ApiServer test suite 1: ", function() {
 
     it("_loadAllApi(): raise error when duplicated path", function() {
         try {
-            const s = buildApiServer('get', () => {}, '', '/where');
-            const apiFileList = ['dup'];
+            const s = buildApiServer('get', () => {}, '', '/duplicated');
+            const apiFileList = ['api1', 'api2'];
             s._loadAllApi(apiFileList);
-            //failhere();
+            failhere();
         } catch (e) {
-            expect(e.message.indexOf('duplicated path') >= 0).toBeTruthy();
+            expect(e.message.indexOf('duplicated api path') >= 0).toBeTruthy();
         }
     });
 
