@@ -16,7 +16,8 @@ todo:
   - should
   - pm2 script
   - mock js
-  - anyproxy，node-http-proxy
+  - https://github.com/nodejitsu/node-http-proxy
+  - https://github.com/jquatier/eureka-js-client
   - change to bunyan
   - register as micro service (spring cloud eureka initially)
   - callback
