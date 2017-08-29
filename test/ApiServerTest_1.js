@@ -20,7 +20,7 @@ function buildApiServer(mockMethod, mockExecute, mockDescription, mockPath) {
         };
     }
 
-    const r = new ApiServer({ rootDir: 'src/api' });
+    const r = new ApiServer();
     beans.render(r);
     r.init();
     return r;

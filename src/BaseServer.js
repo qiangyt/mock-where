@@ -81,6 +81,7 @@ module.exports = class BaseServer {
 
         this._logger.info('port listening on: %s\n', port);
 
+        this.started = true;
         return this._server;
     }
 

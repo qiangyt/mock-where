@@ -88,6 +88,9 @@ module.exports = class MockServerManager {
 
             log.debug('created mock server on port: %i', port);
         }
+
+        this.started = true;
+
         log.info('started mock servers\n');
     }
 

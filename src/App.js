@@ -1,25 +1,52 @@
 /* eslint no-unused-vars:'off' */
+/* eslint global-require:'off' */
 const Path = require('path');
 
 global.PROJECT_PREFIX = 'mw';
-
 const QNodeConfig = require('qnode-config');
-const cfg = global.config = QNodeConfig.load('config', undefined, true);
-if( !cfg.Beans ) cfg.Beans = {};
-if( !cfg.Beans.baseDir ) cfg.Beans.baseDir = Path.join(process.cwd(), 'src');
 
 const Logger = require('qnode-log');
-const LOG = new Logger('App');
+
+function isMainModule() {
+    const mainModuleFileName = process.mainModule.filename;
+    const thisModuleFileName = module.filename;
+    return mainModuleFileName === thisModuleFileName;
+}
+
+const cfg = global.config = QNodeConfig.load('config', undefined, true);
+cfg.Beans = cfg.Beans || {};
+if (!cfg.Beans.baseDir) {
+    cfg.Beans.baseDir = Path.join(process.cwd(), 'src');
+}
 
 const Beans = require('qnode-beans');
 
-const mockServerManager = Beans.create('./MockServerManager');
 
-const apiServer = Beans.create('./ApiServer');
+class App {
 
-Beans.init();
+    constructor() {
+        this._logger = new Logger('App');
+        this._beans = new Beans();
 
-mockServerManager.start();
-apiServer.start();
+        this.mockServerManager = this._beans.create('./MockServerManager');
 
-LOG.info('started');
+        this.apiServer = this._beans.create('./ApiServer');
+
+        this._beans.init();
+    }
+
+    start() {
+        this.mockServerManager.start();
+        this.apiServer.start();
+
+        this._logger.info('started');
+    }
+
+}
+
+if (isMainModule()) {
+    const app = new App();
+    app.start();
+}
+
+module.exports = App;
