@@ -29,11 +29,24 @@ module.exports = class ApiServer extends BaseServer {
         for (const path in this._apiByPath) {
             const api = this._apiByPath[path];
             this._koaRouter[api.method](path, async(ctx, next) => {
-                const data = await api.instance.execute(ctx, next);
+                const inst = api.instance;
+
+                let extra;
+
+                if (inst.auth) {
+                    extra = await inst.auth(ctx) || {};
+                }
+
+                if (inst.validate) {
+                    extra = await inst.validate(ctx, extra) || {};
+                }
+
+                const data = await api.instance.execute(ctx, extra || {});
+
                 ctx.body = BaseError.staticBuild(Errors.OK); //TODO: locale
                 ctx.body.data = data;
 
-                //await next();
+                await next();
             });
         }
 

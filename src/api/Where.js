@@ -8,7 +8,7 @@ class Where {
         this._mockServerManager = this._beans.load('MockServerManager');
     }
 
-    async execute(ctx, next) {
+    async validate(ctx) {
         const req = ctx.request;
 
         const rule = req.body;
@@ -23,11 +23,11 @@ class Where {
         const mockServer = this._mockServerManager.get(port);
         if (!mockServer) throw new RequestError('MOCK_SERVER_NOT_FOUND', port);
 
+        return { domain, rule, mockServer };
+    }
+
+    async execute(ctx, { domain, rule, mockServer }) {
         mockServer.putRule(domain, rule);
-
-        ctx.body = { code: 0 };
-
-        await next();
     }
 
 }
