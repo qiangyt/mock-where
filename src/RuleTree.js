@@ -71,7 +71,7 @@ module.exports = class RuleTree {
         if (response.template) {
             this.normalizeTemplate(response);
         } else {
-            response.body = response.body || 'no response body specified';
+            response.body = JSON.stringify(response.body || 'no response body specified');
         }
     }
 

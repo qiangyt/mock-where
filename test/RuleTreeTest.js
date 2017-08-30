@@ -198,12 +198,18 @@ describe("RuleTree test suite: ", function() {
         expect(r.template.type).toBe('mustache');
     });
 
-    it("normalizeResponseBodyOrTemplate(): take body", function() {
+    it("normalizeResponseBodyOrTemplate(): take body, should be json text", function() {
         const r = {
             body: 'dummy body'
         };
         new RuleTree().normalizeResponseBodyOrTemplate(r);
-        expect(r.body).toBe('dummy body');
+        expect(r.body).toBe('"dummy body"');
+    });
+
+    it("normalizeResponseBodyOrTemplate(): take body, but body is undefined too", function() {
+        const r = {};
+        new RuleTree().normalizeResponseBodyOrTemplate(r);
+        expect(r.body).toBe('"no response body specified"');
     });
 
     it("put() & match(): matches the rule that just puts", function() {
