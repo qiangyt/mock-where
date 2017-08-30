@@ -8,10 +8,13 @@
         "cover": "node ./node_modules/istanbul/lib/cli.js cover --include-all-sources ./node_modules/jasmine/bin/jasmine.js",
         "test": "node ./node_modules/jasmine/bin/jasmine.js",
         "lint": "./node_modules/.bin/eslint -f stylish --cache --cache-location ./build/eslint/cache/ --color ./src/",
-        "watch": "./node_modules/.bin/esw --watch -f stylish --cache --cache-location ./build/eslint/cache/ --color ./src/"
+        "watch": "./node_modules/.bin/esw --watch -f stylish --cache --cache-location ./build/eslint/cache/ --color ./src/",
+        "jsdoc": "./node_modules/.bin/jsdoc ./src -c .jsdoc.json"
     },
+    "homepage": "https://github.com/qiangyt/mock-where",
     "repository": "git@github.com:qiangyt/mock-where.git",
     "author": "Qiang Yiting <qiangyt@wxcount.com> (https://github.com/qiangyt)",
+    "contributors": [],
     "keywords": [
         "mock",
         "RESTful",
@@ -22,12 +25,12 @@
         "Swagger"
     ],
     "bugs": {
-        "url": "https://github.com/qiangyt/mock-where/issues"
+        "url": "https://github.com/qiangyt/mock-where/issues",
+        "email": "qiangyt@wxcount.com"
     },
     "engines": {
         "node": ">=7"
     },
-    "private": false,
     "license": "MIT",
     "dependencies": {
         "alasql": "0.4.1",
