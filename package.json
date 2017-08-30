@@ -61,6 +61,7 @@
         "eslint-watch": "3.1.2",
         "istanbul": "1.1.0-alpha.1",
         "jasmine": "2.7.0",
+        "jsdoc": "3.5.4",
         "mock-fs": "4.4.1",
         "mock-require": "2.0.2",
         "sinon": "2.4.1",
