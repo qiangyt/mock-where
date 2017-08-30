@@ -2,13 +2,8 @@
 
 const SRC = '../src';
 const MockServer = require(`${SRC}/MockServer`);
-const qnodeError = require('qnode-error');
 const supertest = require('supertest');
-const MissingParamError = qnodeError.MissingParamError;
-const InternalError = qnodeError.InternalError;
-const RequestError = qnodeError.RequestError;
 const Beans = require('qnode-beans');
-const finishTestcase = require('jasmine-supertest');
 
 const Logger = require('qnode-log');
 
@@ -65,14 +60,12 @@ describe("MockServer test suite: ", function() {
 
         const server = r.start();
 
-        const rule = { path: '/abc' };
+        const rule = { path: '/abc', body: 'hello' };
         r.putRule(host, rule);
 
-        supertest(server).get('/abc').expect(500).end(function(err, res) {
-            if (err) {
-                console.error(err);
-                return done(err);
-            }
+        supertest(server).get('/abc').expect(200).end(function(err, res) {
+            if (err) return done(err);
+            expect(res.body).toBe('no response body specified');
             done();
         });
     });
