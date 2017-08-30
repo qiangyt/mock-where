@@ -3279,13 +3279,6 @@ q@~1.4.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.4.1.tgz#55705bcd93c5f3673530c2c2cbc0c2b3addc286e"
 
-qnode-beans@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/qnode-beans/-/qnode-beans-1.1.0.tgz#7df727821a786d7270971c96bad4d6abc070ed74"
-  dependencies:
-    lodash "4.17.4"
-    qnode-log "1.0.2"
-
 qnode-beans@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/qnode-beans/-/qnode-beans-1.1.1.tgz#0be6961c1fb387878c8450c32fb910c02a6eba80"
@@ -3330,15 +3323,15 @@ qnode-log@1.0.2:
     log4js "2.3.0"
     sprintf-js "1.1.1"
 
-qnode-rest@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/qnode-rest/-/qnode-rest-1.0.2.tgz#512b2a1bac90510a990c85afd98670febc856d33"
+qnode-rest@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/qnode-rest/-/qnode-rest-1.0.4.tgz#88e63050661d9b4117653d8e822bc73273a9e02b"
   dependencies:
     koa "2.3.0"
     koa-body "2.3.0"
     koa-logger "3.0.1"
     koa-router "7.2.1"
-    qnode-beans "1.1.0"
+    qnode-beans "1.1.1"
     qnode-config "1.0.5"
     qnode-error "1.0.2"
     qnode-log "1.0.2"
