@@ -1,6 +1,7 @@
 /* eslint no-unused-vars:'off' */
 /* eslint global-require:'off' */
 const Path = require('path');
+const ApiServer = require('qnode-rest').ApiServer;
 
 global.PROJECT_PREFIX = 'mw';
 const QNodeConfig = require('qnode-config');
@@ -30,7 +31,7 @@ class App {
 
         this.mockServerManager = this._beans.create('./MockServerManager');
 
-        this.apiServer = this._beans.create('./ApiServer');
+        this.apiServer = this._beans.create(ApiServer, 'ApiServer');
 
         this._beans.init();
     }

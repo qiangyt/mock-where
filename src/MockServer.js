@@ -1,5 +1,5 @@
 const RequestError = require('qnode-error').RequestError;
-const BaseServer = require('./BaseServer');
+const BaseServer = require('qnode-rest').BaseServer;
 const RuleEngine = require('./RuleEngine');
 
 module.exports = class MockServer extends BaseServer {

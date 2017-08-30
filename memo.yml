@@ -22,5 +22,4 @@ todo:
   - register as micro service (spring cloud eureka initially)
   - callback
   - remove global config object
-  - simple ui 
-  - move api frameworkd as separated npm module
+  - simple ui
