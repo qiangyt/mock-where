@@ -3279,9 +3279,9 @@ q@~1.4.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.4.1.tgz#55705bcd93c5f3673530c2c2cbc0c2b3addc286e"
 
-qnode-beans@1.0.18:
-  version "1.0.18"
-  resolved "https://registry.yarnpkg.com/qnode-beans/-/qnode-beans-1.0.18.tgz#1ccb0a1a5b945efb86d9b20f30326d7386873daa"
+qnode-beans@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/qnode-beans/-/qnode-beans-1.1.1.tgz#0be6961c1fb387878c8450c32fb910c02a6eba80"
   dependencies:
     lodash "4.17.4"
     qnode-log "1.0.2"
@@ -3322,6 +3322,19 @@ qnode-log@1.0.2:
   dependencies:
     log4js "2.3.0"
     sprintf-js "1.1.1"
+
+qnode-rest@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/qnode-rest/-/qnode-rest-1.0.4.tgz#88e63050661d9b4117653d8e822bc73273a9e02b"
+  dependencies:
+    koa "2.3.0"
+    koa-body "2.3.0"
+    koa-logger "3.0.1"
+    koa-router "7.2.1"
+    qnode-beans "1.1.1"
+    qnode-config "1.0.5"
+    qnode-error "1.0.2"
+    qnode-log "1.0.2"
 
 qs@^6.1.0, qs@^6.4.0:
   version "6.5.0"

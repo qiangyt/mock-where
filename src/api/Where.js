@@ -14,11 +14,11 @@ class Where {
         const rule = req.body;
         this._logger.info('rule is requested: %s', rule);
 
-        const port = rule.port;
-        if (!port) throw new MissingParamError('port');
-
         const domain = rule.domain;
         if (!domain) throw new MissingParamError('domain');
+        
+        const port = rule.port;
+        if (!port) throw new MissingParamError('port');
 
         const mockServer = this._mockServerManager.get(port);
         if (!mockServer) throw new RequestError('MOCK_SERVER_NOT_FOUND', port);

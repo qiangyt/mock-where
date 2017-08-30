@@ -1,17 +1,13 @@
 /* eslint no-unused-vars:'off' */
 /* eslint global-require:'off' */
 const Path = require('path');
+const ApiServer = require('qnode-rest').ApiServer;
+const Helper = require('./Helper');
 
 global.PROJECT_PREFIX = 'mw';
 const QNodeConfig = require('qnode-config');
 
 const Logger = require('qnode-log');
-
-function isMainModule() {
-    const mainModuleFileName = process.mainModule.filename;
-    const thisModuleFileName = module.filename;
-    return mainModuleFileName === thisModuleFileName;
-}
 
 const cfg = global.config = QNodeConfig.load('config', undefined, true);
 cfg.Beans = cfg.Beans || {};
@@ -30,7 +26,7 @@ class App {
 
         this.mockServerManager = this._beans.create('./MockServerManager');
 
-        this.apiServer = this._beans.create('./ApiServer');
+        this.apiServer = this._beans.create(ApiServer, 'ApiServer');
 
         this._beans.init();
     }
@@ -44,7 +40,7 @@ class App {
 
 }
 
-if (isMainModule()) {
+if (Helper.isMainModule(module.filename)) {
     const app = new App();
     app.start();
 }

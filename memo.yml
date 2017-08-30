@@ -25,3 +25,4 @@ todo:
   - simple ui 
   - move api frameworkd as separated npm module
   - customizable error response
+  - simple ui
