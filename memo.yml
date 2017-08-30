@@ -6,24 +6,71 @@ reference:
   - https://github.com/smollweide/node-mock-server
 
 todo:
-  - switch to in-memory sqlite ? https://github.com/mapbox/node-sqlite3
-  - add nodemon script
-  - https://github.com/jsdoc3/jsdoc
-  - https://github.com/cnodejs/nodeclub
-  - https://github.com/jstrace/jstrace
-  - http://yeoman.io/
-  - support https
-  - should
-  - pm2 script
-  - mock js
-  - https://github.com/nodejitsu/node-http-proxy
-  - https://github.com/jquatier/eureka-js-client
-  - change to bunyan
-  - register as micro service (spring cloud eureka initially)
-  - callback
-  - remove global config object
-  - simple ui 
-  - move api frameworkd as separated npm module
-  - customizable error response
-  - mongodb or alasql to save request / response
-  - simple ui to view request/response/matched response, to manage rules (includes a online json/yml/js/templat editor)
+  - v1.0.0:
+    - https://github.com/jsdoc3/jsdoc
+    - document
+  - v1.0.1:
+    - callback
+  - v1.0.2:
+    - built-in mock:
+      - sms:
+        - mengwang
+  - v1.0.3:
+    - built-in mock:
+      - sms:
+        - ems
+  - v1.0.4:
+    - built-in mock:
+      - sms:
+        - welink
+  - v1.0.5:
+    - built-in mock:
+      - sms:
+        - honglian95
+  - v1.0.6:
+    - built-in mock:
+      - sms:
+        - mandao
+  - v1.0.7 (targeting use in wanda-itg mdp project):
+    - register as micro service (spring cloud eureka initially). use https://github.com/jquatier/eureka-js-client
+  - v1.1.0:
+    - support swagger
+  - v1.1.1:
+    - support session / transaction
+  - v1.1.2:
+    - mock js
+  - v1.2.3:
+    - support https
+  - v1.2.4:
+    - bypass proxy. use https://github.com/nodejitsu/node-http-proxy
+  - v1.2.5 (target public small-range announcement):
+    - customizable error response
+  - v1.3.0:
+    - mongodb or alasql to save request / response
+  - v1.3.1:
+    - simple ui to view request/response/matched response, to manage rules (includes a online json/yml/js/template editor)
+  - v1.3.2:
+    - built-in mock:
+      - alipay
+  - v1.3.3:
+    - built-in mock:
+      - weixin auth
+  - v1.3.4:
+    - built-in mock:
+      - weixin pay 
+  - v1.3.5:
+    - built-in mock:
+      - weixin app
+  - v1.3.6 (target public mid-range announcement):
+    - built-in mock:
+      - paypal
+  - v2.x (TBD):  
+    - websocket
+    - mock RabbitMQ, Kafka, Redis, Memcached, MySQL, MongoDB
+    - switch to in-memory sqlite ? https://github.com/mapbox/node-sqlite3
+    - https://github.com/cnodejs/nodeclub
+    - https://github.com/jstrace/jstrace
+    - http://yeoman.io/
+    - should
+    - change to bunyan
+    - remove global config object
