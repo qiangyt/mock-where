@@ -9,7 +9,7 @@ const QNodeConfig = require('qnode-config');
 
 const Logger = require('qnode-log');
 
-const cfg = global.config = QNodeConfig.load('config', undefined, true);
+const cfg = global.config = QNodeConfig.load('./config/config', undefined, true);
 cfg.Beans = cfg.Beans || {};
 if (!cfg.Beans.baseDir) {
     cfg.Beans.baseDir = Path.join(process.cwd(), 'src');
