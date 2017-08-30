@@ -1,0 +1,11 @@
+apps:
+  - script: ./src/App.js
+    name: mw-prod
+    instances: 0
+    exec_mode: cluster
+    max_memory_restart: 1024M
+    env:
+      NODE_ENV: prod
+    autorestart: false
+    max_restart: 100
+

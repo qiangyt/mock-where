@@ -1,0 +1,13 @@
+apps:
+  - script: ./src/App.js
+    name: mw-dev
+    instances: 1
+    exec_mode: cluster
+    watch:
+      - ./src
+    max_memory_restart: 256M
+    env:
+      NODE_ENV: dev
+    autorestart: true
+    max_restart: 2
+
