@@ -25,4 +25,5 @@ todo:
   - simple ui 
   - move api frameworkd as separated npm module
   - customizable error response
-  - simple ui
+  - mongodb or alasql to save request / response
+  - simple ui to view request/response/matched response, to manage rules (includes a online json/yml/js/templat editor)
