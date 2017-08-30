@@ -121,12 +121,9 @@ describe("RuleEngine test suite: ", function() {
         };
         const response = {};
 
-        try {
-            re.mock(request, response);
-            failhere();
-        } catch (e) {
-            expect(e.type.key).toBe('NO_RULE_MATCHES');
-        }
+        re.mock(request, response)
+            .then(() => failhere())
+            .catch(e => expect(e.type.key).toBe('NO_RULE_MATCHES'));
     });
 
     it("mock(): no delay", function() {

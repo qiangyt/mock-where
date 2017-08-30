@@ -89,7 +89,7 @@ module.exports = class RuleEngine {
         return 0;
     }
 
-    mock(request, response) {
+    async mock(request, response) {
         const rule = this._findMatchedRule(request);
         if (!rule) {
             throw new RequestError('NO_RULE_MATCHES');
