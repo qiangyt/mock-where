@@ -5,23 +5,23 @@ const _ = require('underscore');
 module.exports = class Callback {
 
     constructor(config) {
-        this.beforeAsync = this.normalizeAsyncFlag(config.beforeAsync);
-        this.before = this.normalizeList(config.before);
-        this.on = this.normalizeList(config.on);
-        this.afterAsync = this.normalizeAsyncFlag(config.beforeAsync);
-        this.after = this.normalizeList(config.after);
+        this.beforeAsync = Callback.normalizeAsyncFlag(config.beforeAsync);
+        this.before = Callback.normalizeList(config.before);
+        this.on = Callback.normalizeList(config.on);
+        this.afterAsync = Callback.normalizeAsyncFlag(config.beforeAsync);
+        this.after = Callback.normalizeList(config.after);
     }
 
-    normalizeAsyncFlag(flag) {
+    static normalizeAsyncFlag(flag) {
         return (flag === undefined || flag === null) ? false : flag;
     }
 
-    normalizeList(list) {
+    static normalizeList(list) {
         if (!list || !list.length) return [];
-        return list.map(target => this.normalizeTarget(target));
+        return list.map(target => Callback.normalizeTarget(target));
     }
 
-    normalizeTarget(target) {
+    static normalizeTarget(target) {
         target.method = target.method || 'post';
         target.hasHeader = !_.isEmpty(target.header);
         target.hasQuery = !_.isEmpty(target.query);
