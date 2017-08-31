@@ -16,19 +16,22 @@ const RequestError = require('qnode-error').RequestError;
  *      delay: 200, // optoinal. assigned to default delay, if not specified
  *      delayFix: 16, // optional. assigned to default delayFix, if not specified
  *      callback: {
+ *        beforeAsync: true,
  *        before: [
- *          async: true,
- *          method: 'POST',
- *          path: 'http://example.com/notify',
- *          header: {},
- *          query: {}, // or string
- *          type: 'application/json',
- *          body: {}, // or string, or stream, or file
- *          retry: 2,
- *          accept: 'application/xml'
+ *          {
+ *              method: 'POST',
+ *              path: 'http://example.com/notify',
+ *              header: {},
+ *              query: {}, // or string
+ *              type: 'application/json',
+ *              body: {}, // or string, or stream, or file
+ *              retry: 2,
+ *              accept: 'application/xml'
+ *          }
  *        ],
  *        on: [ // always async
- *        ]
+ *        ],
+ *        afterAsync: true
  *        after: [ // same as before
  *        ]   
  *      },
