@@ -6,54 +6,58 @@ reference:
   - https://github.com/smollweide/node-mock-server
 
 todo:
+  - v0.9.0:
+    - callback
+  - v0.9.1:
+    - built-in mock:
+      sms: mengwang
+  - v0.9.2:
+    - built-in mock:
+      sms: ems
+  - v0.9.3:
+    - built-in mock:
+      sms: welink
+  - v0.9.4:
+    - built-in mock:
+      sms: honglian95
+  - v0.9.5:
+    - built-in mock:
+      sms: mandao
+  - v0.9.6:
+    - rule priority
   - v1.0.0:
+    - targeting use in wanda-itg mdp project
     - https://github.com/jsdoc3/jsdoc
     - document
-  - v1.0.1:
-    - callback
-  - v1.0.2:
-    - built-in mock:
-      - sms:
-        - mengwang
-  - v1.0.3:
-    - built-in mock:
-      - sms:
-        - ems
-  - v1.0.4:
-    - built-in mock:
-      - sms:
-        - welink
-  - v1.0.5:
-    - built-in mock:
-      - sms:
-        - honglian95
-  - v1.0.6:
-    - built-in mock:
-      - sms:
-        - mandao
-  - v1.0.7 (targeting use in wanda-itg mdp project):
-    - register as micro service (spring cloud eureka initially). use https://github.com/jquatier/eureka-js-client
+
   - v1.1.0:
-    - support swagger
+    - support mock-where-web to crud mock rules
+    - refactor the provider interface and implementations
   - v1.1.1:
-    - support session / transaction
-  - v1.1.2:
-    - mock js
-  - v1.2.3:
-    - support https
-  - v1.2.4:
-    - bypass proxy. use https://github.com/nodejitsu/node-http-proxy
-  - v1.2.5 (target public small-range announcement):
-    - customizable error response
-  - v1.3.0:
+    - support mock-where-web to query request/response
     - mongodb or alasql to save request / response
-  - v1.3.1:
-    - simple ui to view request/response/matched response, to manage rules (includes a online json/yml/js/template editor)
-  - v1.3.2:
+
+  - v1.2.0:
+    - register as micro service (spring cloud eureka initially). use https://github.com/jquatier/eureka-js-client
+  - v1.2.1:
+    - support swagger
+  - v1.2.2:
+    - support session / transaction
+  - v1.2.3:
+    - mock js
+  - v1.2.4:
+    - support https
+  - v1.2.5:
+    - bypass proxy. use https://github.com/nodejitsu/node-http-proxy
+  - v1.2.6 (target public small-range announcement):
+    - customizable error response
+  - v1.2.7:
+    - rate limitation
+
+  - v1.3.0:
     - built-in mock:
       - alipay
-  - v1.3.3:
-    - rate limitation
+      
   - v2.x (TBD):  
     - websocket
     - mock RabbitMQ, Kafka, Redis, Memcached, MySQL, MongoDB
