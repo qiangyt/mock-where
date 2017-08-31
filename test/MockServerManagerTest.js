@@ -24,9 +24,12 @@ mockRequire(`${SRC}/MockServer`, SpiedMockServer);
 
 let _addDuplicatedConfig = false;
 
+let _addSpiedHosts = true;
+
 class SpiedMockConfigProvider extends MockConfigProvider {
 
     load() {
+        if (!_addSpiedHosts) return {};
         return {
             123: {
                 port: 123
@@ -103,8 +106,11 @@ describe("MockServerManager test suite: ", function() {
     });
 
     it("_resolveDefaultProviders", function() {
+        _addSpiedHosts = false;
+
         const t = buildMockServerManager();
         t.init();
+        expect(t.defaultPort).toBe(8000);
 
         const r = t._resolveDefaultProviders();
         expect(r.dir.type).toBe('dir');
@@ -112,8 +118,11 @@ describe("MockServerManager test suite: ", function() {
     });
 
     it("init(): happy", function() {
+        _addSpiedHosts = true;
+
         const t = buildMockServerManager();
         t.init();
+        expect(t.defaultPort).toBeUndefined();
 
         const a = t._allByPort[123];
         expect(a instanceof SpiedMockServer).toBeTruthy();

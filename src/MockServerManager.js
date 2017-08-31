@@ -1,4 +1,5 @@
 const MockServer = require('./MockServer');
+const _ = require('lodash');
 
 module.exports = class MockServerManager {
 
@@ -73,6 +74,14 @@ module.exports = class MockServerManager {
             const vhostsConfig = vhostsConfigByPort[port];
             const mockServer = this._create(vhostsConfig);
             allByPort[port] = mockServer;
+
+            if (!this.defaultPort) {
+                this.defaultPort = parseInt(port, 10);
+            }
+        }
+
+        if (_.size(allByPort) !== 1) {
+            this.defaultPort = undefined;
         }
     }
 
