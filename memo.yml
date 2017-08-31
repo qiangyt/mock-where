@@ -42,6 +42,10 @@ todo:
     - support script
   - v1.1.4:
     - performance review and improvment
+  - v1.1.5:
+    - support auth
+  - v1.1.6:
+    - support cookie
 
   - v1.2.0:
     - register as micro service (spring cloud eureka initially). use https://github.com/jquatier/eureka-js-client
