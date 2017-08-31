@@ -7,8 +7,8 @@ const RequestError = require('qnode-error').RequestError;
  * 
  * The rule should be in request body. 
  * Example: {
- *      port:  8000,
- *      domain:  "github.com",
+ *      port:  8000, // optional. if has default port, then take it, otherwise, throws error
+ *      domain:  "github.com", // optional. if has default domain, then take it, otherwise, throws error
  *      name: "My rule name", // optional. assigned by default
  *      path: "/test", // optional. assigned to default path, if not specified
  *      method: "POST", // optional. assigned to default method, if not specified
