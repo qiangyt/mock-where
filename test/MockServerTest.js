@@ -45,7 +45,7 @@ describe("MockServer test suite: ", function() {
         }
     });
 
-    it("happy", function(done) {
+    it("start(): happy", function(done) {
         const host = '127.0.0.1';
         const vhosts = {};
         vhosts[host] = {
@@ -59,6 +59,7 @@ describe("MockServer test suite: ", function() {
         beans.renderThenInitBean(r);
 
         const server = r.start();
+        expect(r.defaultDomain).toBe('127.0.0.1');
 
         const rule = { path: '/abc', body: 'hello' };
         r.putRule(host, rule);
@@ -68,6 +69,23 @@ describe("MockServer test suite: ", function() {
             expect(res.body).toBe('no response body specified');
             done();
         });
+    });
+
+    it("start(): no default domain due to 2 more domains", function() {
+        const host1 = '127.0.0.1',
+            host2 = '192.168.0.1';
+        const vhosts = {};
+        vhosts[host1] = {
+            name: host1,
+            domains: [host1, host2]
+        }
+        const def = { port: 12345, vhosts };
+
+        const beans = new Beans();
+        const r = new MockServer(def);
+        beans.renderThenInitBean(r);
+
+        expect(r.defaultDomain).toBeUndefined();
     });
 
     it("normalizeRequest(): normalize request", function() {

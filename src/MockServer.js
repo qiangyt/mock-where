@@ -1,6 +1,7 @@
 const RequestError = require('qnode-error').RequestError;
 const BaseServer = require('qnode-rest').BaseServer;
 const RuleEngine = require('./RuleEngine');
+const _ = require('lodash');
 
 module.exports = class MockServer extends BaseServer {
 
@@ -27,8 +28,16 @@ module.exports = class MockServer extends BaseServer {
                 }
                 this._engines[domain] = engine;
 
+                if (!this.defaultDomain) {
+                    this.defaultDomain = domain;
+                }
+
                 this._logger.info(`virtual host: ${domain}`);
             }
+        }
+
+        if (_.size(this._engines) !== 1) {
+            this.defaultDomain = undefined;
         }
     }
 
