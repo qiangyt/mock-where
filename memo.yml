@@ -29,6 +29,8 @@ todo:
     - targeting use in wanda-itg mdp project
     - https://github.com/jsdoc3/jsdoc
     - document
+  - v1.0.1:
+    - support script
 
   - v1.1.0:
     - support mock-where-web to crud mock rules
@@ -57,7 +59,7 @@ todo:
   - v1.3.0:
     - built-in mock:
       - alipay
-      
+
   - v2.x (TBD):  
     - websocket
     - mock RabbitMQ, Kafka, Redis, Memcached, MySQL, MongoDB
