@@ -1,5 +1,6 @@
 /* eslint no-undef: "off" */
 const Beans = require('qnode-beans');
+const RequestError = require('qnode-error').RequestError;
 
 const SRC = '../src';
 const RuleEngine = require(`${SRC}/RuleEngine`);
@@ -34,7 +35,7 @@ describe("RuleEngine test suite: ", function() {
         expect(rows[0].c).toBe(0);
     });
 
-    it("_findMatchedRule(): no matched rules from rule tree", function() {
+    it("_findMatchedRule() & loadMatchedRule(): no matched rules from rule tree", function() {
         const re = buildEngine('test');
         const req = {
             path: '/ab',
@@ -47,6 +48,14 @@ describe("RuleEngine test suite: ", function() {
 
         const matched = re._findMatchedRule(req);
         expect(matched).toBeNull();
+
+        try {
+            re.loadMatchedRule(req);
+            failhere();
+        } catch (e) {
+            expect(e instanceof RequestError).toBeTruthy();
+            expect(e.type.key).toBe('NO_RULE_MATCHES');
+        }
     });
 
     it("_findMatchedRule(): have matched rules from rule tree, but filtered by rule db", function() {

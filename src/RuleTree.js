@@ -1,6 +1,8 @@
 const RuleTreeNode = require('./RuleTreeNode');
 const resolveTemplateFunc = require('./Template');
 const RequestError = require('qnode-error').RequestError;
+const Callback = require('./Callback');
+
 
 module.exports = class RuleTree {
 
@@ -43,6 +45,8 @@ module.exports = class RuleTree {
         r.statement = 'select * from request' + (r.q ? ` where ${r.q}` : '');
 
         r.response = this.normalizeRuleResponse(r.response);
+
+        r.callback = r.callback ? new Callback(r.callback) : null;
 
         return r;
     }

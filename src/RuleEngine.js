@@ -89,19 +89,46 @@ module.exports = class RuleEngine {
         return 0;
     }
 
-    async mock(request, response) {
-        const rule = this._findMatchedRule(request);
-        if (!rule) {
+    loadMatchedRule(request) {
+        const r = this._findMatchedRule(request);
+        if (!r) {
             throw new RequestError('NO_RULE_MATCHES');
         }
+        return r;
+    }
 
+    async mock(request, response) {
+        const rule = this.loadMatchedRule(request);
+
+        const cb = rule.callback;
+
+        if (cb && cb.needCallBefore) {
+            if (cb.beforeAsync) cb.callBefore();
+            else await cb.callBefore();
+        }
+
+        if (cb && cb.needCallOn) {
+            cb.callOn(); // always sync
+        }
+
+        await this._mockResponse(request, response, rule);
+
+        if (cb && cb.needCallAfter) {
+            if (cb.beforeAsync) cb.callAfter();
+            else await cb.callAfter();
+        }
+    }
+
+    async _mockResponse(request, response, rule) {
         const ruleResponse = rule.response;
         RuleEngine.renderMockResponse(request, ruleResponse, response);
 
+        //TODO: be aware of how the callback delay interferes the response delay
         let delay = RuleEngine.determineTimeToDelay(ruleResponse);
         if (delay) {
             return new Promise(resolve => setTimeout(resolve, delay));
         }
+
         return Promise.resolve();
     }
 
