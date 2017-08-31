@@ -52,6 +52,8 @@ todo:
   - v1.3.2:
     - built-in mock:
       - alipay
+  - v1.3.3:
+    - rate limitation
   - v2.x (TBD):  
     - websocket
     - mock RabbitMQ, Kafka, Redis, Memcached, MySQL, MongoDB
