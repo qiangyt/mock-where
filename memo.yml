@@ -54,6 +54,8 @@ todo:
   - v1.2.2:
     - support session / transaction
   - v1.2.3:
+    - support correlation (correlate requests across server/domain)
+  - v1.2.3:
     - mock js
   - v1.2.4:
     - support gzip
@@ -61,7 +63,7 @@ todo:
     - support file
   - v1.2.6:
     - support https
-  - v1.2.7 (target public small-range announcement):
+  - v1.2.7 (public release in limited range):
     - customizable error response
   - v1.2.8:
     - support oauth
@@ -71,10 +73,16 @@ todo:
     - support abort connectionsupport
   - v1.2.11:
     - support emulate bad network
-  
+
   - v1.3.0:
     - built-in mock:
       - alipay
+  - v1.3.1:
+    - support zipkin
+  - v1.3.2:
+    - support ribbon
+  - v1.3.3 (public release in wide range):
+    - support dubbo
 
   - v2.x (TBD):  
     - websocket
