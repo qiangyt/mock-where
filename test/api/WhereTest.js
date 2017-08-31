@@ -90,47 +90,45 @@ describe("api/Where test suite: ", function() {
         beans.create(MockedMockServerManager2, 'MockServerManager');
         const where = beans.create(Where, 'Where');
         beans.init();
-        
+
         where.validate({
-            request: {
-                body: {
-                    port: 8076,
-                    domain: 'wxcount.com'
+                request: {
+                    body: {
+                        port: 8076,
+                        domain: 'wxcount.com'
+                    }
                 }
-            }
-        })
-        .then( ({domain, rule, mockServer}) => {
-            expect(domain).toBe('wxcount.com');
-            expect(rule.domain).toBe('wxcount.com');
-            expect(rule.port).toBe(8076);
-            expect(mockServer.port).toBe(8076);
-        })
-        .catch( e => {
-            failhere();
-        } );
+            })
+            .then(({ domain, rule, mockServer }) => {
+                expect(domain).toBe('wxcount.com');
+                expect(rule.domain).toBe('wxcount.com');
+                expect(rule.port).toBe(8076);
+                expect(mockServer.port).toBe(8076);
+            })
+            .catch(() => {
+                failhere();
+            });
     });
 
     it("execute(): happy", function() {
         const beans = new Beans();
-        const mockServerManager = beans.create(MockedMockServerManager2, 'MockServerManager');
+        beans.create(MockedMockServerManager2, 'MockServerManager');
         const mockServer = new MockedMockServer();
         const where = beans.create(Where, 'Where');
         beans.init();
-        
+
         const ctx = {};
         const domain = 'github.com';
         const rule = {};
-        
-        const data = {domain, rule, mockServerManager};
-            
-        where.execute(ctx, {domain, rule, mockServer})
-        .then( () => {
-            expect(mockServer.domain).toEqual(domain);
-            expect(mockServer.rule).toEqual(rule);
-        } )
-        .catch( e => {
-            failhere();
-        } );
+
+        where.execute(ctx, { domain, rule, mockServer })
+            .then(() => {
+                expect(mockServer.domain).toEqual(domain);
+                expect(mockServer.rule).toEqual(rule);
+            })
+            .catch(() => {
+                failhere();
+            });
     });
 
 });
