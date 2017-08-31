@@ -8,6 +8,7 @@ reference:
 todo:
   - v0.9.0:
     - callback
+    - document
   - v0.9.1:
     - built-in mock:
       sms: mengwang
@@ -26,9 +27,8 @@ todo:
   - v0.9.6:
     - rule priority
   - v1.0.0:
+    - set up club app
     - targeting use in wanda-itg mdp project
-    - https://github.com/jsdoc3/jsdoc
-    - document
     
   - v1.1.0:
     - support mock-where-web to crud mock rules
