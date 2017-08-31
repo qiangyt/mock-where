@@ -60,10 +60,12 @@ todo:
   - v1.2.8 (target public small-range announcement):
     - customizable error response
   - v1.2.9:
-    - rate limitation
+    - support oauth
   - v1.2.10:
-    - support abort connectionsupport
+    - rate limitation
   - v1.2.11:
+    - support abort connectionsupport
+  - v1.2.12:
     - support emulate bad network
   
   - v1.3.0:
