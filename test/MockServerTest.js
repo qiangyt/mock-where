@@ -85,6 +85,7 @@ describe("MockServer test suite: ", function() {
         const r = new MockServer(def);
         beans.renderThenInitBean(r);
 
+        r.prepare();
         expect(r.defaultDomain).toBeUndefined();
     });
 
