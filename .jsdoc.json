@@ -1,8 +1,8 @@
 {
     "opts": {
         "destination": "./doc/js/", // same as -d ./out/
-        "recurse": true,
-        "tutorials": "path/to/tutorials" // same as -u path/to/tutorials
+        "recurse": true //,
+            //"tutorials": "path/to/tutorials" // same as -u path/to/tutorials
     },
     "plugins": [
         "plugins/markdown",
