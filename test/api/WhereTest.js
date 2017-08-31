@@ -8,24 +8,32 @@ const Beans = require('qnode-beans');
 class MockedMockServerManager1 {
 
     get() {
-        return null;//{putRule: function(){}};
+        return null; //{putRule: function(){}};
     }
 }
 
 class MockedMockServerManager2 {
-    
+
     get(port) {
-        return {port};
+        return { port };
+    }
+}
+
+class MockedMockServerManager3 extends MockedMockServerManager2 {
+
+    constructor() {
+        super();
+        this.defaultPort = 12345;
     }
 }
 
 class MockedMockServer {
-    
+
     putRule(domain, rule) {
         this.domain = domain;
         this.rule = rule;
     }
-    
+
 }
 
 describe("api/Where test suite: ", function() {
@@ -35,16 +43,16 @@ describe("api/Where test suite: ", function() {
         Beans.render(where);
 
         where.validate({
-            request: {
-                body: {
-                    port: 7086
+                request: {
+                    body: {
+                        port: 7086
+                    }
                 }
-            }
-        }).then( () => failhere() )
-        .catch( e => {
-            expect(e.type.key).toBe('MISSING_PARAMETER');
-            expect(e.args[0]).toBe('domain');
-        } );
+            }).then(() => failhere())
+            .catch(e => {
+                expect(e.type.key).toBe('MISSING_PARAMETER');
+                expect(e.args[0]).toBe('domain');
+            });
     });
 
     it("validate(): missing port parameter", function() {
@@ -52,16 +60,52 @@ describe("api/Where test suite: ", function() {
         Beans.render(where);
 
         where.validate({
+                request: {
+                    body: {
+                        domain: 'wxcount.com'
+                    }
+                }
+            }).then(() => failhere())
+            .catch(e => {
+                expect(e.type.key).toBe('MISSING_PARAMETER');
+                expect(e.args[0]).toBe('port');
+            });
+    });
+
+    it("validate(): take default port", function() {
+        const beans = new Beans();
+        beans.create(MockedMockServerManager3, 'MockServerManager');
+        const where = beans.create(Where, 'Where');
+        beans.init();
+
+        where.validate({
             request: {
                 body: {
                     domain: 'wxcount.com'
                 }
             }
-        }).then( () => failhere() )
-        .catch( e => {
-            expect(e.type.key).toBe('MISSING_PARAMETER');
-            expect(e.args[0]).toBe('port');
-        } );
+        }).then(({ mockServer }) => {
+            expect(mockServer.port).toBe(12345);
+        });
+    });
+
+    it("validate(): no default port", function() {
+        const beans = new Beans();
+        beans.create(MockedMockServerManager2, 'MockServerManager');
+        const where = beans.create(Where, 'Where');
+        beans.init();
+
+        where.validate({
+                request: {
+                    body: {
+                        domain: 'wxcount.com'
+                    }
+                }
+            }).then(() => failhere())
+            .catch(e => {
+                expect(e.type.key).toBe('MISSING_PARAMETER');
+                expect(e.args[0]).toBe('port');
+            });
     });
 
     it("validate(): mock server not found", function() {
@@ -69,19 +113,19 @@ describe("api/Where test suite: ", function() {
         beans.create(MockedMockServerManager1, 'MockServerManager');
         const where = beans.create(Where, 'Where');
         beans.init();
-        
+
         where.validate({
-            request: {
-                body: {
-                    port: 7086,
-                    domain: 'wxcount.com'
+                request: {
+                    body: {
+                        port: 7086,
+                        domain: 'wxcount.com'
+                    }
                 }
-            }
-        }).then( () => failhere() )
-        .catch( e => {
-            expect(e.type.key).toBe('MOCK_SERVER_NOT_FOUND');
-            expect(e.args[0]).toBe(7086);
-        } );
+            }).then(() => failhere())
+            .catch(e => {
+                expect(e.type.key).toBe('MOCK_SERVER_NOT_FOUND');
+                expect(e.args[0]).toBe(7086);
+            });
     });
 
 

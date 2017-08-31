@@ -45,14 +45,20 @@ class Where {
         const rule = req.body;
         this._logger.info('rule is requested: %s', rule);
 
-        const domain = rule.domain;
-        if (!domain) throw new MissingParamError('domain');
-
-        const port = rule.port;
-        if (!port) throw new MissingParamError('port');
+        let port = rule.port;
+        if (!port) {
+            if (!this._mockServerManager.defaultPort) throw new MissingParamError('port');
+            port = this._mockServerManager.defaultPort;
+        }
 
         const mockServer = this._mockServerManager.get(port);
         if (!mockServer) throw new RequestError('MOCK_SERVER_NOT_FOUND', port);
+
+        let domain = rule.domain;
+        if (!domain) {
+            if (!mockServer.defaultDomain) throw new MissingParamError('domain');
+            domain = mockServer.defaultDomain;
+        }
 
         return { domain, rule, mockServer };
     }
