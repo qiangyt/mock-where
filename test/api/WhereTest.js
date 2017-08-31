@@ -27,13 +27,20 @@ class MockedMockServerManager3 extends MockedMockServerManager2 {
     }
 }
 
-class MockedMockServer {
+class MockedMockServer1 {
 
     putRule(domain, rule) {
         this.domain = domain;
         this.rule = rule;
     }
 
+}
+
+class MockedMockServerManager4 {
+
+    get(port) {
+        return { port, defaultDomain: 'default.com' };
+    }
 }
 
 describe("api/Where test suite: ", function() {
@@ -46,6 +53,46 @@ describe("api/Where test suite: ", function() {
                 request: {
                     body: {
                         port: 7086
+                    }
+                }
+            }).then(() => failhere())
+            .catch(e => {
+                expect(e.type.key).toBe('MISSING_PARAMETER');
+                expect(e.args[0]).toBe('domain');
+            });
+    });
+
+
+    it("validate(): take default domain", function() {
+        const beans = new Beans();
+        beans.create(MockedMockServerManager4, 'MockServerManager');
+        const where = beans.create(Where, 'Where');
+        beans.init();
+
+        where.validate({
+                request: {
+                    body: {
+                        port: 8076
+                    }
+                }
+            })
+            .then(({ domain, mockServer }) => {
+                expect(domain).toBe('default.com');
+                expect(mockServer.defaultDomain).toBe('default.com');
+            })
+    });
+
+
+    it("validate(): no default domain", function() {
+        const beans = new Beans();
+        beans.create(MockedMockServerManager2, 'MockServerManager');
+        const where = beans.create(Where, 'Where');
+        beans.init();
+
+        where.validate({
+                request: {
+                    body: {
+                        port: 8076
                     }
                 }
             }).then(() => failhere())
@@ -157,7 +204,7 @@ describe("api/Where test suite: ", function() {
     it("execute(): happy", function() {
         const beans = new Beans();
         beans.create(MockedMockServerManager2, 'MockServerManager');
-        const mockServer = new MockedMockServer();
+        const mockServer = new MockedMockServer1();
         const where = beans.create(Where, 'Where');
         beans.init();
 
