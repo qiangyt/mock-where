@@ -15,6 +15,23 @@ const RequestError = require('qnode-error').RequestError;
  *      q: "ip='localhost'", // optional. assigned to default query, if not specified
  *      delay: 200, // optoinal. assigned to default delay, if not specified
  *      delayFix: 16, // optional. assigned to default delayFix, if not specified
+ *      callback: {
+ *        before: [
+ *          async: true,
+ *          method: 'POST',
+ *          path: 'http://example.com/notify',
+ *          header: {},
+ *          query: {}, // or string
+ *          type: 'application/json',
+ *          body: {}, // or string, or stream, or file
+ *          retry: 2,
+ *          accept: 'application/xml'
+ *        ],
+ *        on: [ // always async
+ *        ]
+ *        after: [ // same as before
+ *        ]   
+ *      },
  *      response:  // optional. merged with default response
  *      {
  *          status: 403,
