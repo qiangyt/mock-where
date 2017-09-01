@@ -43,5 +43,21 @@ describe("Callback test suite: ", function() {
         const t2 = new Callback({ before: [{path:'/'}] });
         expect(t2.needCallBefore()).toBeTruthy();
     });
+    
+    it("needCallAfter(): happy", function() {
+        const t1 = new Callback({ after: [] });
+        expect(t1.needCallAfter()).toBeFalsy();
+    
+        const t2 = new Callback({ after: [{path:'/'}] });
+        expect(t2.needCallAfter()).toBeTruthy();
+    });
+
+    it("needCallOn(): happy", function() {
+        const t1 = new Callback({ on: [] });
+        expect(t1.needCallOn()).toBeFalsy();
+
+        const t2 = new Callback({ on: [{path:'/'}] });
+        expect(t2.needCallOn()).toBeTruthy();
+    });
 
 });
