@@ -113,8 +113,10 @@ describe("api/Where test suite: ", function() {
     });
 
     it("validate(): missing port parameter", function() {
-        const where = new Where();
-        Beans.render(where);
+        const beans = new Beans();
+        beans.create(MockedMockServerManager1, 'MockServerManager');
+        const where = beans.create(Where, 'Where');
+        beans.init();
 
         where.validate({
                 request: {
