@@ -2,6 +2,7 @@
 
 const SRC = '../src';
 const Callback = require(`${SRC}/Callback`);
+const MissingParamError = require('qnode-error').MissingParamError;
 
 describe("Callback test suite: ", function() {
 
@@ -17,12 +18,30 @@ describe("Callback test suite: ", function() {
         expect(Callback.normalizeList(null).length).toBe(0);
         expect(Callback.normalizeList([]).length).toBe(0);
 
-        expect(Callback.normalizeList([{}, {}]).length).toBe(2);
+        expect(Callback.normalizeList([{ path: '/a' }, { path: '/b' }]).length).toBe(2);
     });
 
     it("normalizeTarget(): method", function() {
-        expect(Callback.normalizeTarget({}).method).toBe('post');
-        expect(Callback.normalizeTarget({ method: 'get' }).method).toBe('get');
+        expect(Callback.normalizeTarget({ path: '/' }).method).toBe('post');
+        expect(Callback.normalizeTarget({ path: '/', method: 'get' }).method).toBe('get');
+    });
+
+    it("normalizeTarget(): missing path", function() {
+        try {
+            expect(Callback.normalizeTarget({}));
+            failhere();
+        } catch (e) {
+            expect(e instanceof MissingParamError).toBeTruthy();
+            expect(e.data[0].indexOf('path')).toBeGreaterThan(0);
+        }
+    });
+
+    it("needCallBefore(): happy", function() {
+        const t1 = new Callback({ before: [] });
+        expect(t1.needCallBefore()).toBeFalsy();
+
+        const t2 = new Callback({ before: [{}] });
+        expect(t2.needCallBefore()).toBeTruthy();
     });
 
 });
