@@ -8,6 +8,7 @@ reference:
 todo:
   - v0.9.0:
     - callback
+    - switch to node-config
     - document
     - replace Error with RequestError
   - v0.9.1:
