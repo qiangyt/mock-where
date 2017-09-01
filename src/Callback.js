@@ -1,5 +1,6 @@
 const superagent = require('superagent');
 const _ = require('underscore');
+const MissingParamError = require('qnode-error').MissingParamError;
 
 
 module.exports = class Callback {
@@ -22,8 +23,12 @@ module.exports = class Callback {
     }
 
     static normalizeTarget(target) {
+        if (!target.path) throw new MissingParamError('callback path');
+
         target.method = target.method || 'post';
+
         target.hasHeader = !_.isEmpty(target.header);
+
         target.hasQuery = !_.isEmpty(target.query);
 
         return target;
