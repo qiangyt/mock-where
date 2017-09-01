@@ -19,14 +19,14 @@ const RequestError = require('qnode-error').RequestError;
  *        beforeAsync: true,
  *        before: [
  *          {
- *              method: 'POST',
- *              path: 'http://example.com/notify',
- *              header: {},
- *              query: {}, // or string
- *              type: 'application/json',
- *              body: {}, // or string, or stream, or file
- *              retry: 2,
- *              accept: 'application/xml'
+ *              method: 'POST', // optional
+ *              path: 'http://example.com/notify', 
+ *              header: {},// optional
+ *              query: {}, // or string, optional
+ *              type: 'application/json',// optional
+ *              body: {}, // or string, or stream, or file, optional
+ *              retry: 2, // optional
+ *              accept: 'application/xml' // optional
  *          }
  *        ],
  *        on: [ // always async
