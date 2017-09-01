@@ -32,7 +32,7 @@ describe("Callback test suite: ", function() {
             failhere();
         } catch (e) {
             expect(e instanceof MissingParamError).toBeTruthy();
-            expect(e.data[0].indexOf('path')).toBeGreaterThan(0);
+            expect(e.args[0].indexOf('path')).toBeGreaterThan(0);
         }
     });
 
@@ -40,7 +40,7 @@ describe("Callback test suite: ", function() {
         const t1 = new Callback({ before: [] });
         expect(t1.needCallBefore()).toBeFalsy();
 
-        const t2 = new Callback({ before: [{}] });
+        const t2 = new Callback({ before: [{path:'/'}] });
         expect(t2.needCallBefore()).toBeTruthy();
     });
 
