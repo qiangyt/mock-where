@@ -46,8 +46,10 @@ class MockedMockServerManager4 {
 describe("api/Where test suite: ", function() {
 
     it("validate(): missing domain parameter", function() {
-        const where = new Where();
-        Beans.render(where);
+        const beans = new Beans();
+        beans.create(MockedMockServerManager2, 'MockServerManager');
+        const where = beans.create(Where, 'Where');
+        beans.init();
 
         where.validate({
                 request: {
@@ -59,6 +61,10 @@ describe("api/Where test suite: ", function() {
             .catch(e => {
                 expect(e.type.key).toBe('MISSING_PARAMETER');
                 expect(e.args[0]).toBe('domain');
+            })
+            .catch(e => {
+                console.error(e);
+                failhere();
             });
     });
 
@@ -99,6 +105,10 @@ describe("api/Where test suite: ", function() {
             .catch(e => {
                 expect(e.type.key).toBe('MISSING_PARAMETER');
                 expect(e.args[0]).toBe('domain');
+            })
+            .catch(e => {
+                console.error(e);
+                failhere();
             });
     });
 
@@ -116,6 +126,10 @@ describe("api/Where test suite: ", function() {
             .catch(e => {
                 expect(e.type.key).toBe('MISSING_PARAMETER');
                 expect(e.args[0]).toBe('port');
+            })
+            .catch(e => {
+                console.error(e);
+                failhere();
             });
     });
 
@@ -152,6 +166,10 @@ describe("api/Where test suite: ", function() {
             .catch(e => {
                 expect(e.type.key).toBe('MISSING_PARAMETER');
                 expect(e.args[0]).toBe('port');
+            })
+            .catch(e => {
+                console.error(e);
+                failhere();
             });
     });
 
@@ -172,6 +190,10 @@ describe("api/Where test suite: ", function() {
             .catch(e => {
                 expect(e.type.key).toBe('MOCK_SERVER_NOT_FOUND');
                 expect(e.args[0]).toBe(7086);
+            })
+            .catch(e => {
+                console.error(e);
+                failhere();
             });
     });
 
