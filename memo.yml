@@ -9,6 +9,7 @@ todo:
   - v0.9.0:
     - callback
     - document
+    - replace Error with RequestError
   - v0.9.1:
     - built-in mock:
       sms: mengwang
