@@ -76,8 +76,13 @@ describe("Callback test suite: ", function() {
             },
             retry: 1
         };
-
-        //const req = superagent(target.method, target.path);
+        const data = {
+            header: target.header,
+            query: target.query,
+            type: target.type,
+            accept: target.accept,
+            body: target.body
+        };
 
         const mocker = SuperAgentMocker(superagent);
         mocker.timeout = 100;
@@ -85,13 +90,7 @@ describe("Callback test suite: ", function() {
             return {
                 code: '0',
                 message: 'ok',
-                data: {
-                    header: req.header,
-                    query: req.query,
-                    type: req.type,
-                    accept: req.accept,
-                    body: req.body
-                }
+                data
             };
         });
 
@@ -99,6 +98,7 @@ describe("Callback test suite: ", function() {
         c._callOne(target).then(result => {
             expect(result.code).toBe('0');
             expect(result.message).toBe('ok');
+            expect(result.data).toEqual(data);
         }).catch(e => {
             console.error(e);
             failhere();
