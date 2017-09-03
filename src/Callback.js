@@ -9,7 +9,7 @@ module.exports = class Callback {
         this.beforeAsync = Callback.normalizeAsyncFlag(config.beforeAsync);
         this.before = Callback.normalizeList(config.before);
         this.on = Callback.normalizeList(config.on);
-        this.afterAsync = Callback.normalizeAsyncFlag(config.beforeAsync);
+        this.afterAsync = Callback.normalizeAsyncFlag(config.afterAsync);
         this.after = Callback.normalizeList(config.after);
     }
 
@@ -61,15 +61,18 @@ module.exports = class Callback {
     _callList(list) {
         if (!list.length) return Promise.resolve();
 
-        if (list.length === 1) return this._callOne(list[0]);
-
         let r;
-
-        list.forEach(target => {
-            if (!r) r = this._callOne(target);
-            else r = r.then(() => this._callOne(target));
-            return r;
-        });
+        if (list.length === 1) {
+            r = this._callOne(list[0]);
+            r.seq = 0;
+        } else {
+            for (let i = 0; i < list.length; i++) {
+                const target = list[i];
+                if (!r) r = this._callOne(target);
+                else r = r.then(() => this._callOne(target));
+                r.seq = i;
+            }
+        }
 
         return r;
     }

@@ -130,4 +130,9 @@ describe("Callback test suite: ", function() {
         });
     });
 
+    it("_callList(): list is empty", function() {
+        new Callback({})._callList([])
+            .then(r => expect(r).not.toBeDefined());
+    });
+
 });
