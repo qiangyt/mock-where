@@ -75,16 +75,16 @@ module.exports = class Callback {
     }
 
     _callOne(target) {
-        let r = superagent(target.method, target.path);
+        let agent = superagent[target.method](target.path);
 
-        if (target.hasHeader) r = r.set(target.header);
-        if (target.hasQuery) r = r.query(target.query);
-        if (target.type) r = r.type(target.type);
-        if (target.accept) r = r.accept(target.accept);
-        if (target.body) r = r.send(target.body);
-        if (target.retry && target.retry > 0) r = r.retry(target.retry);
+        if (target.hasHeader) agent = agent.set(target.header);
+        if (target.hasQuery) agent = agent.query(target.query);
+        if (target.type) agent = agent.type(target.type);
+        if (target.accept) agent = agent.accept(target.accept);
+        if (target.body) agent = agent.send(target.body);
+        if (target.retry && target.retry > 0) agent = agent.retry(target.retry);
 
-        return r;
+        return agent;
     }
 
 };

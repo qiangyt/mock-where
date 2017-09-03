@@ -1,8 +1,11 @@
 /* eslint no-undef: "off" */
+const superagent = require('superagent');
+const SuperAgentMocker = require('qnode-superagent-mocker');
 
 const SRC = '../src';
 const Callback = require(`${SRC}/Callback`);
 const MissingParamError = require('qnode-error').MissingParamError;
+
 
 describe("Callback test suite: ", function() {
 
@@ -40,15 +43,15 @@ describe("Callback test suite: ", function() {
         const t1 = new Callback({ before: [] });
         expect(t1.needCallBefore()).toBeFalsy();
 
-        const t2 = new Callback({ before: [{path:'/'}] });
+        const t2 = new Callback({ before: [{ path: '/' }] });
         expect(t2.needCallBefore()).toBeTruthy();
     });
-    
+
     it("needCallAfter(): happy", function() {
         const t1 = new Callback({ after: [] });
         expect(t1.needCallAfter()).toBeFalsy();
-    
-        const t2 = new Callback({ after: [{path:'/'}] });
+
+        const t2 = new Callback({ after: [{ path: '/' }] });
         expect(t2.needCallAfter()).toBeTruthy();
     });
 
@@ -56,8 +59,50 @@ describe("Callback test suite: ", function() {
         const t1 = new Callback({ on: [] });
         expect(t1.needCallOn()).toBeFalsy();
 
-        const t2 = new Callback({ on: [{path:'/'}] });
+        const t2 = new Callback({ on: [{ path: '/' }] });
         expect(t2.needCallOn()).toBeTruthy();
+    });
+
+    it("_callOne(): happy", function() {
+        const target = {
+            method: 'post',
+            path: '/say',
+            header: { 'x-header': 'x-header-value' },
+            query: { 'x-query': 'x-query-value' },
+            type: 'application/json',
+            accept: 'application/json',
+            body: {
+                bodyKey: 'bodyValue'
+            },
+            retry: 1
+        };
+
+        //const req = superagent(target.method, target.path);
+
+        const mocker = SuperAgentMocker(superagent);
+        mocker.timeout = 100;
+        mocker.post('/say', function(req) {
+            return {
+                code: '0',
+                message: 'ok',
+                data: {
+                    header: req.header,
+                    query: req.query,
+                    type: req.type,
+                    accept: req.accept,
+                    body: req.body
+                }
+            };
+        });
+
+        const c = new Callback({ before: [target] });
+        c._callOne(target).then(result => {
+            expect(result.code).toBe('0');
+            expect(result.message).toBe('ok');
+        }).catch(e => {
+            console.error(e);
+            failhere();
+        });
     });
 
 });

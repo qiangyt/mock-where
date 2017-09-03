@@ -52,7 +52,6 @@
         "qnode-rest": "1.0.4",
         "sprintf-js": "1.1.1",
         "superagent": "3.5.2",
-        "superagent-mocker": "0.5.2",
         "underscore": "1.8.3"
     },
     "devDependencies": {
@@ -69,6 +68,7 @@
         "jsdoc": "3.5.4",
         "mock-fs": "4.4.1",
         "mock-require": "2.0.2",
+        "qnode-superagent-mocker": "0.5.3",
         "sinon": "2.4.1",
         "supertest": "3.0.0"
     },
