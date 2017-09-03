@@ -63,7 +63,36 @@ describe("Callback test suite: ", function() {
         expect(t2.needCallOn()).toBeTruthy();
     });
 
-    it("_callOne(): happy", function() {
+    it("_callOne(): none", function() {
+        const target = {
+            method: 'post',
+            path: '/say'
+        };
+        const data = { you: 'Qiang Yiting' };
+
+        const mocker = SuperAgentMocker(superagent);
+        mocker.timeout = 100;
+        mocker.post('/say', function() {
+            return {
+                code: '0',
+                message: 'ok',
+                data
+            };
+        });
+
+        const c = new Callback({ before: [target] });
+        c._callOne(target).then(result => {
+            expect(result.code).toBe('0');
+            expect(result.message).toBe('ok');
+            expect(result.data).toEqual(data);
+        }).catch(e => {
+            console.error(e);
+            failhere();
+        });
+    });
+
+
+    it("_callOne(): full", function() {
         const target = {
             method: 'post',
             path: '/say',
@@ -86,12 +115,8 @@ describe("Callback test suite: ", function() {
 
         const mocker = SuperAgentMocker(superagent);
         mocker.timeout = 100;
-        mocker.post('/say', function(req) {
-            return {
-                code: '0',
-                message: 'ok',
-                data
-            };
+        mocker.post('/say', function() {
+            return { code: '0', message: 'ok', data }
         });
 
         const c = new Callback({ before: [target] });
