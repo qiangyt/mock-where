@@ -167,7 +167,7 @@ describe("Callback test suite: ", function() {
         });
     });
 
-    it("_callList(): multi", function() {
+    it("_callList(): multi A->B", function() {
         const targetA = {
             method: 'post',
             path: '/sayA'
@@ -199,6 +199,44 @@ describe("Callback test suite: ", function() {
             expect(result.code).toBe('0');
             expect(result.message).toBe('ok');
             expect(result.data).toBe('B');
+        }).catch(e => {
+            console.error(e);
+            failhere();
+        });
+    });
+
+    it("_callList(): multi B->A", function() {
+        const targetA = {
+            method: 'post',
+            path: '/sayA'
+        };
+        const targetB = {
+            method: 'get',
+            path: '/sayB'
+        };
+
+        mocker = SuperAgentMocker(superagent);
+        mocker.timeout = 100;
+        mocker.post('/sayA', function() {
+            return {
+                code: '0',
+                message: 'ok',
+                data: 'A'
+            };
+        });
+        mocker.get('/sayB', function() {
+            return {
+                code: '0',
+                message: 'ok',
+                data: 'B'
+            };
+        });
+
+        const c = new Callback({ before: [targetA, targetB] });
+        c._callList([targetB, targetA]).then(result => {
+            expect(result.code).toBe('0');
+            expect(result.message).toBe('ok');
+            expect(result.data).toBe('A');
         }).catch(e => {
             console.error(e);
             failhere();
