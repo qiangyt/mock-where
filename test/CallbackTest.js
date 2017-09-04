@@ -6,8 +6,13 @@ const SRC = '../src';
 const Callback = require(`${SRC}/Callback`);
 const MissingParamError = require('qnode-error').MissingParamError;
 
+let mocker;
 
 describe("Callback test suite: ", function() {
+
+    afterAll(function() {
+        //if (mocker) mocker.unmock(superagent);
+    });
 
     it("normalizeAsyncFlag(): happy", function() {
         expect(Callback.normalizeAsyncFlag()).toBe(false);
@@ -70,7 +75,7 @@ describe("Callback test suite: ", function() {
         };
         const data = { you: 'Qiang Yiting' };
 
-        const mocker = SuperAgentMocker(superagent);
+        mocker = SuperAgentMocker(superagent);
         mocker.timeout = 100;
         mocker.post('/say', function() {
             return {
@@ -113,7 +118,7 @@ describe("Callback test suite: ", function() {
             body: target.body
         };
 
-        const mocker = SuperAgentMocker(superagent);
+        mocker = SuperAgentMocker(superagent);
         mocker.timeout = 100;
         mocker.post('/say', function() {
             return { code: '0', message: 'ok', data }
@@ -133,6 +138,134 @@ describe("Callback test suite: ", function() {
     it("_callList(): list is empty", function() {
         new Callback({})._callList([])
             .then(r => expect(r).not.toBeDefined());
+    });
+
+    it("_callList(): single", function() {
+        const target = {
+            method: 'get',
+            path: '/say'
+        };
+
+        mocker = SuperAgentMocker(superagent);
+        mocker.timeout = 100;
+        mocker.get('/say', function() {
+            return {
+                code: '0',
+                message: 'ok',
+                data: 'wow'
+            };
+        });
+
+        const c = new Callback({ before: [target] });
+        c._callList([target]).then(result => {
+            expect(result.code).toBe('0');
+            expect(result.message).toBe('ok');
+            expect(result.data).toBe('wow');
+        }).catch(e => {
+            console.error(e);
+            failhere();
+        });
+    });
+
+    it("_callList(): multi", function() {
+        const targetA = {
+            method: 'post',
+            path: '/sayA'
+        };
+        const targetB = {
+            method: 'get',
+            path: '/sayB'
+        };
+
+        mocker = SuperAgentMocker(superagent);
+        mocker.timeout = 100;
+        mocker.post('/sayA', function() {
+            return {
+                code: '0',
+                message: 'ok',
+                data: 'A'
+            };
+        });
+        mocker.get('/sayB', function() {
+            return {
+                code: '0',
+                message: 'ok',
+                data: 'B'
+            };
+        });
+
+        const c = new Callback({ before: [targetA, targetB] });
+        c._callList([targetA, targetB]).then(result => {
+            expect(result.code).toBe('0');
+            expect(result.message).toBe('ok');
+            expect(result.data).toBe('B');
+        }).catch(e => {
+            console.error(e);
+            failhere();
+        });
+    });
+
+    it("callBefore(): happy", function() {
+        const target = {
+            method: 'get',
+            path: '/before'
+        };
+
+        mocker = SuperAgentMocker(superagent);
+        mocker.timeout = 100;
+        mocker.get('/before', function() {
+            return { code: '0' };
+        });
+
+        const c = new Callback({ before: [target] });
+        c.callBefore([target]).then(result => {
+            expect(result.code).toBe('0');
+        }).catch(e => {
+            console.error(e);
+            failhere();
+        });
+    });
+
+    it("callAfter(): happy", function() {
+        const target = {
+            method: 'get',
+            path: '/after'
+        };
+
+        mocker = SuperAgentMocker(superagent);
+        mocker.timeout = 100;
+        mocker.get('/after', function() {
+            return { code: '1' };
+        });
+
+        const c = new Callback({ after: [target] });
+        c.callAfter([target]).then(result => {
+            expect(result.code).toBe('1');
+        }).catch(e => {
+            console.error(e);
+            failhere();
+        });
+    });
+
+    it("callOn(): happy", function() {
+        const target = {
+            method: 'post',
+            path: '/on'
+        };
+
+        mocker = SuperAgentMocker(superagent);
+        mocker.timeout = 100;
+        mocker.post('/on', function() {
+            return { code: '2' };
+        });
+
+        const c = new Callback({ after: [target] });
+        c.callOn([target]).then(result => {
+            expect(result.code).toBe('2');
+        }).catch(e => {
+            console.error(e);
+            failhere();
+        });
     });
 
 });
