@@ -259,7 +259,7 @@ describe("Callback test suite: ", function() {
             return { code: '2' };
         });
 
-        const c = new Callback({ after: [target] });
+        const c = new Callback({ on: [target] });
         c.callOn([target]).then(result => {
             expect(result.code).toBe('2');
         }).catch(e => {
