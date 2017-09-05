@@ -3,6 +3,9 @@ const _ = require('underscore');
 const MissingParamError = require('qnode-error').MissingParamError;
 
 
+/**
+ * Manages and execute callbacks
+ */
 module.exports = class Callback {
 
     constructor(config) {
