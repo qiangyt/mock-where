@@ -11,6 +11,10 @@ module.exports = class RuleEngine {
         this._ruleRequestTable = this._ruleDb.tables.request;
     }
 
+    /**
+     * The rule database is a request database servers by alasql engine.
+     * So far, the database is dynamic and stores only 1 row of request.
+     */
     _initRuleDatabase() {
         const r = new alasql.Database('rule');
         this._logger.debug('rule database is created');
@@ -25,6 +29,16 @@ module.exports = class RuleEngine {
         this._ruleTree.put(rule);
     }
 
+    /**
+     * Find matched rule.
+     * 
+     * The matching procedure is:
+     * 1) Find rule candidates in rule tree, by HTTP method and path
+     * 2) Execute SQL statement defined in rule candidates, one by one, on request object, 
+     *    the 1st rule that passed the SQL query is the winner.
+     * 
+     * @param {object} req 
+     */
     _findMatchedRule(req) {
         this._logger.debug('request: %s', req);
 
@@ -57,7 +71,15 @@ module.exports = class RuleEngine {
         }
     }
 
-
+    /**
+     * Render the response body as mock result.
+     * 
+     * It uses template to render response, or directly takes response body from rule
+     * 
+     * @param {object} request 
+     * @param {object} ruleResponse 
+     * @param {object} responseToMock 
+     */
     static renderMockResponseBody(request, ruleResponse, responseToMock) {
         if (ruleResponse.template) {
             try {
@@ -89,6 +111,10 @@ module.exports = class RuleEngine {
         return 0;
     }
 
+    /**
+     * looks for matched rule, raise error if matches nothing
+     * @param {object} request 
+     */
     loadMatchedRule(request) {
         const r = this._findMatchedRule(request);
         if (!r) {
@@ -97,6 +123,15 @@ module.exports = class RuleEngine {
         return r;
     }
 
+    /**
+     * return mocked response for incoming request.
+     * 
+     * it looks for matched rule, rendering mock response using the rule, and
+     * executes callbacks around the response.
+     * 
+     * @param {object} request 
+     * @param {object} response 
+     */
     async mock(request, response) {
         const rule = this.loadMatchedRule(request);
 
@@ -119,6 +154,13 @@ module.exports = class RuleEngine {
         }
     }
 
+    /**
+     * return mocked response, and, delay somewhile if configured
+     * 
+     * @param {object} request 
+     * @param {object} response 
+     * @param {object} rule 
+     */
     async _mockResponse(request, response, rule) {
         const ruleResponse = rule.response;
         RuleEngine.renderMockResponse(request, ruleResponse, response);

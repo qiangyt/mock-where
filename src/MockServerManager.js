@@ -1,6 +1,12 @@
 const MockServer = require('./MockServer');
-const _ = require('lodash');
+const _ = require('underscore');
 
+/**
+ * The mock server manager manages multiple mock servers, which mapped by server
+ * port. It takes responsibility of resolving providers and create mock servers
+ * from providers.
+ * 
+ */
 module.exports = class MockServerManager {
 
     constructor() {
@@ -11,6 +17,12 @@ module.exports = class MockServerManager {
         this._loadMockServers();
     }
 
+    /**
+     * resolve provider class name.
+     * 
+     * @param {string} name 
+     * @param {object} cfg 
+     */
     resolveProviderClassName(name, cfg) {
         let type;
         if (cfg && cfg.type) {
@@ -21,6 +33,12 @@ module.exports = class MockServerManager {
         return `MockConfigProvider_${type}`;
     }
 
+    /**
+     * resolve provider class. the provider js should be located under
+     * ./provider folder and take class name as js file name.
+     * 
+     * @param {string} className 
+     */
     resolveProviderClass(className) {
         try {
             /* eslint global-require: "off" */
@@ -39,6 +57,9 @@ module.exports = class MockServerManager {
         return r;
     }
 
+    /**
+     * there're 2 default providers: dir and empty
+     */
     _resolveDefaultProviders() {
         return {
             dir: {
@@ -62,8 +83,22 @@ module.exports = class MockServerManager {
     _loadMockServers() {
         const providers = this._buildProviders();
         providers.forEach(provider => this._loadMockServerWithProvider(provider));
+
+        if (_.size(this._allByPort) !== 1) {
+            this.defaultPort = undefined;
+        }
     }
 
+    /**
+     * load mock servers using configuration from specified provider.
+     * 
+     * The resulted this._allByPort holds map of mock servers, with server port
+     * as key.
+     * 
+     * If there's only 1 mock server, then it's port is the default port
+     * 
+     * @param {object} provider 
+     */
     _loadMockServerWithProvider(provider) {
         const vhostsConfigByPort = provider.load();
         const allByPort = this._allByPort;
@@ -79,12 +114,11 @@ module.exports = class MockServerManager {
                 this.defaultPort = parseInt(port, 10);
             }
         }
-
-        if (_.size(allByPort) !== 1) {
-            this.defaultPort = undefined;
-        }
     }
 
+    /**
+     * start all mock servers holded in this._allByPort
+     */
     start() {
         const log = this._logger;
         log.info('starting mock servers');
@@ -103,6 +137,11 @@ module.exports = class MockServerManager {
         log.info('started mock servers\n');
     }
 
+    /**
+     * create a new mocker server, as a bean
+     * 
+     * @param {object} serverConfig 
+     */
     _create(serverConfig) {
         this._logger.debug('creating mock server on port: %i', serverConfig.port);
 

@@ -1,8 +1,14 @@
 const RequestError = require('qnode-error').RequestError;
 const BaseServer = require('qnode-rest').BaseServer;
 const RuleEngine = require('./RuleEngine');
-const _ = require('lodash');
 
+/**
+ * A mock server is a HTTP(s) server listening on single specific port, 
+ * has multiple domain/virtual-hosts.
+ * 
+ * It holds a map of rule engines mapped to domains, plays the entry point
+ * that return mocked response for incoming request.
+ */
 module.exports = class MockServer extends BaseServer {
 
     constructor(config) {
@@ -11,12 +17,23 @@ module.exports = class MockServer extends BaseServer {
         this._config = config;
     }
 
+    /**
+     * Before started, build RuleEngines using vhosts configuration.
+     * 
+     * The resulted _engines holds the engine of map, map domain name to engine
+     * instance. One engine may be mapped by multiple domains.
+     * 
+     * If there's 1 domain, then it is the default domain.
+     * 
+     */
     prepare() {
         this._koa.use(this.mock.bind(this));
 
         this._engines = {};
 
         const vhostConfigs = this._config.vhosts;
+        let amountOfDomains = 0;
+
         for (const vhostName in vhostConfigs) {
             const engine = new RuleEngine();
             this._beans.renderThenInitBean(engine, 'RuleEngine:' + vhostName);
@@ -27,6 +44,7 @@ module.exports = class MockServer extends BaseServer {
                     throw new Error(`${this._name}: duplicated domain: domain`);
                 }
                 this._engines[domain] = engine;
+                amountOfDomains++;
 
                 if (!this.defaultDomain) {
                     this.defaultDomain = domain;
@@ -36,7 +54,7 @@ module.exports = class MockServer extends BaseServer {
             }
         }
 
-        if (_.size(this._engines) !== 1) {
+        if (amountOfDomains !== 1) {
             this.defaultDomain = undefined;
         }
     }
