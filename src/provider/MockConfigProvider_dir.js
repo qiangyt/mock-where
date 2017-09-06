@@ -77,7 +77,7 @@ module.exports = class MockConfigProvider_dir extends MockConfigProvider {
             const full = Path.join(dir, fileName);
             const stat = Fs.statSync(full);
             const path = Path.parse(full);
-            const childPath = `${parentPath}/${path.name}`;
+            const childPath = `${parentPath}/${path.base}`;
             if (stat.isDirectory()) {
                 const children = this.loadVirtualHostRules(childPath, full);
                 for (let childPath in children) {

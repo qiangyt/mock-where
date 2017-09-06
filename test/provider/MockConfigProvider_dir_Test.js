@@ -32,7 +32,7 @@ const mockFsObjects = {
             },
             'second.org': {
                 's1': {
-                    's1_2': {
+                    's1_2.action': {
                         's1_2_rule1.json': JSON.stringify({
                             s1_2_rule1_key: 's1_2_rule1_value'
                         })
@@ -80,15 +80,15 @@ describe("provider/MockConfigProvider_dir test suite: ", function() {
         expect(first.domains[0]).toBe(first.name);
         expect(first.config.nosense).toBe('blah');
 
-        const f1_1_rule1 = first.rules['/f1/f1_1_rule1'];
+        const f1_1_rule1 = first.rules['/f1/f1_1_rule1.json'];
         expect(f1_1_rule1.path).toBe('/f1');
         expect(f1_1_rule1.f1_1_rule1_key).toBe('f1_1_rule1_value');
 
-        const f1_2_rule1 = first.rules['/f1/f1_2/f1_2_rule1'];
+        const f1_2_rule1 = first.rules['/f1/f1_2/f1_2_rule1.json'];
         expect(f1_2_rule1.path).toBe('/f1/f1_2');
         expect(f1_2_rule1.f1_2_rule1_key).toBe('f1_2_rule1_value');
 
-        const f1_2_rule2 = first.rules['/f1/f1_2/f1_2_rule2'];
+        const f1_2_rule2 = first.rules['/f1/f1_2/f1_2_rule2.json'];
         expect(f1_2_rule2.path).toBe('/f1/f1_2');
         expect(f1_2_rule2.f1_2_rule2_key).toBe('f1_2_rule2_value');
 
@@ -97,8 +97,8 @@ describe("provider/MockConfigProvider_dir test suite: ", function() {
         expect(second.domains.length).toBe(1);
         expect(second.domains[0]).toBe(second.name);
 
-        const s1_2_rule1 = second.rules['/s1/s1_2/s1_2_rule1'];
-        expect(s1_2_rule1.path).toBe('/s1/s1_2');
+        const s1_2_rule1 = second.rules['/s1/s1_2.action/s1_2_rule1.json'];
+        expect(s1_2_rule1.path).toBe('/s1/s1_2.action');
         expect(s1_2_rule1.s1_2_rule1_key).toBe('s1_2_rule1_value');
     });
 
