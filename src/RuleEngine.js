@@ -5,7 +5,8 @@ const RuleTree = require('./RuleTree');
 
 module.exports = class RuleEngine {
 
-    constructor(config) {
+    constructor(name, config) {
+        this._name = name;
         this._config = config;
     }
 
@@ -31,7 +32,9 @@ module.exports = class RuleEngine {
      * So far, the database is dynamic and stores only 1 row of request.
      */
     _initRuleDatabase() {
-        const r = new alasql.Database('rule');
+        // the alasql database name should be globally unique, otherwise,
+        // the database data will interfere across rule engines
+        const r = new alasql.Database(this._name /*, { cache: false }*/ );
         this._logger.debug('rule database is created');
 
         r.exec('create table request');
@@ -58,6 +61,20 @@ module.exports = class RuleEngine {
         this._logger.debug('request: %s', req);
 
         try {
+            // Because we're inserting the current request into the global request
+            // table, and the inserted is temporary data which will be erased
+            // finally (see the tail of this method), to avoid multiple request
+            // accessing the same one table to rase concurrency issues, we should
+            // be careful not to do any asynchronous things before the inserted
+            // temporary data is erased finally.
+            // 
+            // This works but not a good solution, because it stops any potential
+            // performance/concurrency improvement which may be done by async execution.
+            // So far I think we could replace this approach by belows:
+            // 1. create table always per request
+            // 2. modify alasql to support dynamic table
+            // 3. use transaction to isolate un-committed data and rollback after done
+            // 
             this._ruleRequestTable.data = [{
                 url: req.url,
                 charset: req.charset,

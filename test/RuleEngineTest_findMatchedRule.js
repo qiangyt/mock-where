@@ -94,4 +94,22 @@ describe("RuleEngine test suite: ", function() {
         expect(matched).toEqual(rule);
     });
 
+    it("_findMatchedRule(): no q", function() {
+        const re = buildEngine('test');
+        const req = {
+            path: '/ab',
+            method: 'get',
+            url: 'https://host/ab',
+            charset: 'utf-8',
+            protocol: 'https',
+            ip: '::1'
+        };
+
+        const rule = { path: '/ab' };
+        re.put(rule);
+
+        const matched = re._findMatchedRule(req);
+        expect(matched).toEqual(rule);
+    });
+
 });

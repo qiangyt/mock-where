@@ -6,7 +6,7 @@ const RuleEngine = require(`${SRC}/RuleEngine`);
 
 function buildEngine(name, rules) {
     const beans = new Beans();
-    const r = new RuleEngine({ rules });
+    const r = new RuleEngine(name, { rules });
     beans.renderThenInitBean(r, name);
     return r;
 }

@@ -13,7 +13,7 @@ module.exports = class MockServer extends BaseServer {
 
     constructor(config) {
         super();
-        this._name = 'MockServer:' + config.port;
+        this._name = 'MockServer_' + config.port;
         this._config = config;
     }
 
@@ -37,7 +37,7 @@ module.exports = class MockServer extends BaseServer {
         for (const vhostName in vhostConfigs) {
             const vhostConfig = vhostConfigs[vhostName];
 
-            const engine = new RuleEngine(vhostConfig);
+            const engine = new RuleEngine(this._name + '_RuleEngine', vhostConfig);
             this._beans.renderThenInitBean(engine, 'RuleEngine:' + vhostName);
 
             for (const domain of vhostConfig.domains) {
