@@ -17,7 +17,7 @@ describe("RuleTree test suite: ", function() {
         const r = RuleTree.normalizeDefaultRule();
 
         expect(r.path).toBe('/');
-        expect(r.method).toBe('get');
+        expect(r.method).toBe('*');
 
         const resp = r.response;
         expect(resp.status).toBe(200);

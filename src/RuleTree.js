@@ -17,7 +17,7 @@ module.exports = class RuleTree {
         const r = defaultRule || {};
 
         r.path = RuleTree.normalizePath(r.path || '/');
-        r.method = (r.method || 'get').toLowerCase();
+        r.method = (r.method || '*').toLowerCase();
 
         const resp = r.response = r.response || {};
         resp.status = resp.status || 200;

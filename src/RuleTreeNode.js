@@ -38,7 +38,7 @@ module.exports = class RuleTreeNode {
         if (path === this.path) {
             const r = [];
             for (let candidate of this.rules) {
-                if (candidate.method === method) r.push(candidate);
+                if (candidate.method === method || candidate.method === '*') r.push(candidate);
             }
             return r;
         }
