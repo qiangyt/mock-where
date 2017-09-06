@@ -74,6 +74,7 @@ module.exports = class RuleEngine {
             // 1. create table always per request
             // 2. modify alasql to support dynamic table
             // 3. use transaction to isolate un-committed data and rollback after done
+            // 4. use 'SELECT directly on your JavaScript data' (https://github.com/agershun/alasql)
             // 
             this._ruleRequestTable.data = [{
                 url: req.url,
