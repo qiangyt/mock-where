@@ -4,9 +4,9 @@ const Beans = require('qnode-beans');
 const SRC = '../src';
 const RuleEngine = require(`${SRC}/RuleEngine`);
 
-function buildEngine(name) {
+function buildEngine(name, rules) {
     const beans = new Beans();
-    const r = new RuleEngine();
+    const r = new RuleEngine({ rules });
     beans.renderThenInitBean(r, name);
     return r;
 }
@@ -79,7 +79,14 @@ describe("RuleEngine test suite: ", function() {
     });
 
     it("mock(): happy", function() {
-        const re = buildEngine('test');
+        const rule = {
+            path: '/ab',
+            response: {
+                delay: 100
+            }
+        };
+
+        const re = buildEngine('test', { ab: rule });
 
         const request = {
             path: '/ab',
@@ -91,14 +98,6 @@ describe("RuleEngine test suite: ", function() {
         };
         const response = {};
 
-        const rule = {
-            path: '/ab',
-            response: {
-                delay: 100
-            }
-        };
-        re.put(rule);
-
         const beginTime = new Date().getTime();
 
         return re.mock(request, response).then(() => {
@@ -109,7 +108,7 @@ describe("RuleEngine test suite: ", function() {
     });
 
     it("mock(): no rule matched", function() {
-        const re = buildEngine('test');
+        const re = buildEngine('test', {});
 
         const request = {
             path: '/ab',
@@ -131,7 +130,11 @@ describe("RuleEngine test suite: ", function() {
     });
 
     it("mock(): no delay", function() {
-        const re = buildEngine('test');
+        const rule = {
+            path: '/ab'
+        };
+
+        const re = buildEngine('test', { ab: rule });
 
         const request = {
             path: '/ab',
@@ -142,11 +145,6 @@ describe("RuleEngine test suite: ", function() {
             ip: '::1'
         };
         const response = {};
-
-        const rule = {
-            path: '/ab'
-        };
-        re.put(rule);
 
         const beginTime = new Date().getTime();
 

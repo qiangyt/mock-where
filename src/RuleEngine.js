@@ -5,10 +5,25 @@ const RuleTree = require('./RuleTree');
 
 module.exports = class RuleEngine {
 
+    constructor(config) {
+        this._config = config;
+    }
+
     init() {
         this._ruleTree = new RuleTree();
+
+        this._initRules();
+
         this._ruleDb = this._initRuleDatabase();
         this._ruleRequestTable = this._ruleDb.tables.request;
+    }
+
+    _initRules() {
+        const rules = this._config.rules;
+        for (const ruleName in rules) {
+            const rule = rules[ruleName];
+            this.put(rule);
+        }
     }
 
     /**

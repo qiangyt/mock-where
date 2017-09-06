@@ -35,10 +35,11 @@ module.exports = class MockServer extends BaseServer {
         let amountOfDomains = 0;
 
         for (const vhostName in vhostConfigs) {
-            const engine = new RuleEngine();
+            const vhostConfig = vhostConfigs[vhostName];
+
+            const engine = new RuleEngine(vhostConfig);
             this._beans.renderThenInitBean(engine, 'RuleEngine:' + vhostName);
 
-            const vhostConfig = vhostConfigs[vhostName];
             for (const domain of vhostConfig.domains) {
                 if (this._engines[domain]) {
                     throw new Error(`${this._name}: duplicated domain: domain`);
