@@ -76,13 +76,7 @@ module.exports = class RuleEngine {
             // 3. use transaction to isolate un-committed data and rollback after done
             // 4. use 'SELECT directly on your JavaScript data' (https://github.com/agershun/alasql)
             // 
-            this._ruleRequestTable.data = [{
-                url: req.url,
-                charset: req.charset,
-                protocol: req.protocol,
-                ip: req.ip,
-                path: req.path
-            }];
+            this._ruleRequestTable.data = this._buildRequestTableData(req);
 
             const rules = this._ruleTree.match(req.method, req.path);
             this._logger.debug('candidate rules: %s', rules);
@@ -102,6 +96,18 @@ module.exports = class RuleEngine {
         } finally {
             this._ruleRequestTable.data = [];
         }
+    }
+
+    _buildRequestTableData(req) {
+        return [{
+            charset: req.charset,
+            ip: req.ip,
+            method: req.method,
+            path: req.path,
+            protocol: req.protocol,
+            q: req.query,
+            url: req.url
+        }];
     }
 
     /**

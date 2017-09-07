@@ -1,5 +1,6 @@
 /* eslint no-undef: "off" */
 const Beans = require('qnode-beans');
+const _ = require('underscore');
 
 const SRC = '../src';
 const RuleEngine = require(`${SRC}/RuleEngine`);
@@ -152,6 +153,37 @@ describe("RuleEngine test suite: ", function() {
             const duration = new Date().getTime() - beginTime;
             expect(duration).toBeLessThanOrEqual(10);
         });
+    });
+
+    it("_buildRequestTableData()", function() {
+        const re = buildEngine('test');
+
+        const req = {
+            path: '/path',
+            method: 'post',
+            url: 'https://localhost/path',
+            charset: 'ascii',
+            protocol: 'http',
+            ip: '::1',
+            query: {
+                a: 1,
+                b: 2
+            }
+        };
+
+        const t = re._buildRequestTableData(req)[0];
+
+        expect(_.size(t)).toBe(7);
+
+        expect(t.path).toEqual(req.path);
+        expect(t.method).toEqual(req.method);
+        expect(t.url).toEqual(req.url);
+        expect(t.charset).toEqual(req.charset);
+        expect(t.protocol).toEqual(req.protocol);
+        expect(t.ip).toEqual(req.ip);
+        expect(t.path).toEqual(req.path);
+        expect(t.q.a).toEqual(req.query.a);
+        expect(t.q.b).toEqual(req.query.b);
     });
 
 });
