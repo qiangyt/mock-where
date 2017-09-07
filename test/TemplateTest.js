@@ -11,7 +11,7 @@ describe("Template test suite: ", function() {
         expect(f({ you: 'Qiang Yiting' })).toBe('hi Qiang Yiting');
     });
 
-    it("ejs", function() {
+    it("mustache", function() {
         const f = template('mustache', 'hi {{you}}');
         expect(f instanceof Function).toBeTruthy();
         expect(f({ you: 'Qiang Yiting' })).toBe('hi Qiang Yiting');
