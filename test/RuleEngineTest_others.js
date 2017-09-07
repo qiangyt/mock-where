@@ -31,8 +31,7 @@ describe("RuleEngine test suite: ", function() {
         const responseToMock = {};
         RuleEngine.renderMockResponseBody({ you: 'Yiting' }, ruleResponse, responseToMock);
 
-        expect(responseToMock.body).toBeUndefined();
-        expect(responseToMock.message).toBe('hi Yiting');
+        expect(responseToMock.body).toBe('hi Yiting');
     });
 
     it("renderMockResponseBody(): render response body as object", function() {

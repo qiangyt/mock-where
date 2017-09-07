@@ -122,7 +122,8 @@ module.exports = class RuleEngine {
     static renderMockResponseBody(request, ruleResponse, responseToMock) {
         if (ruleResponse.template) {
             try {
-                responseToMock.message = ruleResponse.template.func(request);
+                const msg = ruleResponse.template.func(request);
+                responseToMock.body = msg;
             } catch (e) {
                 throw new RequestError('FAILED_TO_GENERATE_RESPONSE_WITH_TEMPLATE', e.message);
             }
