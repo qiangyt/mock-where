@@ -1,0 +1,13 @@
+q: q->enterpriseID = '1'
+response:
+  type: application/xml
+  template: <?xml version="1.0" encoding="utf-8"?>
+            <Response>
+              <Result>0</Result>
+              <% var smsIdList = query.batchSmsId.split(','); %>
+              <SmsIdList num="<%= smsIdList.length %>">
+                <% for( var i = 0; i < smsIdList.length; i++ ) { %>
+                  <Item index="<%= i+1 %>" smsId="<%= smsIdList[i] %>" result="0"/>
+                <% } %>
+              </SmsIdList>
+            </Response>
