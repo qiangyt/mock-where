@@ -42,7 +42,6 @@ module.exports = class RuleTree {
         r.path = RuleTree.normalizePath(r.path || dft.path);
         r.method = (r.method || dft.method).toLowerCase();
         r.q = r.q || dft.q;
-        r.statement = 'select * from request' + (r.q ? ` where ${r.q}` : '');
 
         r.response = this.normalizeRuleResponse(r.response);
 

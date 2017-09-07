@@ -65,7 +65,6 @@ describe("RuleTree test suite: ", function() {
         expect(r.path).toBe('/p');
         expect(r.method).toBe('post');
         expect(r.q).toBe('1=1');
-        expect(r.statement).toBe('select * from request where 1=1');
     });
 
     it("normalizeRule(): take input", function() {
@@ -86,7 +85,6 @@ describe("RuleTree test suite: ", function() {
         expect(r.path).toBe('/p2');
         expect(r.method).toBe('put');
         expect(r.q).toBe('1<>2');
-        expect(r.statement).toBe('select * from request where 1<>2');
     });
 
     it("normalizeRuleResponse(): take default", function() {

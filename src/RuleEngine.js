@@ -43,8 +43,15 @@ module.exports = class RuleEngine {
         return r;
     }
 
+    normalizeEngineSpecificRuleAttributes(rule) {
+        const r = rule || {};
+        r.statement = 'select * from request' + (r.q ? ` where ${r.q}` : '');
+        return r;
+    }
+
     put(rule) {
-        this._ruleTree.put(rule);
+        const r = this.normalizeEngineSpecificRuleAttributes(rule);
+        this._ruleTree.put(r);
     }
 
     /**
