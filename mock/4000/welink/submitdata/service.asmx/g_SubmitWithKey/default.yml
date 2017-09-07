@@ -1,0 +1,11 @@
+response:
+  type: application/xml
+  template: <?xml version="1.0" encoding="utf-8"?>
+            <CSubmitState xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                          xmlns="http://tempuri.org/">
+              <State>0</State>
+              <MsgID><%= parseInt(100000000000000000 * Math.random()) %></MsgID>
+              <MsgState>....</MsgState>
+              <Reserve>0</Reserve>
+            </CSubmitState>
