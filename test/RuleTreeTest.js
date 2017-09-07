@@ -141,6 +141,26 @@ describe("RuleTree test suite: ", function() {
         expect(r.template.func).toBeDefined();
     });
 
+    it("normalizeTemplate(): template is a number", function() {
+        const r = {
+            template: 3
+        };
+        new RuleTree().normalizeTemplate(r);
+        expect(r.template.type).toBe('ejs');
+        expect(r.template.text).toBe('3');
+        expect(r.template.func).toBeDefined();
+    });
+
+    it("normalizeTemplate(): template is zero", function() {
+        const r = {
+            template: 0
+        };
+        new RuleTree().normalizeTemplate(r);
+        expect(r.template.type).toBe('ejs');
+        expect(r.template.text).toBe('0');
+        expect(r.template.func).toBeDefined();
+    });
+
     it("normalizeTemplate(): template is not string and inputted", function() {
         const r = {
             template: {
@@ -196,6 +216,15 @@ describe("RuleTree test suite: ", function() {
         new RuleTree().normalizeResponseBodyOrTemplate(r);
         expect(r.template.text).toBe('dummy');
         expect(r.template.type).toBe('mustache');
+    });
+
+    it("normalizeResponseBodyOrTemplate(): take template with a zero number", function() {
+        const r = {
+            template: 0
+        };
+        new RuleTree().normalizeResponseBodyOrTemplate(r);
+        expect(r.template.text).toBe('0');
+        expect(r.template.type).toBe('ejs');
     });
 
     it("normalizeResponseBodyOrTemplate(): take body, should be json text", function() {

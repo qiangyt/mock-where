@@ -72,7 +72,7 @@ module.exports = class RuleTree {
             throw new RequestError('MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED');
         }
 
-        if (response.template) {
+        if (response.template !== undefined && response.template !== null) {
             this.normalizeTemplate(response);
         } else {
             response.body = JSON.stringify(response.body || 'no response body specified');
@@ -85,12 +85,12 @@ module.exports = class RuleTree {
         let type;
         let text;
 
-        if (!template) {
+        if (template === undefined || template === null) {
             type = this._defaultRule.response.templateType;
             text = 'template not specified';
-        } else if (typeof template === 'string') {
+        } else if (typeof template !== 'object') {
             type = 'ejs';
-            text = template;
+            text = '' + template;
         } else {
             type = template.type || this._defaultRule.response.templateType;
             text = template.text || 'template text not specified';
