@@ -1,0 +1,6 @@
+response:
+  type: application/xml
+  template: <?xml version="1.0" encoding="utf-8"?>
+            <string xmlns="http://entinfo.cn">
+              <%= query.rrid %>
+            </string>
