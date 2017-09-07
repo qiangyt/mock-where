@@ -1,2 +1,16 @@
 response:
   type: application/xml
+  template: <?xml version="1.0" encoding="utf-8"?>
+            <Response>
+              <Result>0</Result>
+              <% 
+                  var smsIdList = [777,888,999];
+                  var mobiles = [10010001000,20020002000,30030003000];
+                  var arrived = [0,1,0];
+              %>
+              <SmsIdList num="<%= smsIdList.length %>">
+                <% for( var i = 0; i < smsIdList.length; i++ ) { %>
+                <Item index="<%= i+1 %>" smsId="<%= smsIdList[i%>" to_mobile="<%=mobiles[i]%>" status="<%=arrived[i]%>" reportTime="2017-09-07 23:57:04" desc="DELIVRD"/>
+                <% } %>
+              </SmsIdList>
+            </Response>
