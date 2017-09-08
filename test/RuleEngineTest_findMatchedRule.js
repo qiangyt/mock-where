@@ -3,11 +3,11 @@ const Beans = require('qnode-beans');
 const RequestError = require('qnode-error').RequestError;
 
 const SRC = '../src';
-const RuleEngine = require(`${SRC}/RuleEngine`);
+const RuleEngine_alasql = require(`${SRC}/RuleEngine_alasql`);
 
 function buildEngine(name) {
     const beans = new Beans();
-    const r = new RuleEngine();
+    const r = new RuleEngine_alasql();
     beans.renderThenInitBean(r, name);
     return r;
 }
@@ -25,11 +25,12 @@ describe("RuleEngine test suite: ", function() {
         };
 
         const ruleDb = re._ruleDb;
+        const candidateRules = re._ruleTree.match(req.method, req.path);
 
         let rows = ruleDb.exec('select count(*) c from request');
         expect(rows[0].c).toBe(0);
 
-        re._findMatchedRule(req);
+        re._findMatchedRule(req, candidateRules);
 
         rows = ruleDb.exec('select count(*) c from request');
         expect(rows[0].c).toBe(0);
