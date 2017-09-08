@@ -2,20 +2,20 @@ const RuleEngine = require('./RuleEngine');
 const alasql = require('alasql');
 
 
-module.exports = class RuleEngine_js extends RuleEngine {
+module.exports = class RuleEngine_alasql extends RuleEngine {
 
     init() {
         super.init();
 
-        this._ruleDb = this._initRuleDatabase();
-        this._ruleRequestTable = this._ruleDb.tables.request;
+        this._db = this._initDatabase();
+        this._requestTable = this._db.tables.request;
     }
 
     /**
      * The rule database is a request database servers by alasql engine.
      * So far, the database is dynamic and stores only 1 row of request.
      */
-    _initRuleDatabase() {
+    _initDatabase() {
         // the alasql database name should be globally unique, otherwise,
         // the database data will interfere across rule engines
         const r = new alasql.Database(this._name /*, { cache: false }*/ );
@@ -61,13 +61,13 @@ module.exports = class RuleEngine_js extends RuleEngine {
             // 3. use transaction to isolate un-committed data and rollback after done
             // 4. use 'SELECT directly on your JavaScript data' (https://github.com/agershun/alasql)
             // 
-            this._ruleRequestTable.data = this._buildRequestTableData(req);
+            this._requestTable.data = this._buildRequestData(req);
 
             for (const rule of candidateRules) {
                 const stmt = rule.statement;
                 this._logger.debug(`executing: ${stmt}`);
 
-                const matched = this._ruleDb.exec(stmt);
+                const matched = this._db.exec(stmt);
                 if (matched.length > 0) {
                     this._logger.info('found matched rule: %s', rule);
                     return rule;
@@ -76,7 +76,7 @@ module.exports = class RuleEngine_js extends RuleEngine {
 
             return null;
         } finally {
-            this._ruleRequestTable.data = [];
+            this._requestTable.data = [];
         }
     }
 

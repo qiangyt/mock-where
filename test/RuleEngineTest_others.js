@@ -65,18 +65,4 @@ describe("RuleEngine test suite: ", function() {
             });
     });
 
-    it("normalizeEngineSpecificRuleAttributes(): take specific statement", function() {
-        const re = buildEngine('test');
-        const rule = { q: '1=1' };
-        const r = re.normalizeEngineSpecificRuleAttributes(rule);
-        expect(r.statement).toBe('select * from request where 1=1');
-    });
-
-
-    it("normalizeEngineSpecificRuleAttributes(): take default statement", function() {
-        const re = buildEngine('test');
-        const r = re.normalizeEngineSpecificRuleAttributes();
-        expect(r.statement).toBe('select * from request');
-    });
-
 });

@@ -156,7 +156,7 @@ describe("RuleEngine test suite: ", function() {
         });
     });
 
-    it("_buildRequestTableData()", function() {
+    it("_buildRequestData()", function() {
         const re = buildEngine('test');
 
         const req = {
@@ -172,7 +172,7 @@ describe("RuleEngine test suite: ", function() {
             }
         };
 
-        const t = re._buildRequestTableData(req)[0];
+        const t = re._buildRequestData(req)[0];
 
         expect(_.size(t)).toBe(7);
 

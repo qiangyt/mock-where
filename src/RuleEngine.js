@@ -28,7 +28,7 @@ module.exports = class RuleEngine {
         this._ruleTree.put(r);
     }
 
-    _buildRequestTableData(req) {
+    _buildRequestData(req) {
         return [{
             charset: req.charset,
             ip: req.ip,

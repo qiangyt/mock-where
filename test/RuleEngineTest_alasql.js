@@ -24,15 +24,15 @@ describe("RuleEngine test suite: ", function() {
             ip: '::1'
         };
 
-        const ruleDb = re._ruleDb;
+        const db = re._db;
         const candidateRules = re._ruleTree.match(req.method, req.path);
 
-        let rows = ruleDb.exec('select count(*) c from request');
+        let rows = db.exec('select count(*) c from request');
         expect(rows[0].c).toBe(0);
 
         re._findMatchedRule(req, candidateRules);
 
-        rows = ruleDb.exec('select count(*) c from request');
+        rows = db.exec('select count(*) c from request');
         expect(rows[0].c).toBe(0);
     });
 
@@ -111,6 +111,21 @@ describe("RuleEngine test suite: ", function() {
 
         const matched = re._findMatchedRule(req);
         expect(matched).toEqual(rule);
+    });
+
+
+    it("normalizeEngineSpecificRuleAttributes(): take specific statement", function() {
+        const re = buildEngine('test');
+        const rule = { q: '1=1' };
+        const r = re.normalizeEngineSpecificRuleAttributes(rule);
+        expect(r.statement).toBe('select * from request where 1=1');
+    });
+
+
+    it("normalizeEngineSpecificRuleAttributes(): take default statement", function() {
+        const re = buildEngine('test');
+        const r = re.normalizeEngineSpecificRuleAttributes();
+        expect(r.statement).toBe('select * from request');
     });
 
 });
