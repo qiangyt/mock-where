@@ -1,6 +1,6 @@
 const RequestError = require('qnode-error').RequestError;
 const BaseServer = require('qnode-rest').BaseServer;
-const RuleEngine_alasql = require('./RuleEngine_alasql');
+const RuleEngineAlasql = require('./RuleEngineAlasql');
 
 /**
  * A mock server is a HTTP(s) server listening on single specific port, 
@@ -37,7 +37,7 @@ module.exports = class MockServer extends BaseServer {
         for (const vhostName in vhostConfigs) {
             const vhostConfig = vhostConfigs[vhostName];
 
-            const engine = new RuleEngine_alasql(this._name + '_RuleEngine', vhostConfig);
+            const engine = new RuleEngineAlasql(this._name + '_RuleEngine', vhostConfig);
             this._beans.renderThenInitBean(engine, 'RuleEngine:' + vhostName);
 
             for (const domain of vhostConfig.domains) {

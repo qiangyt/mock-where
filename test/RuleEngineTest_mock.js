@@ -8,7 +8,7 @@ const RuleEngine = require(`${SRC}/RuleEngine`);
 function buildEngine(name, rules, _filterRule) {
     const beans = new Beans();
     const r = new RuleEngine(name, { rules });
-    r.normalizeEngineSpecificRuleAttributes = rule => rule;
+    r.prepareRule = rule => rule;
     if (_filterRule) r._filterRule = _filterRule;
     beans.renderThenInitBean(r, name);
     return r;
@@ -172,7 +172,7 @@ describe("RuleEngine test suite: ", function() {
             }
         };
 
-        const t = re._buildRequestData(req)[0];
+        const t = re._buildRequestData(req);
 
         expect(_.size(t)).toBe(7);
 

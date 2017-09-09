@@ -24,12 +24,12 @@ module.exports = class RuleEngine {
     }
 
     put(rule) {
-        const r = this.normalizeEngineSpecificRuleAttributes(rule);
+        const r = this.prepareRule(rule);
         this._ruleTree.put(r);
     }
 
     _buildRequestData(req) {
-        return [{
+        return {
             charset: req.charset,
             ip: req.ip,
             method: req.method,
@@ -37,7 +37,7 @@ module.exports = class RuleEngine {
             protocol: req.protocol,
             q: req.query,
             url: req.url
-        }];
+        };
     }
 
     /**

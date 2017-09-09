@@ -2,7 +2,7 @@ const RuleEngine = require('./RuleEngine');
 const alasql = require('alasql');
 
 
-module.exports = class RuleEngine_alasql extends RuleEngine {
+module.exports = class RuleEngineAlasql extends RuleEngine {
 
     init() {
         super.init();
@@ -27,7 +27,7 @@ module.exports = class RuleEngine_alasql extends RuleEngine {
         return r;
     }
 
-    normalizeEngineSpecificRuleAttributes(rule) {
+    prepareRule(rule) {
         const r = rule || {};
         r.statement = 'select * from request' + (r.q ? ` where ${r.q}` : '');
         return r;
@@ -61,7 +61,7 @@ module.exports = class RuleEngine_alasql extends RuleEngine {
             // 3. use transaction to isolate un-committed data and rollback after done
             // 4. use 'SELECT directly on your JavaScript data' (https://github.com/agershun/alasql)
             // 
-            this._requestTable.data = this._buildRequestData(req);
+            this._requestTable.data = [this._buildRequestData(req)];
 
             for (const rule of candidateRules) {
                 const stmt = rule.statement;

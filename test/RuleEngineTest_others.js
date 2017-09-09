@@ -3,11 +3,11 @@ const Beans = require('qnode-beans');
 const _ = require('underscore');
 
 const SRC = '../src';
-const RuleEngine_alasql = require(`${SRC}/RuleEngine_alasql`);
+const RuleEngineJs = require(`${SRC}/RuleEngineJs`);
 
 function buildEngine(name, rules) {
     const beans = new Beans();
-    const r = new RuleEngine_alasql(name, { rules });
+    const r = new RuleEngineJs(name, { rules });
     beans.renderThenInitBean(r, name);
     return r;
 }

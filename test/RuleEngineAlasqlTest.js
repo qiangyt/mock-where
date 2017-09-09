@@ -3,16 +3,16 @@ const Beans = require('qnode-beans');
 const RequestError = require('qnode-error').RequestError;
 
 const SRC = '../src';
-const RuleEngine_alasql = require(`${SRC}/RuleEngine_alasql`);
+const RuleEngineAlasql = require(`${SRC}/RuleEngineAlasql`);
 
 function buildEngine(name) {
     const beans = new Beans();
-    const r = new RuleEngine_alasql();
+    const r = new RuleEngineAlasql();
     beans.renderThenInitBean(r, name);
     return r;
 }
 
-describe("RuleEngine test suite: ", function() {
+describe("RuleEngineAlasql test suite: ", function() {
 
     it("_findMatchedRule(): the rule db should be rollbacked always", function() {
         const re = buildEngine('test');
@@ -114,17 +114,17 @@ describe("RuleEngine test suite: ", function() {
     });
 
 
-    it("normalizeEngineSpecificRuleAttributes(): take specific statement", function() {
+    it("prepareRule(): take specific statement", function() {
         const re = buildEngine('test');
         const rule = { q: '1=1' };
-        const r = re.normalizeEngineSpecificRuleAttributes(rule);
+        const r = re.prepareRule(rule);
         expect(r.statement).toBe('select * from request where 1=1');
     });
 
 
-    it("normalizeEngineSpecificRuleAttributes(): take default statement", function() {
+    it("prepareRule(): take default statement", function() {
         const re = buildEngine('test');
-        const r = re.normalizeEngineSpecificRuleAttributes();
+        const r = re.prepareRule();
         expect(r.statement).toBe('select * from request');
     });
 
