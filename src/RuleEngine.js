@@ -10,7 +10,7 @@ module.exports = class RuleEngine {
     }
 
     init() {
-        this._ruleTree = new RuleTree();
+        this._ruleTree = new RuleTree(this._name + 'RuleTree');
 
         this._initRules();
     }

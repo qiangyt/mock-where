@@ -10,7 +10,7 @@ response:
               %>
               <SmsIdList num="<%= smsIdList.length %>">
                 <% for( var i = 0; i < smsIdList.length; i++ ) { %>
-                <Item index="<%= i+1 %>" smsId="<%= smsIdList[i%>" to_mobile="<%=mobiles[i]%>" status="<%=arrived[i]%>" reportTime="2017-09-07 23:57:04" desc="DELIVRD"/>
+                <Item index="<%= i+1 %>" smsId="<%= smsIdList[i]%>" to_mobile="<%=mobiles[i]%>" status="<%=arrived[i]%>" reportTime="2017-09-07 23:57:04" desc="DELIVRD"/>
                 <% } %>
               </SmsIdList>
             </Response>

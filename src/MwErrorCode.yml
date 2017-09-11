@@ -1,0 +1,39 @@
+FAILED_TO_COMPILE_TEMPLATE:
+  code: 1000
+  en_US: "rule '%s': failed to compile template. type=%s. template=%s"
+  zh_CN: "规则 '%s': 模板编译错误。模板类型=%s. 模板文本=%s"
+
+NO_RULE_MATCHES:
+  code: 1001
+  en_US: No rules matches
+  zh_CN: 找不到匹配的规则
+ 
+MOCK_SERVER_NOT_FOUND:
+  code: 1002
+  en_US: cannot find mock server - %s
+  zh_CN: 未找到mock服务器 - %s
+ 
+UNSUPPORTED_TEMPLATE_TYPE:
+  code: 1003
+  en_US: "rule '%s': unsupported template type - %s"
+  zh_CN: "规则 '%s': 不支持该模板类型 - %s"
+ 
+MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED:
+  code: 1004
+  en_US: "rule '%s': multiple response contents are not allowed, pls choose either body or template"
+  zh_CN: "规则 '%s': 不可以同时定义多个response内容，请在body和template中二选一"
+ 
+FAILED_TO_GENERATE_RESPONSE_WITH_TEMPLATE:
+  code: 1005
+  en_US: failed to generate response with template. reason - %s
+  zh_CN: 使用模板生成response内容时失败。原因 - %s
+
+SERVER_NOT_FOUND:
+  code: 1006
+  en_US: cannot find server - %s
+  zh_CN: 未找到服务器 - %s
+
+VHOST_NOT_FOUND:
+  code: 1007
+  en_US: cannot find virtual host - %s
+  zh_CN: 未找到虚拟主机 - %s

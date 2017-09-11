@@ -43,14 +43,14 @@ module.exports = class RuleTree {
         r.method = (r.method || dft.method).toLowerCase();
         r.q = r.q || dft.q;
 
-        r.response = this.normalizeRuleResponse(r.response);
+        r.response = this.normalizeRuleResponse(r.response, r.name);
 
         r.callback = r.callback ? new Callback(r.callback) : null;
 
         return r;
     }
 
-    normalizeRuleResponse(response) {
+    normalizeRuleResponse(response, ruleName) {
         const dft = this._defaultRule.response;
 
         const r = response || {};
@@ -58,7 +58,7 @@ module.exports = class RuleTree {
         r.status = r.status || dft.status;
         r.type = r.type || dft.type;
 
-        this.normalizeResponseBodyOrTemplate(r);
+        this.normalizeResponseBodyOrTemplate(r, ruleName);
 
         r.delay = (!r.delay || r.delay < 0) ? dft.delay : r.delay;
         r.delayFix = r.delayFix || dft.delayFix;
@@ -66,19 +66,19 @@ module.exports = class RuleTree {
         return r;
     }
 
-    normalizeResponseBodyOrTemplate(response) {
+    normalizeResponseBodyOrTemplate(response, ruleName) {
         if (response.template && response.body) {
-            throw new RequestError('MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED');
+            throw new RequestError('MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED', ruleName);
         }
 
         if (response.template !== undefined && response.template !== null) {
-            this.normalizeTemplate(response);
+            this.normalizeTemplate(response, ruleName);
         } else {
             response.body = JSON.stringify(response.body || 'no response body specified');
         }
     }
 
-    normalizeTemplate(response) {
+    normalizeTemplate(response, ruleName) {
         const template = response.template;
 
         let type;
@@ -98,7 +98,7 @@ module.exports = class RuleTree {
         response.template = {
             type,
             text,
-            func: resolveTemplateFunc(type, text)
+            func: resolveTemplateFunc(type, text, ruleName)
         };
     }
 

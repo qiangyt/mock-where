@@ -1,6 +1,6 @@
 const Path = require('path');
 const Fs = require('fs');
-const QNodeConfig = require('qnode-config');
+const QConfig = require('qnode-config');
 const MockConfigProvider = require('../MockConfigProvider');
 
 const _CONFIG_FILE_NAME = 'mw';
@@ -84,9 +84,9 @@ module.exports = class MockConfigProvider_dir extends MockConfigProvider {
                     r[childPath] = children[childPath];
                 }
             } else {
-                if (QNodeConfig.is(full, _CONFIG_FILE_NAME)) continue;
+                if (QConfig.is(full, _CONFIG_FILE_NAME)) continue;
 
-                const rule = QNodeConfig.load({ dir: path.dir, name: path.name });
+                const rule = QConfig.load({ dir: path.dir, name: path.name });
                 rule.path = parentPath;
                 r[childPath] = rule;
             }
@@ -96,7 +96,7 @@ module.exports = class MockConfigProvider_dir extends MockConfigProvider {
     }
 
     loadVirtualHostConfig(dir, dump) {
-        const r = QNodeConfig.load({ dir, name: _CONFIG_FILE_NAME }, {}, dump);
+        const r = QConfig.load({ dir, name: _CONFIG_FILE_NAME }, {}, dump);
         r.name = Path.basename(dir);
         return r;
     }
