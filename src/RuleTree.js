@@ -1,7 +1,7 @@
 const RuleTreeNode = require('./RuleTreeNode');
 const resolveTemplateFunc = require('./Template');
 const RequestError = require('qnode-error').RequestError;
-const Callback = require('./Callback');
+const Hook = require('./Hook');
 
 
 module.exports = class RuleTree {
@@ -45,7 +45,7 @@ module.exports = class RuleTree {
 
         r.response = this.normalizeRuleResponse(r.response, r.name);
 
-        r.callback = r.callback ? new Callback(r.callback) : null;
+        r.hook = r.hook ? new Hook(r.hook) : null;
 
         return r;
     }

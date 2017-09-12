@@ -15,8 +15,7 @@ const RequestError = require('qnode-error').RequestError;
  *      q: "ip='localhost'", // optional. assigned to default query, if not specified
  *      delay: 200, // optoinal. assigned to default delay, if not specified
  *      delayFix: 16, // optional. assigned to default delayFix, if not specified
- *      callback: {
- *        beforeAsync: true,
+ *      hook: {
  *        before: [
  *          {
  *              method: 'POST', // optional
@@ -29,9 +28,6 @@ const RequestError = require('qnode-error').RequestError;
  *              accept: 'application/xml' // optional
  *          }
  *        ],
- *        on: [ // always async
- *        ],
- *        afterAsync: true
  *        after: [ // same as before
  *        ]   
  *      },

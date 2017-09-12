@@ -4,29 +4,22 @@ const MissingParamError = require('qnode-error').MissingParamError;
 
 
 /**
- * Manages and execute callbacks
+ * Manages and execute hooks
  */
-module.exports = class Callback {
+module.exports = class Hook {
 
     constructor(config) {
-        this.beforeAsync = Callback.normalizeAsyncFlag(config.beforeAsync);
-        this.before = Callback.normalizeList(config.before);
-        this.on = Callback.normalizeList(config.on);
-        this.afterAsync = Callback.normalizeAsyncFlag(config.afterAsync);
-        this.after = Callback.normalizeList(config.after);
-    }
-
-    static normalizeAsyncFlag(flag) {
-        return (flag === undefined || flag === null) ? false : flag;
+        this.before = Hook.normalizeList(config.before);
+        this.after = Hook.normalizeList(config.after);
     }
 
     static normalizeList(list) {
         if (!list || !list.length) return [];
-        return list.map(target => Callback.normalizeTarget(target));
+        return list.map(target => Hook.normalizeTarget(target));
     }
 
     static normalizeTarget(target) {
-        if (!target.path) throw new MissingParamError('callback path');
+        if (!target.path) throw new MissingParamError('hook path');
 
         target.method = target.method || 'post';
 
@@ -43,14 +36,6 @@ module.exports = class Callback {
 
     callBefore() {
         return this._callList(this.before);
-    }
-
-    needCallOn() {
-        return this.on.length > 0;
-    }
-
-    callOn() {
-        return this._callList(this.on);
     }
 
     needCallAfter() {

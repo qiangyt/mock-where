@@ -105,7 +105,7 @@ module.exports = class RuleEngine {
      * return mocked response for incoming request.
      * 
      * it looks for matched rule, rendering mock response using the rule, and
-     * executes callbacks around the response.
+     * executes hooks around the response.
      * 
      * @param {object} request 
      * @param {object} response 
@@ -113,22 +113,16 @@ module.exports = class RuleEngine {
     async mock(request, response) {
         const rule = this.loadMatchedRule(request);
 
-        const cb = rule.callback;
+        const cb = rule.hook;
 
         if (cb && cb.needCallBefore) {
-            if (cb.beforeAsync) cb.callBefore();
-            else await cb.callBefore();
-        }
-
-        if (cb && cb.needCallOn) {
-            cb.callOn(); // always sync
+            await cb.callBefore();
         }
 
         await this._mockResponse(request, response, rule);
 
         if (cb && cb.needCallAfter) {
-            if (cb.beforeAsync) cb.callAfter();
-            else await cb.callAfter();
+            await cb.callAfter();
         }
     }
 
@@ -143,7 +137,7 @@ module.exports = class RuleEngine {
         const ruleResponse = rule.response;
         RuleEngine.renderMockResponse(request, ruleResponse, response);
 
-        //TODO: be aware of how the callback delay interferes the response delay
+        //TODO: be aware of how the hook delay interferes the response delay
         let delay = RuleEngine.determineTimeToDelay(ruleResponse);
         if (delay) {
             return new Promise(resolve => setTimeout(resolve, delay));
