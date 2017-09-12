@@ -20,10 +20,13 @@ const RequestError = require('qnode-error').RequestError;
  *          {
  *              method: 'POST', // optional
  *              path: 'http://example.com/notify', 
+ *              pathTemplate: {}, // exclusive with path
  *              header: {},// optional
  *              query: {}, // or string, optional
+ *              queryTemplate: {}, // exclusive with query
  *              type: 'application/json',// optional
  *              body: {}, // or string, or stream, or file, optional
+ *              bodyTemplate: // exclusive with body
  *              accept: 'application/xml' // optional
  *          }
  *        ],
