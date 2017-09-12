@@ -92,8 +92,7 @@ describe("Hook test suite: ", function() {
             accept: 'application/json',
             body: {
                 bodyKey: 'bodyValue'
-            },
-            retry: 1
+            }
         };
         const data = {
             header: target.header,
