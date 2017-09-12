@@ -24,7 +24,6 @@ const RequestError = require('qnode-error').RequestError;
  *              query: {}, // or string, optional
  *              type: 'application/json',// optional
  *              body: {}, // or string, or stream, or file, optional
- *              retry: 2, // optional
  *              accept: 'application/xml' // optional
  *          }
  *        ],

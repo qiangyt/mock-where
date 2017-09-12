@@ -73,7 +73,6 @@ module.exports = class Hook {
         if (target.type) agent = agent.type(target.type);
         if (target.accept) agent = agent.accept(target.accept);
         if (target.body) agent = agent.send(target.body);
-        if (target.retry && target.retry > 0) agent = agent.retry(target.retry);
 
         return agent;
     }
