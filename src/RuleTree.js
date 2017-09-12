@@ -67,11 +67,13 @@ module.exports = class RuleTree {
     }
 
     normalizeResponseBodyOrTemplate(response, ruleName) {
-        if (response.template && response.body) {
+        const template = response.bodyTemplate;
+
+        if (template && response.body) {
             throw new RequestError('MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED', ruleName);
         }
 
-        if (response.template !== undefined && response.template !== null) {
+        if (template !== undefined && template !== null) {
             this.normalizeTemplate(response, ruleName);
         } else {
             response.body = JSON.stringify(response.body || 'no response body specified');
@@ -79,7 +81,7 @@ module.exports = class RuleTree {
     }
 
     normalizeTemplate(response, ruleName) {
-        const template = response.template;
+        const template = response.bodyTemplate;
 
         let type;
         let text;
@@ -95,7 +97,7 @@ module.exports = class RuleTree {
             text = template.text || 'template text not specified';
         }
 
-        response.template = {
+        response.bodyTemplate = {
             type,
             text,
             func: resolveTemplateFunc(type, text, ruleName)

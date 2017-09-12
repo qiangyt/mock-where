@@ -37,13 +37,13 @@ const RequestError = require('qnode-error').RequestError;
  *      {
  *          status: 403,
  *          type: "application/json",
- *          template:  // exclusive with "body"
+ *          bodyTemplate:  // exclusive with "body"
  *          {
  *              type: "mustache", // optional. if not specified, assigned to "ejs" 
  *                                // if template is text, otherwise to default response.templateType
  *              text: "hi", // optional. if not specified, assigned to "template text not specified"
  *          },
- *          body: // exclusive with "template".
+ *          body: // exclusive with "bodyTemplate".
  *                // could be any JSON-stringify-able object, string, or primitive value,
  *                // "no response body specified", if not specified
  *          {
