@@ -1,4 +1,4 @@
-///* eslint no-undef: "off" */
+/* eslint no-undef: "off" */
 
 const SRC = '../src';
 const Template = require(`${SRC}/Template`);
