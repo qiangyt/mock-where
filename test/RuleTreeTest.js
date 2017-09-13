@@ -131,50 +131,6 @@ describe("RuleTree test suite: ", function() {
         expect(r.delayFix).toBe(-123);
     });
 
-    it("normalizeResponseBodyOrTemplate(): neither body nor template is defined", function() {
-        try {
-            new RuleTree().normalizeResponseBodyOrTemplate({ bodyTemplate: 'test', body: {} });
-            failhere();
-        } catch (e) {
-            expect(e.type.key).toBe('MULTIPLE_CONTENTS_NOT_ALLOWED');
-        }
-    });
-
-    it("normalizeResponseBodyOrTemplate(): take template", function() {
-        const r = {
-            bodyTemplate: {
-                type: 'mustache',
-                text: 'dummy'
-            }
-        };
-        new RuleTree().normalizeResponseBodyOrTemplate(r);
-        expect(r.bodyTemplate.text).toBe('dummy');
-        expect(r.bodyTemplate.type).toBe('mustache');
-    });
-
-    it("normalizeResponseBodyOrTemplate(): take template with a zero number", function() {
-        const r = {
-            bodyTemplate: 0
-        };
-        new RuleTree().normalizeResponseBodyOrTemplate(r);
-        expect(r.bodyTemplate.text).toBe('0');
-        expect(r.bodyTemplate.type).toBe('ejs');
-    });
-
-    it("normalizeResponseBodyOrTemplate(): take body, should be json text", function() {
-        const r = {
-            body: 'dummy body'
-        };
-        new RuleTree().normalizeResponseBodyOrTemplate(r);
-        expect(r.body).toBe('"dummy body"');
-    });
-
-    it("normalizeResponseBodyOrTemplate(): take body, but body is undefined too", function() {
-        const r = {};
-        new RuleTree().normalizeResponseBodyOrTemplate(r);
-        expect(r.body).toBe('"no object specified"');
-    });
-
     it("put() & match(): matches the rule that just puts", function() {
         const t = new RuleTree();
 

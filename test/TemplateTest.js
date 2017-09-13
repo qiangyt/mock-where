@@ -121,5 +121,48 @@ describe("Template test suite: ", function() {
         expect(r.func).toBeDefined();
     });
 
+    it("normalizeContent(): both object and template is defined", function() {
+        try {
+            Template.normalizeContent({ bodyTemplate: 'test', body: {} }, {}, 'body');
+            failhere();
+        } catch (e) {
+            expect(e.type.key).toBe('MULTIPLE_CONTENTS_NOT_ALLOWED');
+        }
+    });
+
+    it("normalizeContent(): take template", function() {
+        const r = {
+            bodyTemplate: {
+                type: 'mustache',
+                text: 'dummy'
+            }
+        };
+        Template.normalizeContent(r, {}, 'body');
+        expect(r.bodyTemplate.text).toBe('dummy');
+        expect(r.bodyTemplate.type).toBe('mustache');
+    });
+
+    it("normalizeContent(): take template with a zero number", function() {
+        const r = {
+            bodyTemplate: 0
+        };
+        Template.normalizeContent(r, {}, 'body');
+        expect(r.bodyTemplate.text).toBe('0');
+        expect(r.bodyTemplate.type).toBe('ejs');
+    });
+
+    it("normalizeContent(): take object, should be json text", function() {
+        const r = {
+            body: 'dummy body'
+        };
+        Template.normalizeContent(r, {}, 'body');
+        expect(r.body).toBe('"dummy body"');
+    });
+
+    it("normalizeContent(): take object, but object is undefined too", function() {
+        const r = {};
+        Template.normalizeContent(r, {}, 'body');
+        expect(r.body).toBe('"no object specified"');
+    });
 
 });

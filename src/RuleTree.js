@@ -59,26 +59,12 @@ module.exports = class RuleTree {
         r.status = r.status || dft.status;
         r.type = r.type || dft.type;
 
-        this.normalizeResponseBodyOrTemplate(r, ruleName);
+        Template.normalizeContent(r, dft, 'body', ruleName);
 
         r.delay = (!r.delay || r.delay < 0) ? dft.delay : r.delay;
         r.delayFix = r.delayFix || dft.delayFix;
 
         return r;
-    }
-
-    normalizeResponseBodyOrTemplate(response, ruleName) {
-        const template = response.bodyTemplate;
-
-        if (template && response.body) {
-            throw new RequestError('MULTIPLE_CONTENTS_NOT_ALLOWED', ruleName);
-        }
-
-        if (template !== undefined && template !== null) {
-            response.bodyTemplate = Template.normalize(template, ruleName, this._defaultRule.response.bodyTemplate);
-        } else {
-            response.body = JSON.stringify(response.body || 'no object specified');
-        }
     }
 
     put(rule) {

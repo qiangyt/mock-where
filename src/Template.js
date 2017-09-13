@@ -82,9 +82,24 @@ function normalize(template, ruleName, deftTemplate) {
     };
 }
 
+function normalizeContent(object, defaultObject, attributeBaseName, ruleName) {
+    const templateAttributeName = attributeBaseName + 'Template';
+    const template = object[templateAttributeName];
+
+    if (template && object[attributeBaseName]) {
+        throw new RequestError('MULTIPLE_CONTENTS_NOT_ALLOWED', ruleName);
+    }
+
+    if (template !== undefined && template !== null) {
+        object[templateAttributeName] = normalize(template, ruleName, defaultObject[templateAttributeName]);
+    } else {
+        object[attributeBaseName] = JSON.stringify(object[attributeBaseName] || 'no object specified');
+    }
+}
 
 module.exports = {
     compile,
     buildDefault,
-    normalize
+    normalize,
+    normalizeContent
 };
