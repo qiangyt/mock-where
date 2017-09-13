@@ -60,7 +60,31 @@ function compile(type, text, ruleName) {
 }
 
 
+function normalize(template, ruleName, deftTemplate) {
+    let type;
+    let text;
+
+    if (template === undefined || template === null) {
+        type = deftTemplate.type;
+        text = deftTemplate.text;
+    } else if (typeof template !== 'object') {
+        type = 'ejs';
+        text = '' + template;
+    } else {
+        type = template.type || deftTemplate.type;
+        text = template.text || deftTemplate.text;
+    }
+
+    return {
+        type,
+        text,
+        func: compile(type, text, ruleName)
+    };
+}
+
+
 module.exports = {
     compile,
-    buildDefault
+    buildDefault,
+    normalize
 };

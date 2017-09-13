@@ -75,7 +75,7 @@ module.exports = class RuleTree {
         }
 
         if (template !== undefined && template !== null) {
-            this.normalizeTemplate(response, ruleName);
+            response.bodyTemplate = this.normalizeTemplate(response, ruleName);
         } else {
             response.body = JSON.stringify(response.body || 'no response body specified');
         }
@@ -85,25 +85,7 @@ module.exports = class RuleTree {
         const template = response.bodyTemplate;
         const deftTemplate = this._defaultRule.response.template;
 
-        let type;
-        let text;
-
-        if (template === undefined || template === null) {
-            type = deftTemplate.type;
-            text = deftTemplate.text;
-        } else if (typeof template !== 'object') {
-            type = 'ejs';
-            text = '' + template;
-        } else {
-            type = template.type || deftTemplate.type;
-            text = template.text || deftTemplate.text;
-        }
-
-        response.bodyTemplate = {
-            type,
-            text,
-            func: Template.compile(type, text, ruleName)
-        };
+        return Template.normalize(template, ruleName, deftTemplate);
     }
 
     put(rule) {

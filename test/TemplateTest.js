@@ -74,5 +74,52 @@ describe("Template test suite: ", function() {
         }
     });
 
+    it("normalize(): template is string", function() {
+        const r = Template.normalize('hi');
+        expect(r.type).toBe('ejs');
+        expect(r.text).toBe('hi');
+        expect(r.func).toBeDefined();
+    });
+
+    it("normalize(): template is a number", function() {
+        const r = Template.normalize(3);
+        expect(r.type).toBe('ejs');
+        expect(r.text).toBe('3');
+        expect(r.func).toBeDefined();
+    });
+
+    it("normalize(): template is zero", function() {
+        const r = Template.normalize(0);
+        expect(r.type).toBe('ejs');
+        expect(r.text).toBe('0');
+        expect(r.func).toBeDefined();
+    });
+
+    it("normalize(): template is not string and inputted", function() {
+        const t = {
+            type: 'handlebars',
+            text: 'wow'
+        };
+        const r = Template.normalize(t);
+        expect(r.type).toBe('handlebars');
+        expect(r.text).toBe('wow');
+        expect(r.func).toBeDefined();
+    });
+
+    it("normalize(): template is not string but not inputed", function() {
+        const r = Template.normalize({}, 'test', Template.buildDefault());
+        expect(r.type).toBe('ejs');
+        expect(r.text).toBeDefined();
+        expect(r.func).toBeDefined();
+    });
+
+    it("normalize(): template is not string and take default", function() {
+        const dft = Template.buildDefault({ type: 'underscore' });
+        const r = Template.normalize({}, 'test', dft);
+        expect(r.type).toBe('underscore');
+        expect(r.text).toBeDefined();
+        expect(r.func).toBeDefined();
+    });
+
 
 });

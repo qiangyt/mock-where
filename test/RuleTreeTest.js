@@ -131,74 +131,6 @@ describe("RuleTree test suite: ", function() {
         expect(r.delayFix).toBe(-123);
     });
 
-    it("normalizeTemplate(): template is string", function() {
-        const r = {
-            bodyTemplate: 'hi'
-        };
-        new RuleTree().normalizeTemplate(r);
-        expect(r.bodyTemplate.type).toBe('ejs');
-        expect(r.bodyTemplate.text).toBe('hi');
-        expect(r.bodyTemplate.func).toBeDefined();
-    });
-
-    it("normalizeTemplate(): template is a number", function() {
-        const r = {
-            bodyTemplate: 3
-        };
-        new RuleTree().normalizeTemplate(r);
-        expect(r.bodyTemplate.type).toBe('ejs');
-        expect(r.bodyTemplate.text).toBe('3');
-        expect(r.bodyTemplate.func).toBeDefined();
-    });
-
-    it("normalizeTemplate(): template is zero", function() {
-        const r = {
-            bodyTemplate: 0
-        };
-        new RuleTree().normalizeTemplate(r);
-        expect(r.bodyTemplate.type).toBe('ejs');
-        expect(r.bodyTemplate.text).toBe('0');
-        expect(r.bodyTemplate.func).toBeDefined();
-    });
-
-    it("normalizeTemplate(): template is not string and inputted", function() {
-        const r = {
-            bodyTemplate: {
-                type: 'handlebars',
-                text: 'wow'
-            }
-        };
-        new RuleTree().normalizeTemplate(r);
-        expect(r.bodyTemplate.type).toBe('handlebars');
-        expect(r.bodyTemplate.text).toBe('wow');
-        expect(r.bodyTemplate.func).toBeDefined();
-    });
-
-    it("normalizeTemplate(): template is not string but not inputted", function() {
-        const r = {
-            bodyTemplate: {}
-        };
-        new RuleTree().normalizeTemplate(r);
-        expect(r.bodyTemplate.type).toBe('ejs');
-        expect(r.bodyTemplate.text).toBeDefined();
-        expect(r.bodyTemplate.func).toBeDefined();
-    });
-
-    it("normalizeTemplate(): template is not string and take default", function() {
-        const r = {};
-        const dft = {
-            response: {
-                template: {
-                    type: 'underscore'
-                }
-            }
-        };
-        new RuleTree("test", dft).normalizeTemplate(r);
-        expect(r.bodyTemplate.type).toBe('underscore');
-        expect(r.bodyTemplate.text).toBeDefined();
-        expect(r.bodyTemplate.func).toBeDefined();
-    });
-
     it("normalizeResponseBodyOrTemplate(): neither body nor template is defined", function() {
         try {
             new RuleTree().normalizeResponseBodyOrTemplate({ bodyTemplate: 'test', body: {} });
@@ -206,6 +138,19 @@ describe("RuleTree test suite: ", function() {
         } catch (e) {
             expect(e.type.key).toBe('MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED');
         }
+    });
+
+    it("normalizeTemplate(): happy", function() {
+        const r = {
+            bodyTemplate: {
+                type: 'handlebars',
+                text: 'wow'
+            }
+        };
+        const t = new RuleTree().normalizeTemplate(r);
+        expect(t.type).toBe('handlebars');
+        expect(t.text).toBe('wow');
+        expect(t.func).toBeDefined();
     });
 
     it("normalizeResponseBodyOrTemplate(): take template", function() {
