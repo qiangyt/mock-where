@@ -24,7 +24,7 @@ describe("RuleTree test suite: ", function() {
         expect(resp.type).toBe('application/json');
         expect(resp.delay).toBe(0);
         expect(resp.delayFix).toBe(-10);
-        expect(resp.templateType).toBe('ejs');
+        expect(resp.template.type).toBe('ejs');
     });
 
     it("normalizeDefaultRule(): default rule is specified in detail", function() {
@@ -36,7 +36,9 @@ describe("RuleTree test suite: ", function() {
                 type: 'application/xml',
                 delay: 123,
                 delayFix: -456,
-                templateType: 'handlebars'
+                template: {
+                    type: 'handlebars'
+                }
             }
         };
         const r = RuleTree.normalizeDefaultRule(dr);
@@ -49,7 +51,7 @@ describe("RuleTree test suite: ", function() {
         expect(resp.type).toBe('application/xml');
         expect(resp.delay).toBe(123);
         expect(resp.delayFix).toBe(-456);
-        expect(resp.templateType).toBe('handlebars');
+        expect(resp.template.type).toBe('handlebars');
     });
 
     it("normalizeRule(): take default", function() {
@@ -186,7 +188,9 @@ describe("RuleTree test suite: ", function() {
         const r = {};
         const dft = {
             response: {
-                templateType: 'underscore'
+                template: {
+                    type: 'underscore'
+                }
             }
         };
         new RuleTree("test", dft).normalizeTemplate(r);

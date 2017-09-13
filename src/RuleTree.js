@@ -24,7 +24,10 @@ module.exports = class RuleTree {
         resp.type = resp.type || 'application/json';
         resp.delay = (!resp.delay || resp.delay < 0) ? 0 : resp.delay;
         resp.delayFix = resp.delayFix || -10;
-        resp.templateType = resp.templateType || 'ejs';
+
+        resp.template = resp.template || {};
+        resp.template.type = resp.template.type || 'ejs';
+        resp.template.text = 'template text not specified';
 
         return r;
     }
@@ -82,19 +85,20 @@ module.exports = class RuleTree {
 
     normalizeTemplate(response, ruleName) {
         const template = response.bodyTemplate;
+        const deftTemplate = this._defaultRule.response.template;
 
         let type;
         let text;
 
         if (template === undefined || template === null) {
-            type = this._defaultRule.response.templateType;
-            text = 'template not specified';
+            type = deftTemplate.type;
+            text = deftTemplate.text;
         } else if (typeof template !== 'object') {
             type = 'ejs';
             text = '' + template;
         } else {
-            type = template.type || this._defaultRule.response.templateType;
-            text = template.text || 'template text not specified';
+            type = template.type || deftTemplate.type;
+            text = template.text || deftTemplate.text;
         }
 
         response.bodyTemplate = {
