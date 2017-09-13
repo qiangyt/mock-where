@@ -25,7 +25,7 @@ module.exports = class RuleTree {
         resp.delay = (!resp.delay || resp.delay < 0) ? 0 : resp.delay;
         resp.delayFix = resp.delayFix || -10;
 
-        resp.template = Template.buildDefault(resp.template);
+        resp.bodyTemplate = Template.buildDefault(resp.template);
 
         return r;
     }
@@ -83,7 +83,7 @@ module.exports = class RuleTree {
 
     normalizeTemplate(response, ruleName) {
         const template = response.bodyTemplate;
-        const deftTemplate = this._defaultRule.response.template;
+        const deftTemplate = this._defaultRule.response.bodyTemplate;
 
         return Template.normalize(template, ruleName, deftTemplate);
     }

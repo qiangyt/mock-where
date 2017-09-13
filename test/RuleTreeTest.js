@@ -24,7 +24,7 @@ describe("RuleTree test suite: ", function() {
         expect(resp.type).toBe('application/json');
         expect(resp.delay).toBe(0);
         expect(resp.delayFix).toBe(-10);
-        expect(resp.template.type).toBe('ejs');
+        expect(resp.bodyTemplate.type).toBe('ejs');
     });
 
     it("normalizeDefaultRule(): default rule is specified in detail", function() {
