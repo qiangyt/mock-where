@@ -75,17 +75,10 @@ module.exports = class RuleTree {
         }
 
         if (template !== undefined && template !== null) {
-            response.bodyTemplate = this.normalizeTemplate(response, ruleName);
+            response.bodyTemplate = Template.normalize(template, ruleName, this._defaultRule.response.bodyTemplate);
         } else {
             response.body = JSON.stringify(response.body || 'no response body specified');
         }
-    }
-
-    normalizeTemplate(response, ruleName) {
-        const template = response.bodyTemplate;
-        const deftTemplate = this._defaultRule.response.bodyTemplate;
-
-        return Template.normalize(template, ruleName, deftTemplate);
     }
 
     put(rule) {

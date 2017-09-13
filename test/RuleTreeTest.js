@@ -140,19 +140,6 @@ describe("RuleTree test suite: ", function() {
         }
     });
 
-    it("normalizeTemplate(): happy", function() {
-        const r = {
-            bodyTemplate: {
-                type: 'handlebars',
-                text: 'wow'
-            }
-        };
-        const t = new RuleTree().normalizeTemplate(r);
-        expect(t.type).toBe('handlebars');
-        expect(t.text).toBe('wow');
-        expect(t.func).toBeDefined();
-    });
-
     it("normalizeResponseBodyOrTemplate(): take template", function() {
         const r = {
             bodyTemplate: {
