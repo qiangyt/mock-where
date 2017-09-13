@@ -66,7 +66,7 @@ describe("MockServer test suite: ", function() {
 
         supertest(server).get('/abc').expect(200).end(function(err, res) {
             if (err) return done(err);
-            expect(res.body).toBe('no response body specified');
+            expect(res.body).toBe('no object specified');
             done();
         });
     });

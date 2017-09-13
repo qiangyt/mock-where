@@ -18,10 +18,10 @@ UNSUPPORTED_TEMPLATE_TYPE:
   en_US: "rule '%s': unsupported template type - %s"
   zh_CN: "规则 '%s': 不支持该模板类型 - %s"
  
-MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED:
+MULTIPLE_CONTENTS_NOT_ALLOWED:
   code: 1004
-  en_US: "rule '%s': multiple response contents are not allowed, pls choose either body or template"
-  zh_CN: "规则 '%s': 不可以同时定义多个response内容，请在body和template中二选一"
+  en_US: "rule '%s': multiple contents are not allowed, pls choose either object or template"
+  zh_CN: "规则 '%s': 不可以同时定义多类内容，请在object和template中二选一"
  
 FAILED_TO_GENERATE_RESPONSE_WITH_TEMPLATE:
   code: 1005

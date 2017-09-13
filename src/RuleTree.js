@@ -71,13 +71,13 @@ module.exports = class RuleTree {
         const template = response.bodyTemplate;
 
         if (template && response.body) {
-            throw new RequestError('MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED', ruleName);
+            throw new RequestError('MULTIPLE_CONTENTS_NOT_ALLOWED', ruleName);
         }
 
         if (template !== undefined && template !== null) {
             response.bodyTemplate = Template.normalize(template, ruleName, this._defaultRule.response.bodyTemplate);
         } else {
-            response.body = JSON.stringify(response.body || 'no response body specified');
+            response.body = JSON.stringify(response.body || 'no object specified');
         }
     }
 

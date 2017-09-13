@@ -136,7 +136,7 @@ describe("RuleTree test suite: ", function() {
             new RuleTree().normalizeResponseBodyOrTemplate({ bodyTemplate: 'test', body: {} });
             failhere();
         } catch (e) {
-            expect(e.type.key).toBe('MULTIPLE_RESPONSE_CONTENTS_NOT_ALLOWED');
+            expect(e.type.key).toBe('MULTIPLE_CONTENTS_NOT_ALLOWED');
         }
     });
 
@@ -172,7 +172,7 @@ describe("RuleTree test suite: ", function() {
     it("normalizeResponseBodyOrTemplate(): take body, but body is undefined too", function() {
         const r = {};
         new RuleTree().normalizeResponseBodyOrTemplate(r);
-        expect(r.body).toBe('"no response body specified"');
+        expect(r.body).toBe('"no object specified"');
     });
 
     it("put() & match(): matches the rule that just puts", function() {
