@@ -5,6 +5,24 @@ const Template = require(`${SRC}/Template`);
 
 describe("Template test suite: ", function() {
 
+    it("buildDefault(): not specified", function() {
+        const r = Template.buildDefault();
+
+        expect(r.type).toBe('ejs');
+        expect(r.text).not.toBeNull();
+    });
+
+    it("buildDefault(): specified", function() {
+        const input = {
+            type: 'handlebars',
+            text: 'hello'
+        };
+        const r = Template.buildDefault(input);
+
+        expect(r.type).toBe(input.type);
+        expect(r.text).toBe(input.text);
+    });
+
     it("compile(): ejs", function() {
         const f = Template.compile('ejs', 'hi <%=you%>');
         expect(f instanceof Function).toBeTruthy();

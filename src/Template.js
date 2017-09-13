@@ -10,6 +10,15 @@ const Logger = require('qnode-log');
 
 const _logger = new Logger('Template');
 
+
+function buildDefault(input) {
+    const r = input || {};
+    r.type = r.type || 'ejs';
+    r.text = r.text || 'template text not specified';
+    return r;
+}
+
+
 function compile(type, text, ruleName) {
 
     try {
@@ -52,5 +61,6 @@ function compile(type, text, ruleName) {
 
 
 module.exports = {
-    compile
+    compile,
+    buildDefault
 };

@@ -25,9 +25,7 @@ module.exports = class RuleTree {
         resp.delay = (!resp.delay || resp.delay < 0) ? 0 : resp.delay;
         resp.delayFix = resp.delayFix || -10;
 
-        resp.template = resp.template || {};
-        resp.template.type = resp.template.type || 'ejs';
-        resp.template.text = 'template text not specified';
+        resp.template = Template.buildDefault(resp.template);
 
         return r;
     }
