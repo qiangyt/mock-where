@@ -10,7 +10,7 @@ const Logger = require('qnode-log');
 
 const _logger = new Logger('Template');
 
-module.exports = function(type, text, ruleName) {
+function compile(type, text, ruleName) {
 
     try {
         if ('ejs' === type) {
@@ -48,4 +48,9 @@ module.exports = function(type, text, ruleName) {
 
     throw new RequestError('UNSUPPORTED_TEMPLATE_TYPE', ruleName, type);
 
+}
+
+
+module.exports = {
+    compile
 };

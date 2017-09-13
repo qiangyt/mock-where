@@ -1,5 +1,5 @@
 const RuleTreeNode = require('./RuleTreeNode');
-const resolveTemplateFunc = require('./Template');
+const Template = require('./Template');
 const RequestError = require('qnode-error').RequestError;
 const Hook = require('./Hook');
 
@@ -104,7 +104,7 @@ module.exports = class RuleTree {
         response.bodyTemplate = {
             type,
             text,
-            func: resolveTemplateFunc(type, text, ruleName)
+            func: Template.compile(type, text, ruleName)
         };
     }
 

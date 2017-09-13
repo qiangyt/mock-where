@@ -1,55 +1,55 @@
-/* eslint no-undef: "off" */
+///* eslint no-undef: "off" */
 
 const SRC = '../src';
-const template = require(`${SRC}/Template`);
+const Template = require(`${SRC}/Template`);
 
 describe("Template test suite: ", function() {
 
-    it("ejs", function() {
-        const f = template('ejs', 'hi <%=you%>');
+    it("compile(): ejs", function() {
+        const f = Template.compile('ejs', 'hi <%=you%>');
         expect(f instanceof Function).toBeTruthy();
         expect(f({ you: 'Qiang Yiting' })).toBe('hi Qiang Yiting');
     });
 
-    it("mustache", function() {
-        const f = template('mustache', 'hi {{you}}');
+    it("compile(): mustache", function() {
+        const f = Template.compile('mustache', 'hi {{you}}');
         expect(f instanceof Function).toBeTruthy();
         expect(f({ you: 'Qiang Yiting' })).toBe('hi Qiang Yiting');
     });
 
-    it("lodash", function() {
-        const f = template('lodash', 'hi <%=you%>');
+    it("compile(): lodash", function() {
+        const f = Template.compile('lodash', 'hi <%=you%>');
         expect(f instanceof Function).toBeTruthy();
         expect(f({ you: 'Qiang Yiting' })).toBe('hi Qiang Yiting');
     });
 
-    it("underscore", function() {
-        const f = template('underscore', 'hi <%=you%>');
+    it("compile(): underscore", function() {
+        const f = Template.compile('underscore', 'hi <%=you%>');
         expect(f instanceof Function).toBeTruthy();
         expect(f({ you: 'Qiang Yiting' })).toBe('hi Qiang Yiting');
     });
 
-    it("handlebars", function() {
-        const f = template('handlebars', 'hi {{you}}');
+    it("compile(): handlebars", function() {
+        const f = Template.compile('handlebars', 'hi {{you}}');
         expect(f instanceof Function).toBeTruthy();
         expect(f({ you: 'Qiang Yiting' })).toBe('hi Qiang Yiting');
     });
 
-    it("jade", function() {
-        const f = template('jade', 'div #{you}');
+    it("compile(): jade", function() {
+        const f = Template.compile('jade', 'div #{you}');
         expect(f instanceof Function).toBeTruthy();
         expect(f({ you: 'Qiang Yiting' })).toBe('<div>Qiang Yiting</div>');
     });
 
-    it("pug", function() {
-        const f = template('pug', 'div #{you}');
+    it("compile(): pug", function() {
+        const f = Template.compile('pug', 'div #{you}');
         expect(f instanceof Function).toBeTruthy();
         expect(f({ you: 'Qiang Yiting' })).toBe('<div>Qiang Yiting</div>');
     });
 
-    it("unknown template type", function() {
+    it("compile(): unknown template type", function() {
         try {
-            template('xxx', 'hi {{you}}');
+            Template.compile('xxx', 'hi {{you}}');
             failhere();
         } catch (e) {
             expect(e.type.key).toBe('UNSUPPORTED_TEMPLATE_TYPE');
