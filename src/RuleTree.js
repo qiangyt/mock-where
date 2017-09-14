@@ -25,7 +25,8 @@ module.exports = class RuleTree {
         resp.delay = (!resp.delay || resp.delay < 0) ? 0 : resp.delay;
         resp.delayFix = resp.delayFix || -10;
 
-        resp.bodyTemplate = Template.buildDefault(resp.template);
+        resp.body = resp.body || {};
+        resp.body.template = Template.buildDefault(resp.body.template);
 
         return r;
     }
@@ -59,7 +60,8 @@ module.exports = class RuleTree {
         r.status = r.status || dft.status;
         r.type = r.type || dft.type;
 
-        Template.normalizeContent(r, dft, 'body', ruleName);
+        r.body = r.body || {};
+        Template.normalizeContent(r.body, dft.body, ruleName);
 
         r.delay = (!r.delay || r.delay < 0) ? dft.delay : r.delay;
         r.delayFix = r.delayFix || dft.delayFix;

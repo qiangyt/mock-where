@@ -82,18 +82,17 @@ function normalize(template, ruleName, deftTemplate) {
     };
 }
 
-function normalizeContent(object, defaultObject, attributeBaseName, ruleName) {
-    const templateAttributeName = attributeBaseName + 'Template';
-    const template = object[templateAttributeName];
+function normalizeContent(content, defaultContent, ruleName) {
+    const template = content.template;
 
-    if (template && object[attributeBaseName]) {
+    if (template && content.object) {
         throw new RequestError('MULTIPLE_CONTENTS_NOT_ALLOWED', ruleName);
     }
 
     if (template !== undefined && template !== null) {
-        object[templateAttributeName] = normalize(template, ruleName, defaultObject[templateAttributeName]);
+        content.template = normalize(template, ruleName, defaultContent.template);
     } else {
-        object[attributeBaseName] = JSON.stringify(object[attributeBaseName] || 'no object specified');
+        content.object = JSON.stringify(content.object || 'no object specified');
     }
 }
 

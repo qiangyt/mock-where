@@ -123,7 +123,7 @@ describe("Template test suite: ", function() {
 
     it("normalizeContent(): both object and template is defined", function() {
         try {
-            Template.normalizeContent({ bodyTemplate: 'test', body: {} }, {}, 'body');
+            Template.normalizeContent({ template: 'test', object: {} }, {});
             failhere();
         } catch (e) {
             expect(e.type.key).toBe('MULTIPLE_CONTENTS_NOT_ALLOWED');
@@ -132,37 +132,37 @@ describe("Template test suite: ", function() {
 
     it("normalizeContent(): take template", function() {
         const r = {
-            bodyTemplate: {
+            template: {
                 type: 'mustache',
                 text: 'dummy'
             }
         };
-        Template.normalizeContent(r, {}, 'body');
-        expect(r.bodyTemplate.text).toBe('dummy');
-        expect(r.bodyTemplate.type).toBe('mustache');
+        Template.normalizeContent(r, {});
+        expect(r.template.text).toBe('dummy');
+        expect(r.template.type).toBe('mustache');
     });
 
     it("normalizeContent(): take template with a zero number", function() {
         const r = {
-            bodyTemplate: 0
+            template: 0
         };
         Template.normalizeContent(r, {}, 'body');
-        expect(r.bodyTemplate.text).toBe('0');
-        expect(r.bodyTemplate.type).toBe('ejs');
+        expect(r.template.text).toBe('0');
+        expect(r.template.type).toBe('ejs');
     });
 
     it("normalizeContent(): take object, should be json text", function() {
         const r = {
-            body: 'dummy body'
+            object: 'dummy object'
         };
-        Template.normalizeContent(r, {}, 'body');
-        expect(r.body).toBe('"dummy body"');
+        Template.normalizeContent(r, {});
+        expect(r.object).toBe('"dummy object"');
     });
 
     it("normalizeContent(): take object, but object is undefined too", function() {
         const r = {};
         Template.normalizeContent(r, {}, 'body');
-        expect(r.body).toBe('"no object specified"');
+        expect(r.object).toBe('"no object specified"');
     });
 
 });

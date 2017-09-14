@@ -25,8 +25,10 @@ const RequestError = require('qnode-error').RequestError;
  *              query: {}, // or string, optional
  *              queryTemplate: {}, // exclusive with query
  *              type: 'application/json',// optional
- *              body: {}, // or string, or stream, or file, optional
- *              bodyTemplate: // exclusive with body
+ *              body: {
+ *                  object: {}, // or string, or stream, or file, optional
+ *                  template: {}// exclusive with object
+ *              }
  *              accept: 'application/xml' // optional
  *          }
  *        ],
@@ -37,16 +39,18 @@ const RequestError = require('qnode-error').RequestError;
  *      {
  *          status: 403,
  *          type: "application/json",
- *          bodyTemplate:  // exclusive with "body"
- *          {
- *              type: "mustache", // optional. if not specified, assigned to "ejs" 
- *                                // if template is text, otherwise to default response.templateType
- *              text: "hi", // optional. if not specified, assigned to "template text not specified"
- *          },
- *          body: // exclusive with "bodyTemplate".
- *                // could be any JSON-stringify-able object, string, or primitive value,
- *                // "no response body specified", if not specified
- *          {
+ *          body: {
+ *              template:  // exclusive with body.object
+ *              {
+ *                  type: "mustache", // optional. if not specified, assigned to "ejs" 
+ *                                    // if template is text, otherwise to default response.templateType
+ *                  text: "hi", // optional. if not specified, assigned to "template text not specified"
+ *              },
+ *              object: {
+ *                  // exclusive with "bodyTemplate".
+ *                  // could be any JSON-stringify-able object, string, or primitive value,
+ *                  // "no response body specified", if not specified
+ *              }
  *          }
  *      }
  * }
