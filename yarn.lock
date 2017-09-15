@@ -3369,9 +3369,9 @@ qnode-log@1.0.2:
     log4js "2.3.0"
     sprintf-js "1.1.1"
 
-qnode-rest@1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/qnode-rest/-/qnode-rest-1.0.4.tgz#88e63050661d9b4117653d8e822bc73273a9e02b"
+qnode-rest@1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/qnode-rest/-/qnode-rest-1.0.5.tgz#acd15c6b6b4dd2655cfec486caeed9cda1c4be69"
   dependencies:
     koa "2.3.0"
     koa-body "2.3.0"

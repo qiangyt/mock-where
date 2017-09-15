@@ -9,7 +9,8 @@
         "test": "node ./node_modules/jasmine/bin/jasmine.js",
         "lint": "./node_modules/.bin/eslint -f stylish --cache --cache-location ./build/eslint/cache/ --color ./src/",
         "watch": "./node_modules/.bin/esw --watch -f stylish --cache --cache-location ./build/eslint/cache/ --color ./src/",
-        "jsdoc": "./node_modules/.bin/jsdoc ./src -c .jsdoc.json"
+        "jsdoc": "./node_modules/.bin/jsdoc ./src -c .jsdoc.json",
+        "callback": "node ./tool/CallbackTarget.js"
     },
     "homepage": "https://github.com/qiangyt/mock-where",
     "repository": "git@github.com:qiangyt/mock-where.git",
@@ -49,7 +50,7 @@
         "qnode-config": "1.0.5",
         "qnode-error": "1.0.3",
         "qnode-log": "1.0.2",
-        "qnode-rest": "1.0.4",
+        "qnode-rest": "1.0.5",
         "sprintf-js": "1.1.1",
         "superagent": "3.5.2",
         "underscore": "1.8.3"
