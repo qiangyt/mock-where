@@ -74,6 +74,15 @@ describe("Template test suite: ", function() {
         }
     });
 
+    it("compile(): compile error", function() {
+        try {
+            Template.compile('jade', 'div #{you');
+            failhere();
+        } catch (e) {
+            expect(e.type.key).toBe('FAILED_TO_COMPILE_TEMPLATE');
+        }
+    });
+
     it("normalize(): template is string", function() {
         const r = Template.normalize('hi');
         expect(r.type).toBe('ejs');
@@ -116,6 +125,14 @@ describe("Template test suite: ", function() {
     it("normalize(): template is not string and take default", function() {
         const dft = Template.buildDefault({ type: 'underscore' });
         const r = Template.normalize({}, 'test', dft);
+        expect(r.type).toBe('underscore');
+        expect(r.text).toBeDefined();
+        expect(r.func).toBeDefined();
+    });
+
+    it("normalize(): template is not specified, take default", function() {
+        const dft = Template.buildDefault({ type: 'underscore' });
+        const r = Template.normalize(null, 'test', dft);
         expect(r.type).toBe('underscore');
         expect(r.text).toBeDefined();
         expect(r.func).toBeDefined();
