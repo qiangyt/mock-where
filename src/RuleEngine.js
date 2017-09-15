@@ -51,10 +51,10 @@ module.exports = class RuleEngine {
         //if (ruleResponse.redirect) responseToMock.redirect(ruleResponse.redirect);
     }
 
-    static determineTimeToDelay(ruleResponse) {
-        let delay = ruleResponse.delay + ruleResponse.delayFix;
-        if (delay && delay > 0) {
-            return delay;
+    static determineTimeToLatency(ruleResponse) {
+        let latency = ruleResponse.latency + ruleResponse.latencyFix;
+        if (latency && latency > 0) {
+            return latency;
         }
         return 0;
     }
@@ -112,7 +112,7 @@ module.exports = class RuleEngine {
     }
 
     /**
-     * return mocked response, and, delay somewhile if configured
+     * return mocked response, and, latency somewhile if configured
      * 
      * @param {object} rnr request and response
      * @param {object} rule 
@@ -121,10 +121,10 @@ module.exports = class RuleEngine {
         const ruleResponse = rule.response;
         RuleEngine.renderMockResponse(rnr.request, ruleResponse, rnr.response);
 
-        //TODO: be aware of how the hook delay interferes the response delay
-        let delay = RuleEngine.determineTimeToDelay(ruleResponse);
-        if (delay) {
-            return new Promise(resolve => setTimeout(resolve, delay));
+        //TODO: be aware of how the hook latency interferes the response latency
+        let latency = RuleEngine.determineTimeToLatency(ruleResponse);
+        if (latency) {
+            return new Promise(resolve => setTimeout(resolve, latency));
         }
 
         return Promise.resolve();

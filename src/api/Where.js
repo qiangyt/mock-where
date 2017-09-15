@@ -13,8 +13,8 @@ const RequestError = require('qnode-error').RequestError;
  *      path: "/test", // optional. assigned to default path, if not specified
  *      method: "POST", // optional. assigned to default method, if not specified
  *      q: "ip='localhost'", // optional. assigned to default query, if not specified
- *      delay: 200, // optoinal. assigned to default delay, if not specified
- *      delayFix: 16, // optional. assigned to default delayFix, if not specified
+ *      latency: 200, // optoinal. assigned to default latency, if not specified
+ *      latencyFix: 16, // optional. assigned to default latencyFix, if not specified
  *      hook: {
  *        before: [
  *          {

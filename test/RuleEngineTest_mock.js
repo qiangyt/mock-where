@@ -15,9 +15,9 @@ function buildEngine(name, rules) {
 
 describe("RuleEngine test suite: ", function() {
 
-    it("determineTimeToDelay(): delay", function() {
-        expect(RuleEngine.determineTimeToDelay({ delay: 100, delayFix: 10 })).toBe(110);
-        expect(RuleEngine.determineTimeToDelay({ delay: -100, delayFix: 10 })).toBe(0);
+    it("determineTimeToLatency(): latency", function() {
+        expect(RuleEngine.determineTimeToLatency({ latency: 100, latencyFix: 10 })).toBe(110);
+        expect(RuleEngine.determineTimeToLatency({ latency: -100, latencyFix: 10 })).toBe(0);
     });
 
     it("renderMockResponse(): render response", function() {
@@ -49,7 +49,7 @@ describe("RuleEngine test suite: ", function() {
         const rule = {
             path: '/ab',
             response: {
-                delay: 100
+                latency: 100
             }
         };
 
@@ -95,7 +95,7 @@ describe("RuleEngine test suite: ", function() {
             });
     });
 
-    it("mock(): no delay", function() {
+    it("mock(): no latency", function() {
         const rule = {
             path: '/ab',
             response: {}

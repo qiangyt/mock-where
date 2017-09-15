@@ -18,7 +18,7 @@ describe("RuleEngine test suite: ", function() {
         const rule = {
             path: '/ab',
             response: {
-                delay: 100
+                latency: 100
             }
         };
 

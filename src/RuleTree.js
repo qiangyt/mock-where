@@ -21,8 +21,8 @@ module.exports = class RuleTree {
         const resp = r.response = r.response || {};
         resp.status = resp.status || 200;
         resp.type = resp.type || 'application/json';
-        resp.delay = (!resp.delay || resp.delay < 0) ? 0 : resp.delay;
-        resp.delayFix = resp.delayFix || -10;
+        resp.latency = (!resp.latency || resp.latency < 0) ? 0 : resp.latency;
+        resp.latencyFix = resp.latencyFix || -10;
 
         resp.body = resp.body || {};
         resp.body.template = Template.buildDefault(resp.body.template);
@@ -59,8 +59,8 @@ module.exports = class RuleTree {
         r.body = r.body || {};
         Template.normalizeContent(r.body, dft.body, ruleName);
 
-        r.delay = (!r.delay || r.delay < 0) ? dft.delay : r.delay;
-        r.delayFix = r.delayFix || dft.delayFix;
+        r.latency = (!r.latency || r.latency < 0) ? dft.latency : r.latency;
+        r.latencyFix = r.latencyFix || dft.latencyFix;
 
         return r;
     }

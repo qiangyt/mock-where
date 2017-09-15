@@ -22,8 +22,8 @@ describe("RuleTree test suite: ", function() {
         const resp = r.response;
         expect(resp.status).toBe(200);
         expect(resp.type).toBe('application/json');
-        expect(resp.delay).toBe(0);
-        expect(resp.delayFix).toBe(-10);
+        expect(resp.latency).toBe(0);
+        expect(resp.latencyFix).toBe(-10);
         expect(resp.body.template.type).toBe('ejs');
     });
 
@@ -34,8 +34,8 @@ describe("RuleTree test suite: ", function() {
             response: {
                 status: 400,
                 type: 'application/xml',
-                delay: 123,
-                delayFix: -456,
+                latency: 123,
+                latencyFix: -456,
                 body: {
                     template: {
                         type: 'handlebars'
@@ -51,8 +51,8 @@ describe("RuleTree test suite: ", function() {
         const resp = r.response;
         expect(resp.status).toBe(400);
         expect(resp.type).toBe('application/xml');
-        expect(resp.delay).toBe(123);
-        expect(resp.delayFix).toBe(-456);
+        expect(resp.latency).toBe(123);
+        expect(resp.latencyFix).toBe(-456);
         expect(resp.body.template.type).toBe('handlebars');
     });
 
@@ -97,8 +97,8 @@ describe("RuleTree test suite: ", function() {
             response: {
                 status: 400,
                 type: 'application/xml',
-                delay: 123,
-                delayFix: -456
+                latency: 123,
+                latencyFix: -456
             }
         };
 
@@ -106,8 +106,8 @@ describe("RuleTree test suite: ", function() {
 
         expect(r.status).toBe(400);
         expect(r.type).toBe('application/xml');
-        expect(r.delay).toBe(123);
-        expect(r.delayFix).toBe(-456);
+        expect(r.latency).toBe(123);
+        expect(r.latencyFix).toBe(-456);
     });
 
     it("normalizeRuleResponse(): take input", function() {
@@ -115,23 +115,23 @@ describe("RuleTree test suite: ", function() {
             response: {
                 status: 400,
                 type: 'application/xml',
-                delay: 123,
-                delayFix: -456
+                latency: 123,
+                latencyFix: -456
             }
         };
         const input = {
             status: 200,
             type: 'text/html',
-            delay: 456,
-            delayFix: -123
+            latency: 456,
+            latencyFix: -123
         };
 
         const r = new RuleTree('test', dr).normalizeRuleResponse(input);
 
         expect(r.status).toBe(200);
         expect(r.type).toBe('text/html');
-        expect(r.delay).toBe(456);
-        expect(r.delayFix).toBe(-123);
+        expect(r.latency).toBe(456);
+        expect(r.latencyFix).toBe(-123);
     });
 
     it("put() & match(): matches the rule that just puts", function() {
