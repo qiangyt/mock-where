@@ -1,14 +1,16 @@
 const superagent = require('superagent');
 const _ = require('underscore');
 const MissingParamError = require('qnode-error').MissingParamError;
-
+const Template = require('./Template');
 
 /**
  * Manages and execute hooks
  */
 module.exports = class Hook {
 
-    constructor(config) {
+    constructor(config, ruleName) {
+        this.ruleName = ruleName;
+        this.defaultBody = Template.buildDefault();
         this.before = Hook.normalizeList(config.before);
         this.after = Hook.normalizeList(config.after);
     }
@@ -23,8 +25,10 @@ module.exports = class Hook {
 
         target.method = target.method || 'post';
 
-        target.hasHeader = !_.isEmpty(target.header);
+        target.body = target.body || {};
+        Template.normalizeContent(target.body, this.defaultBody, this.ruleName);
 
+        target.hasHeader = !_.isEmpty(target.header);
         target.hasQuery = !_.isEmpty(target.query);
 
         return target;
@@ -72,7 +76,10 @@ module.exports = class Hook {
         if (target.hasQuery) agent = agent.query(target.query);
         if (target.type) agent = agent.type(target.type);
         if (target.accept) agent = agent.accept(target.accept);
-        if (target.body) agent = agent.send(target.body);
+
+        if (target.body) {
+            agent = agent.send(target.body);
+        }
 
         return agent;
     }

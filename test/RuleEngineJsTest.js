@@ -95,17 +95,18 @@ describe("RuleEngineJs test suite: ", function() {
     it("prepareRule(): take specific statement", function() {
         const re = buildEngine('test');
         const rule = { q: '1===1' };
-        const r = re.prepareRule(rule);
-        expect(r.statement).toBe('matched=(1===1)');
-        expect(r.script).not.toBeNull();
+        re.prepareRule(rule);
+        expect(rule.statement).toBe('matched=(1===1)');
+        expect(rule.script).not.toBeNull();
     });
 
 
     it("prepareRule(): take default statement", function() {
         const re = buildEngine('test');
-        const r = re.prepareRule();
-        expect(r.statement).toBe('matched=(true)');
-        expect(r.script).not.toBeNull();
+        const rule = {};
+        re.prepareRule(rule);
+        expect(rule.statement).toBe('matched=(true)');
+        expect(rule.script).not.toBeNull();
     });
 
 });

@@ -1,6 +1,5 @@
 const RuleTreeNode = require('./RuleTreeNode');
 const Template = require('./Template');
-const RequestError = require('qnode-error').RequestError;
 const Hook = require('./Hook');
 
 
@@ -37,19 +36,16 @@ module.exports = class RuleTree {
     }
 
     normalizeRule(rule) {
-        const r = rule || {};
         const dft = this._defaultRule;
 
-        r.name = r.name || `${this.name}_${++this._nameIndex}`;
-        r.path = RuleTree.normalizePath(r.path || dft.path);
-        r.method = (r.method || dft.method).toLowerCase();
-        r.q = r.q || dft.q;
+        rule.name = rule.name || `${this.name}_${++this._nameIndex}`;
+        rule.path = RuleTree.normalizePath(rule.path || dft.path);
+        rule.method = (rule.method || dft.method).toLowerCase();
+        rule.q = rule.q || dft.q;
 
-        r.response = this.normalizeRuleResponse(r.response, r.name);
+        rule.response = this.normalizeRuleResponse(rule.response, rule.name);
 
-        r.hook = r.hook ? new Hook(r.hook) : null;
-
-        return r;
+        rule.hook = rule.hook ? new Hook(rule.hook) : null;
     }
 
     normalizeRuleResponse(response, ruleName) {
@@ -70,7 +66,7 @@ module.exports = class RuleTree {
     }
 
     put(rule) {
-        rule = this.normalizeRule(rule);
+        this.normalizeRule(rule);
         return this._rootNode.put(0, rule);
     }
 

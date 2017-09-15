@@ -5,10 +5,8 @@ const vm = require('vm');
 module.exports = class RuleEngineJs extends RuleEngine {
 
     prepareRule(rule) {
-        const r = rule || {};
-        r.statement = 'matched=(' + (r.q || 'true') + ')';
-        r.script = new vm.Script(r.statement);
-        return r;
+        rule.statement = 'matched=(' + (rule.q || 'true') + ')';
+        rule.script = new vm.Script(rule.statement);
     }
 
     /**

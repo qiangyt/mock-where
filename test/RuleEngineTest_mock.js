@@ -4,12 +4,11 @@ const _ = require('underscore');
 
 const SRC = '../src';
 const RuleEngine = require(`${SRC}/RuleEngine`);
+const Template = require(`${SRC}/Template`);
 
-function buildEngine(name, rules, _filterRule) {
+function buildEngine(name, rules) {
     const beans = new Beans();
     const r = new RuleEngine(name, { rules });
-    r.prepareRule = rule => rule;
-    if (_filterRule) r._filterRule = _filterRule;
     beans.renderThenInitBean(r, name);
     return r;
 }
@@ -21,60 +20,26 @@ describe("RuleEngine test suite: ", function() {
         expect(RuleEngine.determineTimeToDelay({ delay: -100, delayFix: 10 })).toBe(0);
     });
 
-    it("renderMockResponseBody(): render response body as message with template", function() {
-        const ruleResponse = {
-            template: {
-                func: function(request) {
-                    return `hi ${request.you}`;
-                }
-            }
-        };
-
-        const responseToMock = {};
-        RuleEngine.renderMockResponseBody({ you: 'Yiting' }, ruleResponse, responseToMock);
-
-        expect(responseToMock.body).toBe('hi Yiting');
-    });
-
-    it("renderMockResponseBody(): render response body as object", function() {
-        const body = {};
-        const ruleResponse = { body };
-        const responseToMock = {};
-        RuleEngine.renderMockResponseBody({ you: 'Yiting' }, ruleResponse, responseToMock);
-
-        expect(responseToMock.message).toBeUndefined();
-        expect(responseToMock.body).toEqual(body);
-    });
-
-    it("renderMockResponseBody(): fail to generate response with template", function() {
-        const ruleResponse = {
-            template: {
-                func: function() {
-                    throw new Error('mock exception to be ignored');
-                }
-            }
-        };
-
-        const responseToMock = {};
-        try {
-            RuleEngine.renderMockResponseBody({ you: 'Yiting' }, ruleResponse, responseToMock);
-        } catch (e) {
-            expect(e.type.key).toBe('FAILED_TO_GENERATE_RESPONSE_WITH_TEMPLATE');
-        }
-    });
-
     it("renderMockResponse(): render response", function() {
-        const body = {};
+        const body = {
+            object: 'hello'
+        };
         const header = {};
         const type = 'application/json';
         const status = 200;
-        const ruleResponse = { body, header, type, status };
+        const ruleResponse = {
+            body: Template.normalizeContent(body, {}),
+            header,
+            type,
+            status
+        };
+
         const responseToMock = {
             header: {}
         };
         RuleEngine.renderMockResponse({ you: 'Yiting' }, ruleResponse, responseToMock);
 
-        expect(responseToMock.body).toEqual(body);
+        expect(responseToMock.body).toEqual(body.object);
         expect(responseToMock.header).toEqual(header);
         expect(responseToMock.type).toBe(type);
         expect(responseToMock.status).toBe(status);
@@ -88,7 +53,7 @@ describe("RuleEngine test suite: ", function() {
             }
         };
 
-        const re = buildEngine('test', { ab: rule }, () => rule);
+        const re = buildEngine('test', { ab: rule });
 
         const request = {
             path: '/ab',
@@ -109,7 +74,7 @@ describe("RuleEngine test suite: ", function() {
     });
 
     it("mock(): no rule matched", function() {
-        const re = buildEngine('test', {}, () => null);
+        const re = buildEngine('test', {});
 
         const request = {
             path: '/ab',
@@ -136,7 +101,7 @@ describe("RuleEngine test suite: ", function() {
             response: {}
         };
 
-        const re = buildEngine('test', { ab: rule }, () => rule);
+        const re = buildEngine('test', { ab: rule });
 
         const request = {
             path: '/ab',

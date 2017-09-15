@@ -63,7 +63,8 @@ describe("RuleTree test suite: ", function() {
             q: '1=1'
         };
 
-        const r = new RuleTree('test', dr).normalizeRule();
+        const r = {};
+        new RuleTree('test', dr).normalizeRule(r);
 
         expect(r.name).toBe('test_1');
         expect(r.path).toBe('/p');
@@ -77,13 +78,13 @@ describe("RuleTree test suite: ", function() {
             method: 'POST',
             q: '1=1'
         };
-        const input = {
+        const r = {
             path: '/p2',
             method: 'PUT',
             q: '1<>2'
         };
 
-        const r = new RuleTree('test', dr).normalizeRule(input);
+        new RuleTree('test', dr).normalizeRule(r);
 
         expect(r.name).toBe('test_1');
         expect(r.path).toBe('/p2');

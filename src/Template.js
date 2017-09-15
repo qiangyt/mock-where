@@ -94,11 +94,31 @@ function normalizeContent(content, defaultContent, ruleName) {
     } else {
         content.object = JSON.stringify(content.object || 'no object specified');
     }
+
+    return content;
+}
+
+/**
+ * Render the template-ized content
+ * 
+ * @param {object} content 
+ * @param {object} context 
+ */
+function render(content, context) {
+    if (content.template) {
+        try {
+            return content.template.func(context);
+        } catch (e) {
+            throw new RequestError('FAILED_TO_GENERATE_CONTENT_WITH_TEMPLATE', e.message);
+        }
+    }
+    return content.object;
 }
 
 module.exports = {
     compile,
     buildDefault,
     normalize,
-    normalizeContent
+    normalizeContent,
+    render
 };

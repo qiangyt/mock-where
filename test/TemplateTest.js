@@ -165,4 +165,42 @@ describe("Template test suite: ", function() {
         expect(r.object).toBe('"no object specified"');
     });
 
+
+    it("render(): render as message with template", function() {
+        const content = {
+            template: {
+                func: function(request) {
+                    return `hi ${request.you}`;
+                }
+            }
+        };
+
+        const r = Template.render(content, { you: 'Yiting' });
+
+        expect(r).toBe('hi Yiting');
+    });
+
+    it("render(): render as object", function() {
+        const object = {};
+        const content = { object };
+        const r = Template.render(content, { you: 'Yiting' });
+        expect(r).toEqual(object);
+    });
+
+    it("render(): fail to generate with template", function() {
+        const content = {
+            template: {
+                func: function() {
+                    throw new Error('mock exception to be ignored');
+                }
+            }
+        };
+
+        try {
+            Template.render(content, { you: 'Yiting' });
+        } catch (e) {
+            expect(e.type.key).toBe('FAILED_TO_GENERATE_CONTENT_WITH_TEMPLATE');
+        }
+    });
+
 });

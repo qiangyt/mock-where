@@ -1,6 +1,6 @@
 const RequestError = require('qnode-error').RequestError;
 const RuleTree = require('./RuleTree');
-
+const Template = require('./Template');
 
 module.exports = class RuleEngine {
 
@@ -24,8 +24,8 @@ module.exports = class RuleEngine {
     }
 
     put(rule) {
-        const r = this.prepareRule(rule);
-        this._ruleTree.put(r);
+        this.prepareRule(rule);
+        this._ruleTree.put(rule);
     }
 
     _buildRequestData(req) {
@@ -40,35 +40,13 @@ module.exports = class RuleEngine {
         };
     }
 
-    /**
-     * Render the response body as mock result.
-     * 
-     * It uses template to render response, or directly takes response body from rule
-     * 
-     * @param {object} request 
-     * @param {object} ruleResponse 
-     * @param {object} responseToMock 
-     */
-    static renderMockResponseBody(request, ruleResponse, responseToMock) {
-        if (ruleResponse.template) {
-            try {
-                const msg = ruleResponse.template.func(request);
-                responseToMock.body = msg;
-            } catch (e) {
-                throw new RequestError('FAILED_TO_GENERATE_RESPONSE_WITH_TEMPLATE', e.message);
-            }
-        } else {
-            responseToMock.body = ruleResponse.body;
-        }
-    }
-
     static renderMockResponse(request, ruleResponse, responseToMock) {
         if (ruleResponse.header) Object.assign(responseToMock.header, ruleResponse.header);
 
         responseToMock.type = ruleResponse.type;
         responseToMock.status = ruleResponse.status;
 
-        RuleEngine.renderMockResponseBody(request, ruleResponse, responseToMock);
+        responseToMock.body = Template.render(ruleResponse.body, request);
 
         //if (ruleResponse.redirect) responseToMock.redirect(ruleResponse.redirect);
     }
@@ -99,6 +77,14 @@ module.exports = class RuleEngine {
         this._logger.debug('candidate rules: %s', candidateRules);
 
         return this._filterRule(request, candidateRules);
+    }
+
+    _filterRule(req, candidateRules) {
+        return (candidateRules.length > 0) ? candidateRules[0] : null;
+    }
+
+    prepareRule() {
+        // dummy
     }
 
     /**

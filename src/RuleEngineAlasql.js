@@ -28,9 +28,7 @@ module.exports = class RuleEngineAlasql extends RuleEngine {
     }
 
     prepareRule(rule) {
-        const r = rule || {};
-        r.statement = 'select * from request' + (r.q ? ` where ${r.q}` : '');
-        return r;
+        rule.statement = 'select * from request' + (rule.q ? ` where ${rule.q}` : '');
     }
 
     /**
