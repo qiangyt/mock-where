@@ -1,4 +1,5 @@
 q: q.phone === '10020003000'
 response:
   type: text/plain
-  template: '00'
+  body:
+    template: '00'

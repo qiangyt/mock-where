@@ -1,6 +1,7 @@
 response:
   type: application/xml
-  template: <?xml version="1.0" encoding="utf-8"?>
+  body:
+    template: <?xml version="1.0" encoding="utf-8"?>
             <CSubmitState xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
                           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                           xmlns="http://tempuri.org/">

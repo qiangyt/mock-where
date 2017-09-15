@@ -1,6 +1,7 @@
 response:
   type: application/xml
-  template: <?xml version="1.0" encoding="utf-8"?>
+  body:
+    template: <?xml version="1.0" encoding="utf-8"?>
             <string xmlns="http://tempuri.org/">
               <%= -parseInt(10000000000000000000 * Math.random()) %>
             </string>
