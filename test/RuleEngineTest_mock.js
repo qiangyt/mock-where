@@ -65,7 +65,7 @@ describe("RuleEngine test suite: ", function() {
             }
         };
 
-        mocker = SuperAgentMocker(superagent);
+        const mocker = SuperAgentMocker(superagent);
         mocker.get('/before', function() {
             return { code: '0' };
         });

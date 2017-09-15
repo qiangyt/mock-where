@@ -6,8 +6,6 @@ const SRC = '../src';
 const Hook = require(`${SRC}/Hook`);
 const MissingParamError = require('qnode-error').MissingParamError;
 
-let mocker;
-
 describe("Hook test suite: ", function() {
 
     afterAll(function() {
@@ -60,7 +58,7 @@ describe("Hook test suite: ", function() {
         };
         const data = { you: 'Qiang Yiting' };
 
-        mocker = SuperAgentMocker(superagent);
+        const mocker = SuperAgentMocker(superagent);
         mocker.timeout = 100;
         mocker.post('/say', function() {
             return {
@@ -102,7 +100,7 @@ describe("Hook test suite: ", function() {
             body: target.body
         };
 
-        mocker = SuperAgentMocker(superagent);
+        const mocker = SuperAgentMocker(superagent);
         mocker.timeout = 100;
         mocker.post('/say', function() {
             return { code: '0', message: 'ok', data }
@@ -130,7 +128,7 @@ describe("Hook test suite: ", function() {
             path: '/say'
         };
 
-        mocker = SuperAgentMocker(superagent);
+        const mocker = SuperAgentMocker(superagent);
         mocker.timeout = 100;
         mocker.get('/say', function() {
             return {
@@ -161,7 +159,7 @@ describe("Hook test suite: ", function() {
             path: '/sayB'
         };
 
-        mocker = SuperAgentMocker(superagent);
+        const mocker = SuperAgentMocker(superagent);
         mocker.timeout = 100;
         mocker.post('/sayA', function() {
             return {
@@ -199,7 +197,7 @@ describe("Hook test suite: ", function() {
             path: '/sayB'
         };
 
-        mocker = SuperAgentMocker(superagent);
+        const mocker = SuperAgentMocker(superagent);
         mocker.timeout = 100;
         mocker.post('/sayA', function() {
             return {
@@ -233,7 +231,7 @@ describe("Hook test suite: ", function() {
             path: '/before'
         };
 
-        mocker = SuperAgentMocker(superagent);
+        const mocker = SuperAgentMocker(superagent);
         mocker.timeout = 100;
         mocker.get('/before', function() {
             return { code: '0' };
@@ -254,7 +252,7 @@ describe("Hook test suite: ", function() {
             path: '/after'
         };
 
-        mocker = SuperAgentMocker(superagent);
+        const mocker = SuperAgentMocker(superagent);
         mocker.timeout = 100;
         mocker.get('/after', function() {
             return { code: '1' };
