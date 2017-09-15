@@ -1,0 +1,254 @@
+{
+	"variables": [],
+	"info": {
+		"name": "mock-where",
+		"_postman_id": "58802545-03e5-3858-389b-28a5974a5dbd",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "where",
+			"request": {
+				"url": "http://localhost:8001/api/where",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"rule_1\",\n\t\"server\": \"first\",\n\t\"q\": \"ip like '::%'\",\n\t\"path\": \"/ab\",\n\t\"response\": {\n\t\t\"status\": 200,\n\t\t\"sleep\": 500,\n\t\t\"template\": {\n\t\t\t\"type\": \"handlebars\",\n\t\t\t\"text\": \"hi \\\"{{ip}}\\\"\"\n\t\t}\n\t}\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "honglian95-fail",
+			"request": {
+				"url": {
+					"raw": "http://localhost:4000?phone=12312341234",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"query": [
+						{
+							"key": "phone",
+							"value": "12312341234",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "host",
+						"value": "honglian95",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ems-ok",
+			"request": {
+				"url": {
+					"raw": "http://localhost:4000/batchSingleSendSMS.action?enterpriseID=1&batchSmsId=4,5,6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"batchSingleSendSMS.action"
+					],
+					"query": [
+						{
+							"key": "enterpriseID",
+							"value": "1",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "batchSmsId",
+							"value": "4,5,6",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "host",
+						"value": "ems",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ems-ok copy",
+			"request": {
+				"url": {
+					"raw": "http://localhost:4000/batchSingleSendSMS.action?enterpriseID=1&batchSmsId=4,5,6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"batchSingleSendSMS.action"
+					],
+					"query": [
+						{
+							"key": "enterpriseID",
+							"value": "1",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "batchSmsId",
+							"value": "4,5,6",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "host",
+						"value": "ems",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "mandao-ok",
+			"request": {
+				"url": {
+					"raw": "http://localhost:4000/webservice.asmx/mdsmssend?rrid=012345678900009000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"webservice.asmx",
+						"mdsmssend"
+					],
+					"query": [
+						{
+							"key": "rrid",
+							"value": "012345678900009000",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "host",
+						"value": "mandao",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "mengwang-ok",
+			"request": {
+				"url": "http://localhost:4000/MWGate/wmgw.asmx/MongateCsSpSendSmsNew",
+				"method": "POST",
+				"header": [
+					{
+						"key": "host",
+						"value": "mengwang",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "welink-ok",
+			"request": {
+				"url": "http://localhost:4000/submitdata/service.asmx/g_SubmitWithKey",
+				"method": "POST",
+				"header": [
+					{
+						"key": "host",
+						"value": "welink",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ems-single",
+			"request": {
+				"url": {
+					"raw": "http://localhost:4000/sendSMS.action?smsId=4,5,6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"sendSMS.action"
+					],
+					"query": [
+						{
+							"key": "smsId",
+							"value": "4,5,6",
+							"equals": true
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "host",
+						"value": "ems",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
