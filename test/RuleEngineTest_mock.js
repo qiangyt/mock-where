@@ -1,6 +1,8 @@
 /* eslint no-undef: "off" */
 const Beans = require('qnode-beans');
 const _ = require('underscore');
+const superagent = require('superagent');
+const SuperAgentMocker = require('qnode-superagent-mocker');
 
 const SRC = '../src';
 const RuleEngine = require(`${SRC}/RuleEngine`);
@@ -50,8 +52,26 @@ describe("RuleEngine test suite: ", function() {
             path: '/ab',
             response: {
                 latency: 100
+            },
+            hook: {
+                before: [{
+                    method: 'get',
+                    path: '/before'
+                }],
+                after: [{
+                    method: 'get',
+                    path: '/after'
+                }]
             }
         };
+
+        mocker = SuperAgentMocker(superagent);
+        mocker.get('/before', function() {
+            return { code: '0' };
+        });
+        mocker.get('/after', function() {
+            return { code: '1' };
+        });
 
         const re = buildEngine('test', { ab: rule });
 
@@ -69,7 +89,7 @@ describe("RuleEngine test suite: ", function() {
 
         return re.mock({ request, response }).then(() => {
             const duration = new Date().getTime() - beginTime;
-            expect(duration).toBeLessThanOrEqual(120);
+            expect(duration).toBeLessThanOrEqual(1000);
         });
     });
 
