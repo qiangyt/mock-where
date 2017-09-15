@@ -98,16 +98,16 @@ module.exports = class RuleEngine {
     async mock(rnr) {
         const rule = this.loadMatchedRule(rnr.request);
 
-        const cb = rule.hook;
+        const hook = rule.hook;
 
-        if (cb && cb.needCallBefore) {
-            await cb.callBefore(rnr.requestAndResponse);
+        if (hook && hook.needCallBefore) {
+            await hook.callBefore(rnr.requestAndResponse);
         }
 
         await this._mockResponse(rnr, rule);
 
-        if (cb && cb.needCallAfter) {
-            await cb.callAfter(rnr);
+        if (hook && hook.needCallAfter) {
+            await hook.callAfter(rnr);
         }
     }
 
