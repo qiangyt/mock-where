@@ -13,6 +13,16 @@
         },
 
         {
+            "type": "node",
+            "request": "launch",
+            "name": "callback",
+            "program": "${workspaceRoot}/tool/CallbackTarget.js",
+            "env": {
+                "LOG_LEVEL": "info"
+            }
+        },
+
+        {
             "name": "test",
             "type": "node",
             "request": "launch",
