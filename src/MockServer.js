@@ -102,7 +102,7 @@ module.exports = class MockServer extends BaseServer {
         const engine = this.getEngine(domain);
 
         const response = ctx.response;
-        await engine.mock(request, response);
+        await engine.mock({ request, response });
 
         await next();
     }

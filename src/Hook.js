@@ -38,30 +38,30 @@ module.exports = class Hook {
         return this.before.length > 0;
     }
 
-    callBefore() {
-        return this._callList(this.before);
+    callBefore(requestAndResponse) {
+        return this._callList(this.before, requestAndResponse);
     }
 
     needCallAfter() {
         return this.after.length > 0;
     }
 
-    callAfter() {
-        return this._callList(this.after);
+    callAfter(requestAndResponse) {
+        return this._callList(this.after, requestAndResponse);
     }
 
-    _callList(list) {
+    _callList(list, requestAndResponse) {
         if (!list.length) return Promise.resolve();
 
         let r;
         if (list.length === 1) {
-            r = this._callOne(list[0]);
+            r = this._callOne(list[0], requestAndResponse);
             r.seq = 0;
         } else {
             for (let i = 0; i < list.length; i++) {
                 const target = list[i];
-                if (!r) r = this._callOne(target);
-                else r = r.then(() => this._callOne(target));
+                if (!r) r = this._callOne(target, requestAndResponse);
+                else r = r.then(() => this._callOne(target, requestAndResponse));
                 r.seq = i;
             }
         }
@@ -69,7 +69,7 @@ module.exports = class Hook {
         return r;
     }
 
-    _callOne(target) {
+    _callOne(target, requestAndResponse) {
         let agent = superagent[target.method](target.path);
 
         if (target.hasHeader) agent = agent.set(target.header);
@@ -78,7 +78,8 @@ module.exports = class Hook {
         if (target.accept) agent = agent.accept(target.accept);
 
         if (target.body) {
-            agent = agent.send(target.body);
+            const body = Template.render(target.body, requestAndResponse);
+            agent = agent.send(body);
         }
 
         return agent;
