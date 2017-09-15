@@ -15,8 +15,8 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "callback",
-            "program": "${workspaceRoot}/tool/CallbackTarget.js",
+            "name": "hook",
+            "program": "${workspaceRoot}/tool/HookTarget.js",
             "env": {
                 "LOG_LEVEL": "info"
             }
