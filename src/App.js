@@ -50,11 +50,12 @@ if (Helper.isMainModule(module.filename)) {
     } catch (e) {
         if (e instanceof QError.BaseError) {
             logger.error(e.build('en-US').message);
-            logger.error(e.stack);
-
-            /* eslint no-process-exit:off */
-            process.exit(1);
         }
+
+        logger.error(e.stack);
+
+        /* eslint no-process-exit:off */
+        process.exit(1);
     }
 }
 
