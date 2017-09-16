@@ -1,4 +1,8 @@
 q: q.enterpriseID === '1'
+hook:
+    after:
+      - path: http://localhost:4001/ems/batchSingleSendSMS.action/ok.yml
+        type: text/plain
 response:
   type: application/xml
   body:
