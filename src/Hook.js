@@ -3,6 +3,7 @@ const _ = require('underscore');
 const MissingParamError = require('qnode-error').MissingParamError;
 const Template = require('./Template');
 const Package = require('../package.json');
+const TemplateContext = require('./TemplateContext');
 
 const HEADER_VALUE_USER_AGENT = 'mock-where/' + Package.version;
 
@@ -86,13 +87,18 @@ module.exports = class Hook {
     }
 
     _callOne(target, requestAndResponse) {
-        const path = Template.render(target.path, requestAndResponse);
+        const context = TemplateContext.normalize({
+            request: requestAndResponse.request,
+            response: requestAndResponse.response
+        });
+
+        const path = Template.render(target.path, context);
         let agent = superagent[target.method](path);
 
         agent = agent.set(target.header);
 
         if (target.hasQuery) {
-            const query = Template.render(target.query, requestAndResponse);
+            const query = Template.render(target.query, context);
             agent = agent.query(query);
         }
 
@@ -100,7 +106,7 @@ module.exports = class Hook {
         if (target.accept) agent = agent.accept(target.accept);
 
         if (target.body) {
-            const body = Template.render(target.body, requestAndResponse);
+            const body = Template.render(target.body, context);
             agent = agent.send(body);
         }
 

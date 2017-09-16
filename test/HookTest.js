@@ -69,7 +69,7 @@ describe("Hook test suite: ", function() {
         });
 
         const c = new Hook({ before: [target] });
-        c._callOne(target).then(result => {
+        c._callOne(target, {}).then(result => {
             expect(result.code).toBe('0');
             expect(result.message).toBe('ok');
             expect(result.data).toEqual(data);
@@ -107,7 +107,7 @@ describe("Hook test suite: ", function() {
         });
 
         const c = new Hook({ before: [target] });
-        c._callOne(target).then(result => {
+        c._callOne(target, {}).then(result => {
             expect(result.code).toBe('0');
             expect(result.message).toBe('ok');
             expect(result.data).toEqual(data);
@@ -139,7 +139,7 @@ describe("Hook test suite: ", function() {
         });
 
         const c = new Hook({ before: [target] });
-        c._callList([target]).then(result => {
+        c._callList([target], {}).then(result => {
             expect(result.code).toBe('0');
             expect(result.message).toBe('ok');
             expect(result.data).toBe('wow');
@@ -177,7 +177,7 @@ describe("Hook test suite: ", function() {
         });
 
         const c = new Hook({ before: [targetA, targetB] });
-        c._callList([targetA, targetB]).then(result => {
+        c._callList([targetA, targetB], {}).then(result => {
             expect(result.code).toBe('0');
             expect(result.message).toBe('ok');
             expect(result.data).toBe('B');
@@ -215,7 +215,7 @@ describe("Hook test suite: ", function() {
         });
 
         const c = new Hook({ before: [targetA, targetB] });
-        c._callList([targetB, targetA]).then(result => {
+        c._callList([targetB, targetA], {}).then(result => {
             expect(result.code).toBe('0');
             expect(result.message).toBe('ok');
             expect(result.data).toBe('A');

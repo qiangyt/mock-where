@@ -1,6 +1,7 @@
 const RequestError = require('qnode-error').RequestError;
 const RuleTree = require('./RuleTree');
 const Template = require('./Template');
+const TemplateContext = require('./TemplateContext');
 
 module.exports = class RuleEngine {
 
@@ -46,7 +47,8 @@ module.exports = class RuleEngine {
         responseToMock.type = ruleResponse.type;
         responseToMock.status = ruleResponse.status;
 
-        responseToMock.body = Template.render(ruleResponse.body, { request });
+        const context = TemplateContext.normalize({ request });
+        responseToMock.body = Template.render(ruleResponse.body, context);
 
         //if (ruleResponse.redirect) responseToMock.redirect(ruleResponse.redirect);
     }
