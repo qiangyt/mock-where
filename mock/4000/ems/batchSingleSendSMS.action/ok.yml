@@ -2,14 +2,24 @@ q: q.enterpriseID === '1'
 hook:
     after:
       - path: http://localhost:4001/ems/batchSingleSendSMS.action/ok.yml
-        type: text/plain
+        type: application/x-www-form-urlencoded
+        body: 
+          template: <% var smsIdList = request.query.batchSmsId.split(',');
+                       var mobileList = request.query.batchMobiles.split(',');
+                       var xml = '<?xml version="1.0" encoding="UTF-8"?>';
+                       xml += '<Report num="' + smsIdList.length + '">'; 
+
+                       for( var i = 0; i < smsIdList.length; i++ )
+                          xml += '<Item smsId="' + smsIdList[i] + '" to_mobile="' + mobileList[i] +'" status="0" reportTime="2017-08-09 00:04:05" desc="DELIVRD" index="' + (i+1) + '"/>';
+                       xml += '</Report>';  %>
+                    reportXml=<%=urlEncode(xml)%>
 response:
   type: application/xml
   body:
     template: <?xml version="1.0" encoding="utf-8"?>
             <Response>
               <Result>0</Result>
-              <% var smsIdList = query.batchSmsId.split(','); %>
+              <% var smsIdList = request.query.batchSmsId.split(','); %>
               <SmsIdList num="<%= smsIdList.length %>">
                 <% for( var i = 0; i < smsIdList.length; i++ ) { %>
                   <Item index="<%= i+1 %>" smsId="<%= smsIdList[i] %>" result="0"/>
