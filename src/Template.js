@@ -6,6 +6,7 @@ const underscore = require('underscore');
 const Handlebars = require('handlebars');
 const Jade = require('jade');
 const Pug = require('pug');
+const TemplateContext = require('./TemplateContext');
 const Logger = require('qnode-log');
 
 const _logger = new Logger('Template');
@@ -121,6 +122,8 @@ function normalizeContent(content, defaultContent, ruleName) {
  * @param {object} context 
  */
 function render(content, context) {
+    TemplateContext.normalize(context);
+
     if (content.template) {
         try {
             return content.template.func(context);
