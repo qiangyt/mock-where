@@ -57,7 +57,7 @@ module.exports = class RuleTree {
         r.type = r.type || dft.type;
 
         r.body = r.body || {};
-        Template.normalizeContent(r.body, dft.body, ruleName);
+        r.body = Template.normalizeContent(r.body, dft.body, ruleName);
 
         r.latency = (!r.latency || r.latency < 0) ? dft.latency : r.latency;
         r.latencyFix = r.latencyFix || dft.latencyFix;

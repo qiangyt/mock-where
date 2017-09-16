@@ -83,56 +83,56 @@ describe("Template test suite: ", function() {
         }
     });
 
-    it("normalize(): template is string", function() {
-        const r = Template.normalize('hi');
+    it("normalizeTemplate(): template is string", function() {
+        const r = Template.normalizeTemplate('hi');
         expect(r.type).toBe('ejs');
         expect(r.text).toBe('hi');
         expect(r.func).toBeDefined();
     });
 
-    it("normalize(): template is a number", function() {
-        const r = Template.normalize(3);
+    it("normalizeTemplate(): template is a number", function() {
+        const r = Template.normalizeTemplate(3);
         expect(r.type).toBe('ejs');
         expect(r.text).toBe('3');
         expect(r.func).toBeDefined();
     });
 
-    it("normalize(): template is zero", function() {
-        const r = Template.normalize(0);
+    it("normalizeTemplate(): template is zero", function() {
+        const r = Template.normalizeTemplate(0);
         expect(r.type).toBe('ejs');
         expect(r.text).toBe('0');
         expect(r.func).toBeDefined();
     });
 
-    it("normalize(): template is not string and inputted", function() {
+    it("normalizeTemplate(): template is not string and inputted", function() {
         const t = {
             type: 'handlebars',
             text: 'wow'
         };
-        const r = Template.normalize(t);
+        const r = Template.normalizeTemplate(t);
         expect(r.type).toBe('handlebars');
         expect(r.text).toBe('wow');
         expect(r.func).toBeDefined();
     });
 
-    it("normalize(): template is not string but not inputed", function() {
-        const r = Template.normalize({}, 'test', Template.buildDefault());
+    it("normalizeTemplate(): template is not string but not inputed", function() {
+        const r = Template.normalizeTemplate({}, 'test', Template.buildDefault());
         expect(r.type).toBe('ejs');
         expect(r.text).toBeDefined();
         expect(r.func).toBeDefined();
     });
 
-    it("normalize(): template is not string and take default", function() {
+    it("normalizeTemplate(): template is not string and take default", function() {
         const dft = Template.buildDefault({ type: 'underscore' });
-        const r = Template.normalize({}, 'test', dft);
+        const r = Template.normalizeTemplate({}, 'test', dft);
         expect(r.type).toBe('underscore');
         expect(r.text).toBeDefined();
         expect(r.func).toBeDefined();
     });
 
-    it("normalize(): template is not specified, take default", function() {
+    it("normalizeTemplate(): template is not specified, take default", function() {
         const dft = Template.buildDefault({ type: 'underscore' });
-        const r = Template.normalize(null, 'test', dft);
+        const r = Template.normalizeTemplate(null, 'test', dft);
         expect(r.type).toBe('underscore');
         expect(r.text).toBeDefined();
         expect(r.func).toBeDefined();
@@ -160,26 +160,38 @@ describe("Template test suite: ", function() {
     });
 
     it("normalizeContent(): take template with a zero number", function() {
-        const r = {
+        let r = {
             template: 0
         };
-        Template.normalizeContent(r, {}, 'body');
+        r = Template.normalizeContent(r, {}, 'body');
         expect(r.template.text).toBe('0');
         expect(r.template.type).toBe('ejs');
     });
 
     it("normalizeContent(): take object, should be json text", function() {
-        const r = {
+        let r = {
             object: 'dummy object'
         };
-        Template.normalizeContent(r, {});
+        r = Template.normalizeContent(r, {});
         expect(r.object).toBe('"dummy object"');
     });
 
     it("normalizeContent(): take object, but object is undefined too", function() {
-        const r = {};
-        Template.normalizeContent(r, {}, 'body');
+        let r = {};
+        r = Template.normalizeContent(r, {}, 'body');
         expect(r.object).toBe('"no object specified"');
+    });
+
+    it("normalizeContent(): take text", function() {
+        let r = { text: 'dummy' };
+        r = Template.normalizeContent(r, {}, 'body');
+        expect(r.text).toBe('dummy');
+    });
+
+    it("normalizeContent(): content object itself is text", function() {
+        let r = 'dummy text';
+        r = Template.normalizeContent(r, {}, 'body');
+        expect(r.text).toBe('dummy text');
     });
 
 

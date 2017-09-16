@@ -41,7 +41,7 @@ describe("RuleEngine test suite: ", function() {
         };
         RuleEngine.renderMockResponse({ you: 'Yiting' }, ruleResponse, responseToMock);
 
-        expect(responseToMock.body).toEqual(body.object);
+        expect(responseToMock.body).toEqual('"hello"');
         expect(responseToMock.header).toEqual(header);
         expect(responseToMock.type).toBe(type);
         expect(responseToMock.status).toBe(status);

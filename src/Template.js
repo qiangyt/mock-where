@@ -60,7 +60,7 @@ function compile(type, text, ruleName) {
 }
 
 
-function normalize(template, ruleName, deftTemplate) {
+function normalizeTemplate(template, ruleName, deftTemplate) {
     let type;
     let text;
 
@@ -83,19 +83,31 @@ function normalize(template, ruleName, deftTemplate) {
 }
 
 function normalizeContent(content, defaultContent, ruleName) {
-    const template = content.template;
+    if (typeof content === 'string') {
+        return { text: content };
+    }
 
-    if (template && content.object) {
+    const template = content.template;
+    const object = content.object;
+    const text = content.text;
+
+    if ((template && object) || (template && text) || (object && text)) {
         throw new RequestError('MULTIPLE_CONTENTS_NOT_ALLOWED', ruleName);
     }
 
     if (template !== undefined && template !== null) {
-        content.template = normalize(template, ruleName, defaultContent.template);
-    } else {
-        content.object = JSON.stringify(content.object || 'no object specified');
+        return {
+            template: normalizeTemplate(template, ruleName, defaultContent.template)
+        };
     }
 
-    return content;
+    if (text !== undefined && text !== null) {
+        return { text };
+    }
+
+    return {
+        object: JSON.stringify(content.object || 'no object specified')
+    };
 }
 
 /**
@@ -118,7 +130,7 @@ function render(content, context) {
 module.exports = {
     compile,
     buildDefault,
-    normalize,
+    normalizeTemplate,
     normalizeContent,
     render
 };

@@ -14,22 +14,22 @@ module.exports = class Hook {
     constructor(config, ruleName) {
         this.ruleName = ruleName;
         this.defaultBody = Template.buildDefault();
-        this.before = Hook.normalizeList(config.before);
-        this.after = Hook.normalizeList(config.after);
+        this.before = Hook.normalizeList(config.before, this.defaultBody, ruleName);
+        this.after = Hook.normalizeList(config.after, this.defaultBody, ruleName);
     }
 
-    static normalizeList(list) {
+    static normalizeList(list, defaultBody, ruleName) {
         if (!list || !list.length) return [];
-        return list.map(target => Hook.normalizeTarget(target));
+        return list.map(target => Hook.normalizeTarget(target, defaultBody, ruleName));
     }
 
-    static normalizeTarget(target) {
+    static normalizeTarget(target, defaultBody, ruleName) {
         if (!target.path) throw new MissingParamError('hook path');
 
         target.method = target.method || 'post';
 
         target.body = target.body || {};
-        Template.normalizeContent(target.body, this.defaultBody, this.ruleName);
+        target.body = Template.normalizeContent(target.body, defaultBody, ruleName);
 
         const header = target.header || {};
         for (let headerName in header) {

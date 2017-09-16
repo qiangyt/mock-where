@@ -27,7 +27,8 @@ const RequestError = require('qnode-error').RequestError;
  *              type: 'application/json',// optional
  *              body: {
  *                  object: {}, // or string, or stream, or file, optional
- *                  template: {}// exclusive with object
+ *                  text: '...', // exclusive with object/template
+ *                  template: {}// exclusive with object/text
  *              }
  *              accept: 'application/xml' // optional
  *          }
