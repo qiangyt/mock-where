@@ -124,7 +124,10 @@ function render(content, context) {
             throw new RequestError('FAILED_TO_GENERATE_CONTENT_WITH_TEMPLATE', e.message);
         }
     }
-    return content.object;
+    if (content.object) {
+        return content.object;
+    }
+    return content.text;
 }
 
 module.exports = {

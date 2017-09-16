@@ -209,11 +209,17 @@ describe("Template test suite: ", function() {
         expect(r).toBe('hi Yiting');
     });
 
-    it("render(): render as object", function() {
+    it("render(): render with object", function() {
         const object = {};
         const content = { object };
         const r = Template.render(content, { you: 'Yiting' });
         expect(r).toEqual(object);
+    });
+
+    it("render(): render with text", function() {
+        const content = { text: 'Yiting' };
+        const r = Template.render(content);
+        expect(r).toEqual('Yiting');
     });
 
     it("render(): fail to generate with template", function() {
