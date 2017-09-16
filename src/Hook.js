@@ -2,6 +2,9 @@ const superagent = require('superagent');
 const _ = require('underscore');
 const MissingParamError = require('qnode-error').MissingParamError;
 const Template = require('./Template');
+const Package = require('../package.json');
+
+const HEADER_VALUE_USER_AGENT = 'mock-where/' + Package.version;
 
 /**
  * Manages and execute hooks
@@ -28,7 +31,17 @@ module.exports = class Hook {
         target.body = target.body || {};
         Template.normalizeContent(target.body, this.defaultBody, this.ruleName);
 
-        target.hasHeader = !_.isEmpty(target.header);
+        const header = target.header || {};
+        for (let headerName in header) {
+            const headerValue = header[headerName];
+            delete header[headerName];
+            header[headerName.toLowerCase()] = headerValue;
+        }
+        if (!header['user-agent']) {
+            header['user-agent'] = HEADER_VALUE_USER_AGENT;
+        }
+        target.header = header;
+
         target.hasQuery = !_.isEmpty(target.query);
 
         return target;
@@ -72,7 +85,8 @@ module.exports = class Hook {
     _callOne(target, requestAndResponse) {
         let agent = superagent[target.method](target.path);
 
-        if (target.hasHeader) agent = agent.set(target.header);
+        agent = agent.set(target.header);
+
         if (target.hasQuery) agent = agent.query(target.query);
         if (target.type) agent = agent.type(target.type);
         if (target.accept) agent = agent.accept(target.accept);
