@@ -4,6 +4,6 @@ response:
     template: <?xml version="1.0" encoding="utf-8"?>
             <Response>
               <Result>0</Result>
-              <SmsId><%=query.smsId%></SmsId>
+              <SmsId><%=request.query.smsId%></SmsId>
             </Response>";
 

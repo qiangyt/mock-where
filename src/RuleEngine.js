@@ -46,7 +46,7 @@ module.exports = class RuleEngine {
         responseToMock.type = ruleResponse.type;
         responseToMock.status = ruleResponse.status;
 
-        responseToMock.body = Template.render(ruleResponse.body, request);
+        responseToMock.body = Template.render(ruleResponse.body, { request });
 
         //if (ruleResponse.redirect) responseToMock.redirect(ruleResponse.redirect);
     }
