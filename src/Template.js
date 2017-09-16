@@ -21,6 +21,10 @@ function buildDefault(input) {
 
 function compile(type, text, ruleName) {
 
+    //if (text.indexOf('require(') >= 0) {
+    //
+    //  }
+
     try {
         if ('ejs' === type) {
             return ejs.compile(text);
