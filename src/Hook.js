@@ -25,11 +25,11 @@ module.exports = class Hook {
 
     static normalizeTarget(target, defaultBody, ruleName) {
         if (!target.path) throw new MissingParamError('hook path');
+        target.path = Template.normalizeContent(target.path, {}, ruleName);
 
         target.method = target.method || 'post';
 
-        target.body = target.body || {};
-        target.body = Template.normalizeContent(target.body, defaultBody, ruleName);
+        target.body = Template.normalizeContent(target.body || {}, defaultBody, ruleName);
 
         const header = target.header || {};
         for (let headerName in header) {
@@ -43,6 +43,9 @@ module.exports = class Hook {
         target.header = header;
 
         target.hasQuery = !_.isEmpty(target.query);
+        if (target.hasQuery) {
+            target.query = Template.normalizeContent(target.query, {}, ruleName);
+        }
 
         return target;
     }
@@ -83,11 +86,16 @@ module.exports = class Hook {
     }
 
     _callOne(target, requestAndResponse) {
-        let agent = superagent[target.method](target.path);
+        const path = Template.render(target.path, requestAndResponse);
+        let agent = superagent[target.method](path);
 
         agent = agent.set(target.header);
 
-        if (target.hasQuery) agent = agent.query(target.query);
+        if (target.hasQuery) {
+            const query = Template.render(target.query, requestAndResponse);
+            agent = agent.query(query);
+        }
+
         if (target.type) agent = agent.type(target.type);
         if (target.accept) agent = agent.accept(target.accept);
 
