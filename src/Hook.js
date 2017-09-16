@@ -108,6 +108,8 @@ module.exports = class Hook {
         if (target.body) {
             const body = Template.render(target.body, context);
             agent = agent.send(body);
+        } else {
+            agent = agent.send();
         }
 
         return agent;

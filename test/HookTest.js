@@ -106,8 +106,8 @@ describe("Hook test suite: ", function() {
             return { code: '0', message: 'ok', data }
         });
 
-        const c = new Hook({ before: [target] });
-        c._callOne(target, {}).then(result => {
+        const c1 = new Hook({ before: [target] });
+        c1._callOne(target, {}).then(result => {
             expect(result.code).toBe('0');
             expect(result.message).toBe('ok');
             expect(result.data).toEqual(data);

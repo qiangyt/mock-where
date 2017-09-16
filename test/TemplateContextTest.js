@@ -14,6 +14,8 @@ describe("TemplateContext test suite: ", function() {
     });
 
     it("normalize(): happy", function() {
+        expect(TemplateContext.normalize()).not.toBeDefined();
+
         const r = TemplateContext.normalize({});
         expect(r.urlEncode).toEqual(TemplateContext.urlEncode);
         expect(r.urlDecode).toEqual(TemplateContext.urlDecode);
