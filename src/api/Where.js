@@ -16,6 +16,7 @@ const RequestError = require('qnode-error').RequestError;
  *      latency: 200, // optoinal. assigned to default latency, if not specified
  *      latencyFix: 16, // optional. assigned to default latencyFix, if not specified
  *      hook: {
+ *        enabled: false, // optional. true by default
  *        before: [
  *          {
  *              method: 'POST', // optional

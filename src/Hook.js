@@ -17,6 +17,11 @@ module.exports = class Hook {
         this.defaultBody = Template.buildDefault();
         this.before = Hook.normalizeList(config.before, this.defaultBody, ruleName);
         this.after = Hook.normalizeList(config.after, this.defaultBody, ruleName);
+        this.enabled = Hook.normalizeEnabledFlag(config.enabled);
+    }
+
+    static normalizeEnabledFlag(enabled) {
+        return (enabled === undefined || enabled === null) ? true : enabled;
     }
 
     static normalizeList(list, defaultBody, ruleName) {

@@ -12,6 +12,12 @@ describe("Hook test suite: ", function() {
         //if (mocker) mocker.unmock(superagent);
     });
 
+    it("normalizeEnabledFlag(): happy", function() {
+        expect(Hook.normalizeEnabledFlag()).toBeTruthy();
+        expect(Hook.normalizeEnabledFlag(true)).toBeTruthy();
+        expect(Hook.normalizeEnabledFlag(false)).toBeFalsy();
+    });
+
     it("normalizeList(): happy", function() {
         expect(Hook.normalizeList(undefined).length).toBe(0);
         expect(Hook.normalizeList(null).length).toBe(0);
