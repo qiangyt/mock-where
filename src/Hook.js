@@ -17,7 +17,6 @@ module.exports = class Hook {
         this.defaultBody = Template.buildDefault();
         this.before = Hook.normalizeList(config.before, this.defaultBody, ruleName);
         this.after = Hook.normalizeList(config.after, this.defaultBody, ruleName);
-        this.enabled = Hook.normalizeEnabledFlag(config.enabled);
     }
 
     static normalizeEnabledFlag(enabled) {
@@ -33,6 +32,7 @@ module.exports = class Hook {
         if (!target.path) throw new MissingParamError('hook path');
         target.path = Template.normalizeContent(target.path, {}, ruleName);
 
+        target.enabled = Hook.normalizeEnabledFlag(target.enabled);
         target.method = target.method || 'post';
 
         target.body = Template.normalizeContent(target.body || {}, defaultBody, ruleName);
@@ -57,7 +57,7 @@ module.exports = class Hook {
     }
 
     needCallBefore() {
-        return this.before.length > 0;
+        return this.before.length > 0 && this.before.enabled;
     }
 
     callBefore(requestAndResponse) {
@@ -65,7 +65,7 @@ module.exports = class Hook {
     }
 
     needCallAfter() {
-        return this.after.length > 0;
+        return this.after.length > 0 && this.after.enabled;
     }
 
     callAfter(requestAndResponse) {
