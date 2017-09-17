@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const buddy = require('co-body');
+const Helper = require('../src/Helper');
 const Http = require('http');
 const PORT = 4001;
 
@@ -35,7 +36,14 @@ koa.use((ctx, next) => {
     }
 
     console.log();
-    console.log(ctx.request.body);
+
+    const body = ctx.request.body;
+    console.log(body);
+
+    if ('string' === typeof body && body.indexOf('%') >= 0) {
+        console.log();
+        console.log(Helper.urlDecode(body));
+    }
 
     const res = ctx.response;
     res.body = '1';
