@@ -1,4 +1,5 @@
 /* eslint no-undef: "off" */
+const moment = require('moment');
 
 const SRC = '../src';
 const Helper = require(`${SRC}/Helper`);
@@ -19,12 +20,14 @@ describe("TemplateContext test suite: ", function() {
         const r = TemplateContext.normalize({
             urlEncode: 'urlEncode',
             urlDecode: 'urlDecode',
-            formatDate: 'formatDate'
+            formatDate: 'formatDate',
+            moment: 'moment'
         });
 
         expect(r.urlEncode).toBe('urlEncode');
         expect(r.urlDecode).toBe('urlDecode');
         expect(r.formatDate).toBe('formatDate');
+        expect(r.moment).toBe('moment');
     });
 
 });

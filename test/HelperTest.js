@@ -2,6 +2,7 @@
 
 const SRC = '../src';
 const Helper = require(`${SRC}/Helper`);
+const moment = require('moment');
 
 describe("Helper test suite: ", function() {
 
@@ -14,9 +15,9 @@ describe("Helper test suite: ", function() {
     });
 
     it("formatDate(): happy", function() {
-        const date = new Date();
-        date.setFullYear(2017, 8, 17);
-        date.setHours(23, 32, 43, 0);
-        expect(Helper.formatDate(date)).toBe('2017-09-17 23:32:43');
+        const m = moment();
+        m.year(2017).month(8).daysInMonth(17);
+        m.hour(23).minute(32).second(43);
+        expect(Helper.formatDate(m)).toBe('2017-09-17 23:32:43');
     });
 });

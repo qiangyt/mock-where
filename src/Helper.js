@@ -1,14 +1,12 @@
 const QueryString = require('querystring');
-const Moment = require('moment');
+const moment = require('moment');
 
 /**
  * 
  * @param {Date} dateObject date object
  * @param {string} format see http://momentjs.com/docs/#/displaying/
  */
-function formatDate(dateObject, format) {
-    const m = Moment(dateObject || new Date());
-    //return m.format();
+function formatDate(m, format) {
     return m.format(format || 'YYYY-MM-DD HH:mm:ss');
 }
 
