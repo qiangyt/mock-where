@@ -1,4 +1,11 @@
 const QueryString = require('querystring');
+const DateFormat = require('dateformat');
+
+DateFormat.masks.std = 'yyyy-mm-dd HH:MM:ss';
+
+function formatDate(dateObject, format) {
+    return DateFormat(dateObject || new Date(), format || 'std');
+}
 
 function urlEncode(a) {
     return QueryString.escape(a);
@@ -17,5 +24,6 @@ function isMainModule(thisModuleFileName) {
 module.exports = {
     isMainModule,
     urlEncode,
-    urlDecode
+    urlDecode,
+    formatDate
 };
