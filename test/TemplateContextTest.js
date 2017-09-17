@@ -1,24 +1,17 @@
 /* eslint no-undef: "off" */
 
 const SRC = '../src';
+const Helper = require(`${SRC}/Helper`);
 const TemplateContext = require(`${SRC}/TemplateContext`);
 
 describe("TemplateContext test suite: ", function() {
-
-    it("urlEncode(): happy", function() {
-        expect(TemplateContext.urlEncode('中')).toBe('%E4%B8%AD');
-    });
-
-    it("urlDecode(): happy", function() {
-        expect(TemplateContext.urlDecode('%E4%B8%AD')).toBe('中');
-    });
 
     it("normalize(): happy", function() {
         expect(TemplateContext.normalize()).not.toBeDefined();
 
         const r = TemplateContext.normalize({});
-        expect(r.urlEncode).toEqual(TemplateContext.urlEncode);
-        expect(r.urlDecode).toEqual(TemplateContext.urlDecode);
+        expect(r.urlEncode).toEqual(Helper.urlEncode);
+        expect(r.urlDecode).toEqual(Helper.urlDecode);
     });
 
     it("normalize(): don't overwrite", function() {

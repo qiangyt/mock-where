@@ -1,26 +1,14 @@
-const QueryString = require('querystring');
-
-function urlEncode(a) {
-    return QueryString.escape(a);
-}
-
-
-function urlDecode(a) {
-    return QueryString.unescape(a);
-}
-
+const Helper = require('./Helper');
 
 function normalize(context) {
     if (!context) return;
 
-    if (!context.urlEncode) context.urlEncode = urlEncode;
-    if (!context.urlDecode) context.urlDecode = urlDecode;
+    if (!context.urlEncode) context.urlEncode = Helper.urlEncode;
+    if (!context.urlDecode) context.urlDecode = Helper.urlDecode;
 
     return context;
 }
 
 module.exports = {
-    normalize,
-    urlEncode,
-    urlDecode
+    normalize
 };
