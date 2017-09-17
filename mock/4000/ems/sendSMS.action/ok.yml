@@ -1,3 +1,18 @@
+hook:
+    after:
+      - path: http://localhost:4001/ems/sendSMS.action/ok.yml
+        type: application/x-www-form-urlencoded
+        body: 
+          template: <% var smsId = request.query.smsId;
+                       var mobile = request.query.mobiles;
+                       var now = moment();
+                       var xml = '<?xml version="1.0" encoding="UTF-8"?>'
+                               + '<Report num="1">'
+                               + '<Item smsId="' + smsId + '" to_mobile="' + mobile 
+                               + '" status="0" reportTime="' + moment(now).format('YYYY-MM-DD HH:mm:ss')
+                               + '" desc="DELIVRD" index="1"/>';
+                               + '</Report>';  %>
+                    reportXml=<%=urlEncode(xml)%>
 response:
   type: application/xml
   body:
@@ -5,5 +20,5 @@ response:
             <Response>
               <Result>0</Result>
               <SmsId><%=request.query.smsId%></SmsId>
-            </Response>";
+            </Response>
 
