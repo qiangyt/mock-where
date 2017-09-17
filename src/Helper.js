@@ -1,16 +1,20 @@
 const QueryString = require('querystring');
-const DateFormat = require('dateformat');
+const Moment = require('moment');
 
-DateFormat.masks.std = 'yyyy-mm-dd HH:MM:ss';
-
+/**
+ * 
+ * @param {Date} dateObject date object
+ * @param {string} format see http://momentjs.com/docs/#/displaying/
+ */
 function formatDate(dateObject, format) {
-    return DateFormat(dateObject || new Date(), format || 'std');
+    const m = Moment(dateObject || new Date());
+    //return m.format();
+    return m.format(format || 'YYYY-MM-DD HH:mm:ss');
 }
 
 function urlEncode(a) {
     return QueryString.escape(a);
 }
-
 
 function urlDecode(a) {
     return QueryString.unescape(a);
