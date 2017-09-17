@@ -15,9 +15,7 @@ describe("Helper test suite: ", function() {
     });
 
     it("formatDate(): happy", function() {
-        const m = moment();
-        m.year(2017).month(8).daysInMonth(17);
-        m.hour(23).minute(32).second(43);
+        const m = moment('2017-09-17 23:32:43', 'YYYY-MM-DD HH:mm:ss');
         expect(Helper.formatDate(m)).toBe('2017-09-17 23:32:43');
     });
 });
