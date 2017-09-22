@@ -24,8 +24,20 @@ module.exports = class Hook {
     }
 
     static normalizeList(list, defaultBody, ruleName) {
-        if (!list || !list.length) return [];
-        return list.map(target => Hook.normalizeTarget(target, defaultBody, ruleName));
+        let r;
+        if (!list || !list.length) {
+            r = [];
+            r.enabled = false;
+        } else {
+            let enabled = false;
+            r = list.map(target => {
+                const t = Hook.normalizeTarget(target, defaultBody, ruleName);
+                if (t.enabled) enabled = true;
+                return t;
+            });
+            r.enabled = enabled;
+        }
+        return r;
     }
 
     static normalizeTarget(target, defaultBody, ruleName) {

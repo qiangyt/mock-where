@@ -46,7 +46,8 @@ describe("Hook test suite: ", function() {
         expect(t1.needCallBefore()).toBeFalsy();
 
         const t2 = new Hook({ before: [{ path: '/' }] });
-        expect(t2.needCallBefore()).toBeTruthy();
+        const x = t2.needCallBefore();
+        expect(x).toBeTruthy();
     });
 
     it("needCallAfter(): happy", function() {
