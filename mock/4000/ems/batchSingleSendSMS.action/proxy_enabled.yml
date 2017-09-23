@@ -1,0 +1,4 @@
+q: q.enterpriseID === '3'
+proxy:
+  enabled: true
+  target: http://localhost:4001/ems/batchSingleSendSMS.action/proxy_enabled.yml

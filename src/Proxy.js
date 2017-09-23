@@ -33,11 +33,12 @@ module.exports = class Proxy {
         return HttpProxy.createProxyServer(options);
     }
 
-    static normalizeOptions(config, ruleName) {
-        const r = config;
-        if (!r.target) throw new Error('missing target option. rule name: ' + ruleName);
-        r.enabled = Proxy.normalizeEnabledFlag(r.enabled);
-        return r;
+    static normalizeOptions(options, ruleName) {
+        if (!options.target) throw new Error('missing target option. rule name: ' + ruleName);
+        return {
+            enabled: Proxy.normalizeEnabledFlag(options.enabled),
+            target: options.target
+        };
     }
 
 };
