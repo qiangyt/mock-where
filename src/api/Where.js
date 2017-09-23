@@ -54,6 +54,10 @@ const RequestError = require('qnode-error').RequestError;
  *                  // "no response body specified", if not specified
  *              }
  *          }
+ *      },
+ *      proxy: {
+ *          enabled: true, // optional. false by default
+ *          path: 'http://example.com/target'
  *      }
  * }
  */

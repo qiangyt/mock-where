@@ -1,6 +1,7 @@
 const RuleTreeNode = require('./RuleTreeNode');
 const Template = require('./Template');
 const Hook = require('./Hook');
+const Proxy = require('./Proxy');
 
 
 module.exports = class RuleTree {
@@ -46,6 +47,8 @@ module.exports = class RuleTree {
         rule.response = this.normalizeRuleResponse(rule.response, rule.name);
 
         rule.hook = rule.hook ? new Hook(rule.hook) : null;
+
+        rule.proxy = rule.proxy ? new Proxy(rule.proxy, rule.name) : null;
     }
 
     normalizeRuleResponse(response, ruleName) {

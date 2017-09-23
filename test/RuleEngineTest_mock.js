@@ -87,7 +87,7 @@ describe("RuleEngine test suite: ", function() {
 
         const beginTime = new Date().getTime();
 
-        return re.mock({ request, response }).then(() => {
+        return re.mock({}, { request, response }).then(() => {
             const duration = new Date().getTime() - beginTime;
             expect(duration).toBeLessThanOrEqual(1000);
         });
@@ -106,7 +106,7 @@ describe("RuleEngine test suite: ", function() {
         };
         const response = {};
 
-        re.mock({ request, response })
+        re.mock({}, { request, response })
             .then(() => failhere())
             .catch(e => expect(e.type.key).toBe('NO_RULE_MATCHES'))
             .catch(e => {
@@ -135,7 +135,7 @@ describe("RuleEngine test suite: ", function() {
 
         const beginTime = new Date().getTime();
 
-        return re.mock({ request, response }).then(() => {
+        return re.mock({}, { request, response }).then(() => {
             const duration = new Date().getTime() - beginTime;
             expect(duration).toBeLessThanOrEqual(10);
         });

@@ -97,8 +97,13 @@ module.exports = class RuleEngine {
      * 
      * @param {object} rnr request and response
      */
-    async mock(rnr) {
+    async mock(ctx, rnr) {
         const rule = this.loadMatchedRule(rnr.request);
+
+        if (rule.proxy && rule.proxy.isEnabled()) {
+            await rule.proxy.doProxy(ctx);
+            return;
+        }
 
         const hook = rule.hook;
 
