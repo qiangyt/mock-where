@@ -2,7 +2,7 @@ const RuleTreeNode = require('./RuleTreeNode');
 const Template = require('./Template');
 const Hook = require('./Hook');
 const Proxy = require('./Proxy');
-
+const _ = require('underscore');
 
 module.exports = class RuleTree {
 
@@ -36,6 +36,10 @@ module.exports = class RuleTree {
         return '/' + path;
     }
 
+    static loggableRule(rule) {
+        return _.omit(rule, 'proxy');
+    }
+
     normalizeRule(rule) {
         const dft = this._defaultRule;
 
@@ -49,6 +53,7 @@ module.exports = class RuleTree {
         rule.hook = rule.hook ? new Hook(rule.hook) : null;
 
         rule.proxy = rule.proxy ? new Proxy(rule.proxy, rule.name) : null;
+        rule.loggable = RuleTree.loggableRule;
     }
 
     normalizeRuleResponse(response, ruleName) {

@@ -3340,12 +3340,12 @@ q@~1.4.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.4.1.tgz#55705bcd93c5f3673530c2c2cbc0c2b3addc286e"
 
-qnode-beans@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/qnode-beans/-/qnode-beans-1.1.1.tgz#0be6961c1fb387878c8450c32fb910c02a6eba80"
+qnode-beans@1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/qnode-beans/-/qnode-beans-1.1.2.tgz#116f87711ef7929493951876940f9aed1cbe94f2"
   dependencies:
     lodash "4.17.4"
-    qnode-log "1.0.2"
+    qnode-log "1.0.3"
 
 qnode-config@1.0.2:
   version "1.0.2"
@@ -3355,13 +3355,13 @@ qnode-config@1.0.2:
     lodash "4.17.4"
     qnode-log "1.0.1"
 
-qnode-config@1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/qnode-config/-/qnode-config-1.0.5.tgz#367351c25c8dd1c31f0b976eec38aede70cc0c9f"
+qnode-config@1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/qnode-config/-/qnode-config-1.0.6.tgz#063586dd210ba4dabd32ca978f34339dc256ab44"
   dependencies:
     js-yaml "3.9.1"
     lodash "4.17.4"
-    qnode-log "1.0.2"
+    qnode-log "1.0.3"
 
 qnode-error@1.0.2:
   version "1.0.2"
@@ -3384,25 +3384,25 @@ qnode-log@1.0.1:
     log4js "2.3.0"
     sprintf-js "1.1.1"
 
-qnode-log@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/qnode-log/-/qnode-log-1.0.2.tgz#e5a0fd34d066decdb7c992ff9cfd7b5086647e4e"
+qnode-log@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/qnode-log/-/qnode-log-1.0.3.tgz#3522ec148c84ed1099beff5f62635157d8561fe1"
   dependencies:
     log4js "2.3.0"
     sprintf-js "1.1.1"
 
-qnode-rest@1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/qnode-rest/-/qnode-rest-1.0.5.tgz#acd15c6b6b4dd2655cfec486caeed9cda1c4be69"
+qnode-rest@1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/qnode-rest/-/qnode-rest-1.0.6.tgz#78dcaa89628cab9db082bb72e4779b22b66b9235"
   dependencies:
     koa "2.3.0"
     koa-body "2.3.0"
     koa-logger "3.0.1"
     koa-router "7.2.1"
-    qnode-beans "1.1.1"
-    qnode-config "1.0.5"
+    qnode-beans "1.1.2"
+    qnode-config "1.0.6"
     qnode-error "1.0.2"
-    qnode-log "1.0.2"
+    qnode-log "1.0.3"
 
 qnode-superagent-mocker@0.5.3:
   version "0.5.3"
