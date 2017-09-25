@@ -76,7 +76,10 @@ module.exports = class RuleEngine {
 
     _findMatchedRule(request) {
         const candidateRules = this._ruleTree.match(request.method, request.path);
-        this._logger.debug('candidate rules: %s', candidateRules);
+
+        if (this._logger.isDebugEnabled()) {
+            this._logger.debug('candidate rules: %s', candidateRules);
+        }
 
         return this._filterRule(request, candidateRules);
     }
