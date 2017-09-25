@@ -21,6 +21,7 @@ module.exports = class Proxy {
                 reject(err);
             });*/
             this._proxy.web(ctx.req, ctx.res, { target: this._options.target });
+            ctx.respond = false;
             resolve();
         });
     }
