@@ -1,7 +1,7 @@
 /* eslint no-unused-vars:'off' */
 /* eslint global-require:'off' */
 const Path = require('path');
-const ApiServer = require('qnode-rest').ApiServer;
+const MwApiServer = require('./MwApiServer');
 const QError = require('qnode-error');
 const Helper = require('./Helper');
 
@@ -25,13 +25,13 @@ const logger = new Logger('App');
 class App {
 
     constructor() {
-        this._beans = new Beans();
+        const beans = this._beans = new Beans();
 
-        this.mockServerManager = this._beans.create('./MockServerManager');
+        this.mockServerManager = beans.create('./MockServerManager');
+        this.apiServer = beans.create(MwApiServer, 'ApiServer');
+        this.rnrDao = beans.create('./RnRDao');
 
-        this.apiServer = this._beans.create(ApiServer, 'ApiServer');
-
-        this._beans.init();
+        beans.init();
     }
 
     start() {
