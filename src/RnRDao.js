@@ -23,60 +23,62 @@ module.exports = class RnRDao {
 
         db.serialize(() => {
             db.run(`CREATE TABLE rnr (
-                _id         INTEGER PRIMARY KEY, 
-                created_at  VARCHAR(32), 
-                host        TEXT, 
-                port        INTEGER, 
-                path        TEXT, 
-                request     TEXT, 
-                status      INTEGER, 
-                response    TEXT
+                _id           INTEGER PRIMARY KEY, 
+                created_at    VARCHAR(32), 
+                protocol      VARCHAR(8), 
+                method        VARCHAR(8), 
+                ip            VARCHAR(64), 
+                host          TEXT, 
+                port          INTEGER, 
+                query         TEXT,
+                header        TEXT,
+                path          TEXT, 
+                request_body  TEXT, 
+                status        INTEGER, 
+                response_body TEXT
             )`);
-
-            const sql_insert = `INSERT INTO rnr 
-                (created_at, host, port, path, request, status, response) 
-                VALUES 
-                ($created_at, $host, $port, $path, $request, $status, $response)`;
-            this._stmt_insert = db.prepare(sql_insert, err => {
-                if (err) logger.error(err);
-                else logger.debug('prepared insert statement');
-            });
-
-            const sql_list = `SELECT * FROM rnr LIMIT $limit OFFSET $offset`;
-            this._stmt_list = db.prepare(sql_list, err => {
-                if (err) logger.error(err);
-                else logger.debug('prepared list statement');
-            });
-
-            const sql_count = `SELECT COUNT(1) c FROM rnr`;
-            this._stmt_count = db.prepare(sql_count, err => {
-                if (err) logger.error(err);
-                else logger.debug('prepared count statement');
-            });
         });
 
         this._db = db;
         return db;
     }
 
-    insert(request, response) {
+    insert(request, response, port) {
         const row = {
-            created_at: Helper.formatDate(moment()),
-            host: request.host,
-            port: request.port,
-            path: request.path,
-            request: request.body,
-            status: response.status,
-            response: ('string' === typeof response.body) ? response.body : JSON.stringify(response.body)
+            $created_at: Helper.formatDate(moment()),
+            $protocol: request.protocol,
+            $method: request.method,
+            $host: request.header.host,
+            $port: port,
+            $path: request.path,
+            $ip: request.ip,
+            $header: JSON.stringify(request.header),
+            $query: ('string' === typeof request.query) ? request.query : JSON.stringify(request.query),
+            $requestBody: ('string' === typeof request.body) ? request.body : JSON.stringify(request.body),
+            $status: response.status,
+            $responseBody: ('string' === typeof response.body) ? response.body : JSON.stringify(response.body)
         };
-        this._stmt_insert.run(row, err => {
-            this._logger.error(err);
+
+        const sql = `INSERT INTO rnr 
+        (created_at, protocol, method, host, port, path, ip, header, query, request_body, status, response_body) 
+        VALUES 
+        ($created_at, $protocol, $method, $host, $port, $path, $ip, $header, $query, $requestBody, $status, $responseBody)`;
+
+        return new Promise((resolve, reject) => {
+            this._db.run(sql, row, err => {
+                if (err) {
+                    this._logger.error(err);
+                    return reject(err);
+                }
+                resolve();
+            });
         });
     }
 
     async list(limit, offset) {
         const countP = new Promise((resolve, reject) => {
-            this._stmt_count.get((err, row) => {
+            const sql = `SELECT COUNT(1) c FROM rnr`;
+            this._db.get(sql, (err, row) => {
                 if (err) {
                     this._logger.error(err);
                     return reject(err);
@@ -86,7 +88,8 @@ module.exports = class RnRDao {
         });
 
         const listP = new Promise((resolve, reject) => {
-            this._stmt_list.all({ $limit: limit, $offset: offset }, (err, rows) => {
+            const sql = `SELECT * FROM rnr order by _id desc LIMIT $limit OFFSET $offset`;
+            this._db.all(sql, { $limit: limit, $offset: offset }, (err, rows) => {
                 if (err) {
                     this._logger.error(err);
                     return reject(err);
@@ -103,6 +106,7 @@ module.exports = class RnRDao {
             return r;
         }).catch(err => {
             this._logger.error(err);
+            throw err;
         });
     }
 

@@ -26,6 +26,7 @@ describe("MockServer test suite: ", function() {
             port: 12345,
             vhosts: {
                 test: {
+                    record: false,
                     name: 'test',
                     domains: ['test']
                 }
@@ -49,6 +50,7 @@ describe("MockServer test suite: ", function() {
         const host = '127.0.0.1';
         const vhosts = {};
         vhosts[host] = {
+            record: false,
             name: host,
             domains: [host]
         }
@@ -76,6 +78,7 @@ describe("MockServer test suite: ", function() {
             host2 = '192.168.0.1';
         const vhosts = {};
         vhosts[host1] = {
+            record: false,
             name: host1,
             domains: [host1, host2]
         }
@@ -123,9 +126,11 @@ describe("MockServer test suite: ", function() {
             port: 12345,
             vhosts: {
                 test1: {
+                    record: false,
                     domains: ['test1', 'dup']
                 },
                 test2: {
+                    record: false,
                     domains: ['test2', 'dup']
                 }
             }

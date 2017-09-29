@@ -7,17 +7,13 @@ class List {
         this._RnRDao = this._beans.load('RnRDao');
     }
 
-    async validate(ctx) {
+    async execute(ctx) {
         const q = ctx.request.query;
 
         const page = q.page || 1;
         const limit = q.limit || 20;
 
-        return { page, limit };
-    }
-
-    async execute(ctx, { page, limit }) {
-        return this._RnRDao.list(limit, page * limit);
+        return this._RnRDao.list(limit, (page - 1) * limit);
     }
 
 }

@@ -7,7 +7,7 @@ const RuleEngineAlasql = require(`${SRC}/RuleEngineAlasql`);
 
 function buildEngine(name) {
     const beans = new Beans();
-    const r = new RuleEngineAlasql();
+    const r = new RuleEngineAlasql('', { record: false });
     beans.renderThenInitBean(r, name);
     return r;
 }

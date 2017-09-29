@@ -10,8 +10,18 @@ module.exports = class RuleEngine {
         this._config = config;
     }
 
+    normalizeConfig(config) {
+        config.record = (config.record === null || config.record === undefined) ? true : config.record;
+    }
+
     init() {
+        this.normalizeConfig(this._config);
+
         this._ruleTree = new RuleTree(this._name + 'RuleTree');
+
+        if (this._config.record) {
+            this._RnRDao = this._beans.load('RnRDao');
+        }
 
         this._initRules();
     }
@@ -100,24 +110,31 @@ module.exports = class RuleEngine {
      * 
      * @param {object} rnr request and response
      */
-    async mock(ctx, rnr) {
+    async mock(ctx, rnr, port) {
         const rule = this.loadMatchedRule(rnr.request);
 
-        if (rule.proxy && rule.proxy.isEnabled()) {
-            await rule.proxy.doProxy(ctx);
-            return;
-        }
+        try {
+            if (rule.proxy && rule.proxy.isEnabled()) {
+                await rule.proxy.doProxy(ctx);
+                //TODO: record
+                return;
+            }
 
-        const hook = rule.hook;
+            const hook = rule.hook;
 
-        if (hook && hook.needCallBefore()) {
-            await hook.callBefore(rnr);
-        }
+            if (hook && hook.needCallBefore()) {
+                await hook.callBefore(rnr);
+            }
 
-        await this._mockResponse(rnr, rule);
+            await this._mockResponse(rnr, rule);
 
-        if (hook && hook.needCallAfter()) {
-            await hook.callAfter(rnr);
+            if (hook && hook.needCallAfter()) {
+                await hook.callAfter(rnr);
+            }
+        } finally {
+            if (this._config.record) {
+                this._RnRDao.insert(rnr.request, rnr.response, port);
+            }
         }
     }
 

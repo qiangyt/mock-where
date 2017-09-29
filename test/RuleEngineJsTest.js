@@ -7,7 +7,7 @@ const RuleEngineJs = require(`${SRC}/RuleEngineJs`);
 
 function buildEngine(name) {
     const beans = new Beans();
-    const r = new RuleEngineJs();
+    const r = new RuleEngineJs('', { record: false });
     beans.renderThenInitBean(r, name);
     return r;
 }

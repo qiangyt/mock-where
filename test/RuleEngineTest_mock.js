@@ -10,7 +10,7 @@ const Template = require(`${SRC}/Template`);
 
 function buildEngine(name, rules) {
     const beans = new Beans();
-    const r = new RuleEngine(name, { rules });
+    const r = new RuleEngine(name, { rules, record: false });
     beans.renderThenInitBean(r, name);
     return r;
 }
