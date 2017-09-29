@@ -1,0 +1,3 @@
+[submodule "mock-where-webui"]
+	path = mock-where-webui
+	url = git@github.com:qiangyt/mock-where-webui.git
