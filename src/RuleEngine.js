@@ -123,13 +123,21 @@ module.exports = class RuleEngine {
             const hook = rule.hook;
 
             if (hook && hook.needCallBefore()) {
-                await hook.callBefore(rnr);
+                try {
+                    await hook.callBefore(rnr);
+                } catch (e) {
+                    this._logger.error(e);
+                }
             }
 
             await this._mockResponse(rnr, rule);
 
             if (hook && hook.needCallAfter()) {
-                await hook.callAfter(rnr);
+                try {
+                    await hook.callAfter(rnr);
+                } catch (e) {
+                    this._logger.error(e);
+                }
             }
         } finally {
             if (this._config.record) {

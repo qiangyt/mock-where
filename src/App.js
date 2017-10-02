@@ -4,6 +4,8 @@ const Path = require('path');
 const MwApiServer = require('./MwApiServer');
 const QError = require('qnode-error');
 const Helper = require('./Helper');
+const WebUI = require('./WebUI');
+
 
 global.PROJECT_PREFIX = 'mw';
 const QConfig = require('qnode-config');
@@ -31,12 +33,18 @@ class App {
         this.apiServer = beans.create(MwApiServer, 'ApiServer');
         this.rnrDao = beans.create('./RnRDao');
 
+        if (WebUI.doesUiFilesExists(cfg.webui)) {
+            this.webui = beans.create('./WebUI');
+        }
+
         beans.init();
     }
 
     start() {
         this.mockServerManager.start();
         this.apiServer.start();
+
+        if (this.webui) this.webui.start();
 
         logger.info('started');
     }

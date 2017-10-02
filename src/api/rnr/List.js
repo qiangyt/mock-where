@@ -10,8 +10,8 @@ class List {
     async execute(ctx) {
         const q = ctx.request.query;
 
-        const page = q.page || 1;
-        const limit = q.limit || 20;
+        const page = parseInt(q.page, 10) || 1;
+        const limit = parseInt(q.limit, 10) || 20;
 
         return this._RnRDao.list(limit, (page - 1) * limit);
     }
