@@ -1,6 +1,6 @@
 {
     "name": "mock-where",
-    "version": "0.9.0",
+    "version": "1.0.0-alpha-2",
     "description": "Flexible mock server for RESTful API testing, with a SQL-like mock rule engine",
     "main": "src/App.js",
     "scripts": {
