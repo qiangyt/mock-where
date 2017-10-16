@@ -1,4 +1,4 @@
-# mock-where [![Build Status](https://api.travis-ci.org/qiangyt/mock-where.svg?branch=master&style=flat)](https://travis-ci.org/qiangyt/mock-where) [![NPM](https://img.shields.io/npm/v/mock-where.svg)](https://www.npmjs.org/package/mock-where)
+# mock-where [![Build Status](https://api.travis-ci.org/qiangyt/mock-where.svg?branch=master&style=flat)](https://travis-ci.org/qiangyt/mock-where) 
 
 RESTful-API-driven mock service, with rule engine and web-hook (AKA. callback)
 
@@ -10,6 +10,10 @@ RESTful-API-driven mock service, with rule engine and web-hook (AKA. callback)
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [API](#api)
+- [Contributing to Mock-where](#contributing-to-mock-where)
+- [Any Question or Issue](#any-question-or-issue)
+- [Build Status](#build-status)
+- [License](#license)
 
 ## Target Usage
 - Mock expensive cloud services, such as 3rd-party login and payment that requires fee and complex round-trip: you call them and then they will call back you later; or even worse - they're one-off
@@ -37,6 +41,9 @@ RESTful-API-driven mock service, with rule engine and web-hook (AKA. callback)
 ## Configuration
 Working ......
 
+## API
+Working ......
+
 ## Contributing to Mock-where
 Contributions are always welcome, especifiallno matter how large or small. Before contributing, please read the [code of conduct](CODE_OF_CONDUCT.md).
 
@@ -48,7 +55,7 @@ See [Contributing](CONTRIBUTING.md).
 - Web UI to manage rules
 - Use [mock.js](https://github.com/nuysoft/Mock)
 - Dockerization
-- Mock rule repository for various of cloud services
+- Rule repository for various of cloud services
 
 ## Any Question or Issue
 https://github.com/qiangyt/mock-where/issues/new
