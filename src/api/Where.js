@@ -4,8 +4,8 @@ const RequestError = require('qnode-error').RequestError;
 
 /**
  * API: add a rule.
- * 
- * The rule should be in request body. 
+ *
+ * The rule should be in request body.
  * Example: {
  *      port:  8000, // optional. if has default port, then take it, otherwise, throws error
  *      domain:  "github.com", // optional. if has default domain, then take it, otherwise, throws error
@@ -17,10 +17,10 @@ const RequestError = require('qnode-error').RequestError;
  *      latencyFix: 16, // optional. assigned to default latencyFix, if not specified
  *      hook: {
  *        before: [
- *          {   
+ *          {
  *              enabled: false, // optional. true by default
  *              method: 'POST', // optional
- *              path: 'http://example.com/notify', 
+ *              path: 'http://example.com/notify',
  *              pathTemplate: {}, // exclusive with path
  *              header: {},// optional
  *              query: {}, // or string, optional
@@ -35,7 +35,7 @@ const RequestError = require('qnode-error').RequestError;
  *          }
  *        ],
  *        after: [ // same as before
- *        ]   
+ *        ]
  *      },
  *      response:  // optional. merged with default response
  *      {
@@ -44,7 +44,7 @@ const RequestError = require('qnode-error').RequestError;
  *          body: {
  *              template:  // exclusive with body.object
  *              {
- *                  type: "mustache", // optional. if not specified, assigned to "ejs" 
+ *                  type: "mustache", // optional. if not specified, assigned to "ejs"
  *                                    // if template is text, otherwise to default response.templateType
  *                  text: "hi", // optional. if not specified, assigned to "template text not specified"
  *              },
@@ -102,6 +102,7 @@ Where.method = 'post';
 
 module.exports = Where;
 
+/*
 const d = {
     port: 8000, // optional. if has default port, then take it, otherwise, throws error
     domain: "github.com", // optional. if has default domain, then take it, otherwise, throws error
@@ -138,9 +139,9 @@ const d = {
         body: {
             template: // exclusive with body.object
             {
-                type: "mustache", // optional. if not specified, assigned to "ejs" 
+                type: "mustache", // optional. if not specified, assigned to "ejs"
                 // if template is text, otherwise to default response.templateType
-                text: "hi", // optional. if not specified, assigned to "template text not specified"
+                text: "hi" // optional. if not specified, assigned to "template text not specified"
             },
             object: {
                 // exclusive with "bodyTemplate".
@@ -154,3 +155,5 @@ const d = {
         path: 'http://example.com/target'
     }
 }
+
+*/

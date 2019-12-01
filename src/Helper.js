@@ -1,8 +1,7 @@
 const QueryString = require('querystring');
-const moment = require('moment');
 
 /**
- * 
+ *
  * @param {Date} dateObject date object
  * @param {string} format see http://momentjs.com/docs/#/displaying/
  */
