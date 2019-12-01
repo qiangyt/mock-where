@@ -40,7 +40,7 @@
         "handlebars": "4.0.10",
         "http-proxy": "1.16.2",
         "jade": "1.11.0",
-        "js-yaml": "3.9.1",
+        "js-yaml": "3.13.1",
         "kcors": "2.2.1",
         "koa": "2.3.0",
         "koa-body": "2.3.0",
