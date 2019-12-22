@@ -1,6 +1,6 @@
 /* eslint no-undef: "off" */
 const _ = require('lodash');
-const Beans = require('qnode-beans');
+const Beans = require('qnode-beans').Beans;
 const SRC = '../../src';
 const MockConfigProvider_dir = require(`${SRC}/provider/MockConfigProvider_dir`);
 

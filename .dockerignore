@@ -7,12 +7,7 @@ logs
 build
 spec
 test
-Dockerfile
-.babelrc
-.eslintignore
-.eslintrc.js
 .gitignore
-.istanbul.yml
 .travis.yml
 CODE_OF_CONDUCT.md
 LICENSE

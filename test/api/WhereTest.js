@@ -3,7 +3,8 @@
 
 const SRC = '../../src';
 const Where = require(`${SRC}/api/Where`);
-const Beans = require('qnode-beans');
+const Beans = require('qnode-beans').Beans;
+const Util = require('util')
 
 class MockedMockServerManager1 {
 
@@ -45,11 +46,11 @@ class MockedMockServerManager4 {
 
 describe("api/Where test suite: ", function() {
 
-    it("validate(): missing domain parameter", function() {
+    it("validate(): missing domain parameter", async function() {
         const beans = new Beans();
         beans.create(MockedMockServerManager2, 'MockServerManager');
         const where = beans.create(Where, 'Where');
-        beans.init();
+        await beans.init();
 
         where.validate({
                 request: {
@@ -69,11 +70,11 @@ describe("api/Where test suite: ", function() {
     });
 
 
-    it("validate(): take default domain", function() {
+    it("validate(): take default domain", async function() {
         const beans = new Beans();
         beans.create(MockedMockServerManager4, 'MockServerManager');
         const where = beans.create(Where, 'Where');
-        beans.init();
+        await beans.init();
 
         where.validate({
                 request: {
@@ -89,11 +90,11 @@ describe("api/Where test suite: ", function() {
     });
 
 
-    it("validate(): no default domain", function() {
+    it("validate(): no default domain", async function() {
         const beans = new Beans();
         beans.create(MockedMockServerManager2, 'MockServerManager');
         const where = beans.create(Where, 'Where');
-        beans.init();
+        await beans.init();
 
         where.validate({
                 request: {
@@ -112,11 +113,11 @@ describe("api/Where test suite: ", function() {
             });
     });
 
-    it("validate(): missing port parameter", function() {
+    it("validate(): missing port parameter", async function() {
         const beans = new Beans();
         beans.create(MockedMockServerManager1, 'MockServerManager');
         const where = beans.create(Where, 'Where');
-        beans.init();
+        await beans.init();
 
         where.validate({
                 request: {
@@ -135,11 +136,11 @@ describe("api/Where test suite: ", function() {
             });
     });
 
-    it("validate(): take default port", function() {
+    it("validate(): take default port", async function() {
         const beans = new Beans();
         beans.create(MockedMockServerManager3, 'MockServerManager');
         const where = beans.create(Where, 'Where');
-        beans.init();
+        await beans.init();
 
         where.validate({
             request: {
@@ -152,13 +153,13 @@ describe("api/Where test suite: ", function() {
         });
     });
 
-    it("validate(): no default port", function() {
+    it("validate(): no default port", async function() {
         const beans = new Beans();
         beans.create(MockedMockServerManager2, 'MockServerManager');
         const where = beans.create(Where, 'Where');
-        beans.init();
+        await beans.init();
 
-        where.validate({
+        await where.validate({
                 request: {
                     body: {
                         domain: 'wxcount.com'
@@ -175,11 +176,11 @@ describe("api/Where test suite: ", function() {
             });
     });
 
-    it("validate(): mock server not found", function() {
+    it("validate(): mock server not found", async function() {
         const beans = new Beans();
         beans.create(MockedMockServerManager1, 'MockServerManager');
         const where = beans.create(Where, 'Where');
-        beans.init();
+        await beans.init();
 
         where.validate({
                 request: {
@@ -200,11 +201,11 @@ describe("api/Where test suite: ", function() {
     });
 
 
-    it("validate(): happy", function() {
+    it("validate(): happy", async function() {
         const beans = new Beans();
         beans.create(MockedMockServerManager2, 'MockServerManager');
         const where = beans.create(Where, 'Where');
-        beans.init();
+        await beans.init();
 
         where.validate({
                 request: {
@@ -225,12 +226,12 @@ describe("api/Where test suite: ", function() {
             });
     });
 
-    it("execute(): happy", function() {
+    it("execute(): happy", async function() {
         const beans = new Beans();
         beans.create(MockedMockServerManager2, 'MockServerManager');
         const mockServer = new MockedMockServer1();
         const where = beans.create(Where, 'Where');
-        beans.init();
+        await beans.init();
 
         const ctx = {};
         const domain = 'github.com';

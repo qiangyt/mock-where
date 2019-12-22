@@ -5,6 +5,7 @@ const MwApiServer = require('./MwApiServer');
 const QError = require('qnode-error');
 const Helper = require('./Helper');
 const WebUI = require('./WebUI');
+const Util = require('util');
 
 
 global.PROJECT_PREFIX = 'mw';
@@ -16,7 +17,7 @@ if (!cfg.Beans.baseDir) {
     cfg.Beans.baseDir = Path.join(process.cwd(), 'src');
 }
 
-const Beans = require('qnode-beans');
+const Beans = require('qnode-beans').Beans;
 
 const Errors = require('qnode-error').Errors;
 Errors.register(1001, 2000, './src/MwErrorCode');
@@ -30,6 +31,7 @@ class App {
         const beans = this._beans = new Beans();
 
         this.mockServerManager = beans.create('./MockServerManager');
+        
         this.apiServer = beans.create(MwApiServer, 'ApiServer');
         this.rnrDao = beans.create('./RnRDao');
 
@@ -40,11 +42,11 @@ class App {
         beans.init();
     }
 
-    start() {
-        this.mockServerManager.start();
-        this.apiServer.start();
+    async start() {
+        await this.mockServerManager.start();
+        await this.apiServer.start();
 
-        if (this.webui) this.webui.start();
+        if (this.webui) await this.webui.start();
 
         logger.info('started');
     }

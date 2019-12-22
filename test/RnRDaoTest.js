@@ -2,7 +2,7 @@
 
 const SRC = '../src';
 const RnRDao = require(`${SRC}/RnRDao`);
-const Beans = require('qnode-beans');
+const Beans = require('qnode-beans').Beans;
 
 const beans = new Beans();
 

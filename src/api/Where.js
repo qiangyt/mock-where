@@ -71,7 +71,7 @@ class Where {
         const req = ctx.request;
 
         const rule = req.body;
-        this._logger.info('rule is requested: %s', rule);
+        this._logger.info('requested rule: %s', rule);
 
         let port = rule.port;
         if (!port) {

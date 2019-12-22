@@ -16,7 +16,7 @@ module.exports = class WebUI {
         this._koa.use(KoaStatic(cfg.root, cfg));
     }
 
-    start() {
+    async start() {
         const logger = this._logger;
         logger.debug('starting webui: %s', this._name);
 

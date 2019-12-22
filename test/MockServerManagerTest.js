@@ -15,7 +15,7 @@ class SpiedMockServer {
         this.inited = true;
     }
 
-    start() {
+    async start() {
         this.started = true;
     }
 }
@@ -45,7 +45,7 @@ class SpiedMockConfigProvider extends MockConfigProvider {
 mockRequire(`${SRC}/provider/MockConfigProvider_dir`, SpiedMockConfigProvider);
 mockRequire(`${SRC}/provider/MockConfigProvider_dir2`, SpiedMockConfigProvider);
 
-const Beans = require('qnode-beans');
+const Beans = require('qnode-beans').Beans;
 const MockServerManager = require(`${SRC}/MockServerManager`);
 
 function buildMockServerManager() {

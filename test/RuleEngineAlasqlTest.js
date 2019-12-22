@@ -1,5 +1,5 @@
 /* eslint no-undef: "off" */
-const Beans = require('qnode-beans');
+const Beans = require('qnode-beans').Beans;
 const RequestError = require('qnode-error').RequestError;
 
 const SRC = '../src';

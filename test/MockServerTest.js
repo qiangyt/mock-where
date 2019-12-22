@@ -3,7 +3,7 @@
 const SRC = '../src';
 const MockServer = require(`${SRC}/MockServer`);
 const supertest = require('supertest');
-const Beans = require('qnode-beans');
+const Beans = require('qnode-beans').Beans;
 
 const Logger = require('qnode-log');
 
@@ -21,7 +21,7 @@ describe("MockServer test suite: ", function() {
         expect(MockServer.resolveDomain('127.0.0.1')).toBe('127.0.0.1');
     });
 
-    it("getEngine(): engine not found", function() {
+    it("getEngine(): engine not found", async function() {
         const def = {
             port: 12345,
             vhosts: {
@@ -35,7 +35,7 @@ describe("MockServer test suite: ", function() {
 
         const beans = new Beans();
         const r = new MockServer(def);
-        beans.renderThenInitBean(r);
+        await beans.renderThenInitBean(r);
         r.prepare();
 
         try {
@@ -46,7 +46,7 @@ describe("MockServer test suite: ", function() {
         }
     });
 
-    it("start(): happy", function(done) {
+    it("start(): happy", async function(done) {
         const host = '127.0.0.1';
         const vhosts = {};
         vhosts[host] = {
@@ -58,9 +58,9 @@ describe("MockServer test suite: ", function() {
 
         const beans = new Beans();
         const r = new MockServer(def);
-        beans.renderThenInitBean(r);
+        await beans.renderThenInitBean(r);
 
-        const server = r.start();
+        const server = await r.start();
         expect(r.defaultDomain).toBe('127.0.0.1');
 
         const rule = { path: '/abc', body: 'hello' };
@@ -73,7 +73,7 @@ describe("MockServer test suite: ", function() {
         });
     });
 
-    it("start(): no default domain due to 2 more domains", function() {
+    it("start(): no default domain due to 2 more domains", async function() {
         const host1 = '127.0.0.1',
             host2 = '192.168.0.1';
         const vhosts = {};
@@ -86,7 +86,7 @@ describe("MockServer test suite: ", function() {
 
         const beans = new Beans();
         const r = new MockServer(def);
-        beans.renderThenInitBean(r);
+        await beans.renderThenInitBean(r);
 
         r.prepare();
         expect(r.defaultDomain).toBeUndefined();
@@ -121,7 +121,7 @@ describe("MockServer test suite: ", function() {
         expect(r.body).toEqual(body);
     });
 
-    it("prepare(): domain duplicated", function() {
+    it("prepare(): domain duplicated", async function() {
         const def = {
             port: 12345,
             vhosts: {
@@ -138,7 +138,7 @@ describe("MockServer test suite: ", function() {
 
         const beans = new Beans();
         const r = new MockServer(def);
-        beans.renderThenInitBean(r);
+        await beans.renderThenInitBean(r);
 
         try {
             r.prepare();

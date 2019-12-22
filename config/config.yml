@@ -1,5 +1,6 @@
-ApiServer: 
-  port: 7000
-MockConfigProvider_empty:
-  port: 8000
+Beans:
+  ApiServer: 
+    port: 7007
+  MockConfigProvider_empty:
+    port: 8000
   

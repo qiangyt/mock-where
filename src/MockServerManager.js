@@ -119,7 +119,7 @@ module.exports = class MockServerManager {
     /**
      * start all mock servers holded in this._allByPort
      */
-    start() {
+    async start() {
         const log = this._logger;
         log.info('starting mock servers');
 
@@ -127,7 +127,7 @@ module.exports = class MockServerManager {
         for (let port in allByPort) {
             log.debug('starting mock server on port: %i', port);
 
-            allByPort[port].start();
+            await allByPort[port].start();
 
             log.debug('created mock server on port: %i', port);
         }
