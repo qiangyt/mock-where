@@ -1,6 +1,6 @@
 {
     "name": "mock-where",
-    "version": "1.0.0-alpha-2",
+    "version": "1.0.1",
     "description": "Flexible mock server for RESTful API testing, with a SQL-like mock rule engine",
     "main": "src/App.js",
     "scripts": {
@@ -10,7 +10,8 @@
         "lint": "./node_modules/.bin/eslint -f stylish --cache --cache-location ./build/eslint/cache/ --color ./src/",
         "watch": "./node_modules/.bin/esw --watch -f stylish --cache --cache-location ./build/eslint/cache/ --color ./src/",
         "jsdoc": "./node_modules/.bin/jsdoc ./src -c .jsdoc.json",
-        "hook": "node ./tool/HookTarget.js"
+        "hook": "node ./tool/HookTarget.js",
+        "docker": "IMG=docker.wxcount.com:4443/library/mock-where:1.0.1 && sudo docker build . -t $IMG && sudo docker push $IMG"
     },
     "homepage": "https://github.com/qiangyt/mock-where",
     "repository": "git@github.com:qiangyt/mock-where.git",
