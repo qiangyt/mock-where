@@ -40,7 +40,7 @@
         "co-body": "5.1.1",
         "ejs": "2.5.6",
         "handlebars": "4.5.3",
-        "http-proxy": "1.18.0",
+        "http-proxy": "1.18.1",
         "jade": "1.11.0",
         "js-yaml": "3.13.1",
         "kcors": "2.2.1",
