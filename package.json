@@ -62,7 +62,7 @@
         "sprintf-js": "1.1.2",
         "sqlite3": "3.1.12",
         "superagent": "3.8.3",
-        "underscore": "1.8.3"
+        "underscore": "1.12.1"
     },
     "devDependencies": {
         "babel": "6.23.0",
